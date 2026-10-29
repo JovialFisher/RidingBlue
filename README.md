@@ -1,5 +1,11 @@
 ![README Banner](https://i.postimg.cc/6QpgVwKY/bluearika-banner.png)
 
+> **⚠️ WARNING: This repository is no longer maintained.**
+> 
+> This project has been archived / deprecated. It will not receive any new feature updates, bug fixes, or security patches. Feel free to fork the project, but use it at your own risk. I discovered there were some MASSIVE errors. I will actually be continuing this project under the repository name Riding Blue, it is not available right now — it will be later.
+
+<br></br>
+
 # [PREMISE]
 
 You are **Asa Webb**, a recently transferred student arriving in **Kasato** — a quiet, isolated town in Japan hiding a dangerous secret beneath its calm surface.
