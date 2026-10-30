@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class Scene04Event : MonoBehaviour
+public class Scene04Events : MonoBehaviour
 {
     [Header("Character Expressions")]
     public GameObject charMidnightHappy;
@@ -361,10 +361,10 @@ public class Scene04Event : MonoBehaviour
     {
         nextButton.SetActive(false);
         textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
 
-        yield return new WaitForSeconds(4f);
-        SceneManager.LoadScene(8);
+        yield return SceneLoader.LoadSceneAsync(8, 4f);
     }
 
     public void NextButton()

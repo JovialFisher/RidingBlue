@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class Scene06Event : MonoBehaviour
+public class Scene06Events : MonoBehaviour
 {
     [Header("Audio")]
     [SerializeField] private AudioSource bgm;
@@ -65,7 +65,6 @@ public class Scene06Event : MonoBehaviour
     {
         "[The call was suddenly disconnected. You looked at your phone for a long time. It was defintely Midnigt, but this time he seemed to be in trouble.]"
     };
-    private int phoneDisconnectLineIndex = 0;
 
     private string[] kodaConcernLines =
     {
@@ -81,7 +80,6 @@ public class Scene06Event : MonoBehaviour
     {
         "[Koda was fully invested in seeing Midnight at night, so he agreed to come to your apartment at night to see the ocurrence.]"
     };
-    private int finalNarrationLineIndex = 0;
 
     int introIndex = 0;
     bool isTyping = false; // Prevents spamming Next
@@ -535,9 +533,9 @@ public class Scene06Event : MonoBehaviour
         nextButton.SetActive(false);
         ShowExpression("smile");
         textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
-        yield return new WaitForSeconds(4f);
-        SceneManager.LoadScene(12);
+        yield return SceneLoader.LoadSceneAsync(12, 4f);
     }
 
     // ========== NEW HELPERS ==========
@@ -558,7 +556,7 @@ public class Scene06Event : MonoBehaviour
 
     IEnumerator PlayPhoneRingTwice()
     {
-        if (phonering == null) yield break;
+        if (phonering == null || phonering.clip == null) yield break;
         int times = 2;
         for (int i = 0; i < times; i++)
         {

@@ -194,9 +194,9 @@ public class Scene01Events : MonoBehaviour
         nextButton.SetActive(false);
         ShowExpression("smile"); // Final smile before fade
         textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
-        yield return new WaitForSeconds(4f);
-        SceneManager.LoadScene(3);
+        yield return SceneLoader.LoadSceneAsync(3, 4f);
     }
 
     public void NextButton()

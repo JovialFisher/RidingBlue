@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using TMPro;
 
-public class Scene10Event : MonoBehaviour
+public class Scene10Events : MonoBehaviour
 {
     [System.Serializable]
     private class DialogueEntry
@@ -571,10 +571,10 @@ W-wait for me, I got small legs!
     {
         nextButton.SetActive(false);
         textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
 
-        yield return new WaitForSeconds(4f);
-        SceneManager.LoadScene(19);
+        yield return SceneLoader.LoadSceneAsync(19, 4f);
     }
 
     public void NextButton()

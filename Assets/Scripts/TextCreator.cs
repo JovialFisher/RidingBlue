@@ -5,6 +5,7 @@ using UnityEngine;
 public class TextCreator : MonoBehaviour
 {
     public static TMPro.TMP_Text viewText;
+
     public static bool runTextPrint;
     public static int charCount;
     [SerializeField, Min(1f)] float charactersPerSecond = 34f;
@@ -17,6 +18,10 @@ public class TextCreator : MonoBehaviour
     void Awake()
     {
         textComponent = GetComponent<TMPro.TMP_Text>();
+        if (textComponent == null)
+        {
+            Debug.LogError("TextCreator requires a TMP_Text component on the same GameObject.", this);
+        }
     }
 
     // Update is called once per frame
@@ -29,6 +34,12 @@ public class TextCreator : MonoBehaviour
         }
 
         runTextPrint = false;
+        if (textComponent == null)
+        {
+            charCount = int.MaxValue;
+            return;
+        }
+
         if (revealCoroutine != null)
         {
             StopCoroutine(revealCoroutine);
@@ -40,6 +51,14 @@ public class TextCreator : MonoBehaviour
         int visibleCharacterCount = textComponent.textInfo.characterCount;
         textComponent.maxVisibleCharacters = 0;
         charCount = 0;
+        if (visibleCharacterCount == 0)
+        {
+            textComponent.maxVisibleCharacters = int.MaxValue;
+            charCount = transferText.Length;
+            revealCoroutine = null;
+            return;
+        }
+
         revealCoroutine = StartCoroutine(RollText(visibleCharacterCount, transferText.Length));
     }
 

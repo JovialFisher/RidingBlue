@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class Scene08Event : MonoBehaviour
+public class Scene08Events : MonoBehaviour
 {
     [System.Serializable]
     private class DialogueEntry
@@ -541,10 +541,10 @@ You
     {
         nextButton.SetActive(false);
         textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
 
-        yield return new WaitForSeconds(4f);
-        SceneManager.LoadScene(15);
+        yield return SceneLoader.LoadSceneAsync(15, 4f);
     }
 
     public void NextButton()

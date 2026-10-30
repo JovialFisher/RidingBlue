@@ -169,15 +169,13 @@ public class KodaLateMidnight : MonoBehaviour
     IEnumerator FadeOutAndLoadNext()
     {
         nextButton.SetActive(false);
-        textBox.SetActive(false);
-        mainTextObject.SetActive(false);
+        yield return TextBoxFader.Hide(mainTextObject);
 
         if (fadeOut != null)
         {
             fadeOut.SetActive(true);
         }
 
-        yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene(24);
+        yield return SceneLoader.LoadSceneAsync(24, 3f);
     }
 }

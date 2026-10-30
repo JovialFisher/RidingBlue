@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class EnableClocksAndAudio : MonoBehaviour
+public class BlueHourTransit16 : MonoBehaviour
 {
     public GameObject clocks;        // Drag your Clocks object here
     public AudioSource audioSource;  // Drag AudioSource here
@@ -39,6 +39,6 @@ public class EnableClocksAndAudio : MonoBehaviour
         yield return new WaitForSeconds(7f);
 
         // Load scene 7
-        SceneManager.LoadScene(7);
+        yield return SceneLoader.LoadSceneAsync(7);
     }
 }

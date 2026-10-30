@@ -39,10 +39,15 @@ public class MainMenu : MonoBehaviour
     [SerializeField] int sceneToLoad;
     [SerializeField] int saveTransferValue;
     [SerializeField] GameObject fadeIn;
+    bool isTransitioning;
 
     void Start()
     {
-        loadGameButton.interactable = HasValidSave();
+        if (loadGameButton != null)
+        {
+            loadGameButton.interactable = HasValidSave();
+        }
+
         StartCoroutine(StopFade());
     }
 
@@ -56,30 +61,61 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
+        if (isTransitioning)
+        {
+            return;
+        }
+
+        isTransitioning = true;
         PlayerPrefs.DeleteKey(LoadStateKey);
         PlayerPrefs.Save();
-        buttonClick.Play();
-        fadeOut.SetActive(true);
+        PlayButtonClick();
+        ShowFadeOut();
         StartCoroutine(TransferToClassScene());
     }
 
     public void LoadGame()
     {
-        saveTransferValue = PlayerPrefs.GetInt(LoadStateKey, -1);
-        if (HasValidSave())
+        if (isTransitioning || !HasValidSave())
         {
-            sceneToLoad = saveTransferValue;
-            buttonClick.Play();
-            fadeOut.SetActive(true);
-            StartCoroutine(LoadScene());
+            return;
         }
+
+        isTransitioning = true;
+        saveTransferValue = PlayerPrefs.GetInt(LoadStateKey, -1);
+        sceneToLoad = saveTransferValue;
+        PlayButtonClick();
+        ShowFadeOut();
+        StartCoroutine(LoadScene());
     }
 
     public void GotToCredits()
     {
-        buttonClick.Play();
-        fadeOut.SetActive(true);
+        if (isTransitioning)
+        {
+            return;
+        }
+
+        isTransitioning = true;
+        PlayButtonClick();
+        ShowFadeOut();
         StartCoroutine(TransferToCredits());
+    }
+
+    void PlayButtonClick()
+    {
+        if (buttonClick != null)
+        {
+            buttonClick.Play();
+        }
+    }
+
+    void ShowFadeOut()
+    {
+        if (fadeOut != null)
+        {
+            fadeOut.SetActive(true);
+        }
     }
 
     public void QuitGame()
@@ -89,6 +125,11 @@ public class MainMenu : MonoBehaviour
 
     void Update()
     {
+        if (isTransitioning)
+        {
+            return;
+        }
+
         if (isAnimating == false)
         {
             isAnimating = true;
@@ -99,7 +140,19 @@ public class MainMenu : MonoBehaviour
     IEnumerator RandomPic()
     {
         yield return new WaitForSeconds(1);
-        picNum = Random.Range(1, 3);  // Changed from 1,4 to 1,3
+        if (menuPic1 == null || menuPic2 == null)
+        {
+            isAnimating = false;
+            yield break;
+        }
+
+        if (isTransitioning)
+        {
+            isAnimating = false;
+            yield break;
+        }
+
+        picNum = Random.Range(1, 3);
         if (picNum == 1)
         {
             menuPic1.SetActive(true);
@@ -118,25 +171,25 @@ public class MainMenu : MonoBehaviour
 
     IEnumerator TransferToClassScene()
     {
-        yield return new WaitForSeconds(3);
-        SceneManager.LoadScene(5);
+        yield return SceneLoader.LoadSceneAsync(5, 3f);
     }
 
     IEnumerator LoadScene()
     {
-        yield return new WaitForSeconds(3);
-        SceneManager.LoadScene(sceneToLoad);
+        yield return SceneLoader.LoadSceneAsync(sceneToLoad, 3f);
     }
 
     IEnumerator TransferToCredits()
     {
-        yield return new WaitForSeconds(3);
-        SceneManager.LoadScene(4);
+        yield return SceneLoader.LoadSceneAsync(4, 3f);
     }
 
     IEnumerator StopFade()
     {
         yield return new WaitForSeconds(2);
-        fadeIn.SetActive(false);
+        if (fadeIn != null)
+        {
+            fadeIn.SetActive(false);
+        }
     }
 }

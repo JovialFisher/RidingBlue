@@ -626,12 +626,13 @@ In the flesh…";
     {
         nextButton.SetActive(false);
         textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
 
         yield return new WaitForSeconds(4f);
         PlayerPrefs.DeleteKey("LoadState");
         PlayerPrefs.Save();
-        SceneManager.LoadScene(0);
+        yield return SceneLoader.LoadSceneAsync(0);
     }
 
     public void NextButton()

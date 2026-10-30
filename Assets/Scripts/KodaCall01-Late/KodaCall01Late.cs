@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class KodaCall01 : MonoBehaviour
+public class KodaCall01Late : MonoBehaviour
 {
     [Header("UI Elements")]
     public GameObject textBox;
@@ -122,15 +122,13 @@ public class KodaCall01 : MonoBehaviour
     IEnumerator FadeOutAndLoadNext()
     {
         nextButton.SetActive(false);
-        textBox.SetActive(false);
-        mainTextObject.SetActive(false);
+        yield return TextBoxFader.Hide(mainTextObject);
 
         if (fadeOut != null)
         {
             fadeOut.SetActive(true);
         }
 
-        yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene(21);
+        yield return SceneLoader.LoadSceneAsync(21, 3f);
     }
 }

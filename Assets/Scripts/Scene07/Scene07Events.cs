@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class Scene07Event : MonoBehaviour
+public class Scene07Events : MonoBehaviour
 {
     [Header("Audio")]
     [SerializeField] private AudioSource bgm;
@@ -374,8 +374,8 @@ public class Scene07Event : MonoBehaviour
         nextButton.SetActive(false);
         ShowExpression("smile");
         textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
-        yield return new WaitForSeconds(4f);
-        SceneManager.LoadScene(13);
+        yield return SceneLoader.LoadSceneAsync(13, 4f);
     }
 }
