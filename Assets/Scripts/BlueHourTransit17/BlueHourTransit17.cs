@@ -7,6 +7,7 @@ public class EnableClocksAndAudio2 : MonoBehaviour
     public GameObject clocks;        // Drag your Clocks object here
     public AudioSource audioSource;  // Drag AudioSource here
     public AudioClip tickingSFX;     // Assign ticking sound here
+    [SerializeField] int nextSceneIndex = 25;
 
     void Start()
     {
@@ -38,7 +39,6 @@ public class EnableClocksAndAudio2 : MonoBehaviour
         // Wait remaining 7 seconds (total 8)
         yield return new WaitForSeconds(7f);
 
-        // Load scene 7
-        SceneManager.LoadScene(25);
+        SceneManager.LoadScene(nextSceneIndex);
     }
 }

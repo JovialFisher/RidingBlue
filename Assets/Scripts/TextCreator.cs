@@ -7,31 +7,63 @@ public class TextCreator : MonoBehaviour
     public static TMPro.TMP_Text viewText;
     public static bool runTextPrint;
     public static int charCount;
+    [SerializeField, Min(1f)] float charactersPerSecond = 34f;
     [SerializeField] string transferText;
     [SerializeField] int internalCount;
 
+    TMPro.TMP_Text textComponent;
+    Coroutine revealCoroutine;
+
+    void Awake()
+    {
+        textComponent = GetComponent<TMPro.TMP_Text>();
+    }
 
     // Update is called once per frame
     void Update()
     {
         internalCount = charCount;
-        charCount = GetComponent<TMPro.TMP_Text>().text.Length;
-        if(runTextPrint == true)
+        if (!runTextPrint)
         {
-            runTextPrint = false;
-            viewText = GetComponent<TMPro.TMP_Text>();
-            transferText = viewText.text;
-            viewText.text = "";
-            StartCoroutine(RollText());
+            return;
         }
+
+        runTextPrint = false;
+        if (revealCoroutine != null)
+        {
+            StopCoroutine(revealCoroutine);
+        }
+
+        viewText = textComponent;
+        transferText = textComponent.text;
+        textComponent.ForceMeshUpdate();
+        int visibleCharacterCount = textComponent.textInfo.characterCount;
+        textComponent.maxVisibleCharacters = 0;
+        charCount = 0;
+        revealCoroutine = StartCoroutine(RollText(visibleCharacterCount, transferText.Length));
     }
 
-    IEnumerator RollText()
+    IEnumerator RollText(int visibleCharacterCount, int sourceLength)
     {
-        foreach (char c in transferText)
+        float characterProgress = 0f;
+        int revealedCharacters = 0;
+
+        while (revealedCharacters < visibleCharacterCount)
         {
-            viewText.text += c;
-            yield return new WaitForSeconds(0.03f);
+            characterProgress += Time.deltaTime * charactersPerSecond;
+            int charactersToReveal = Mathf.Min(Mathf.FloorToInt(characterProgress), visibleCharacterCount);
+            if (charactersToReveal > revealedCharacters)
+            {
+                revealedCharacters = charactersToReveal;
+                textComponent.maxVisibleCharacters = revealedCharacters;
+                charCount = revealedCharacters;
+            }
+
+            yield return null;
         }
+
+        textComponent.maxVisibleCharacters = visibleCharacterCount;
+        charCount = sourceLength;
+        revealCoroutine = null;
     }
 }

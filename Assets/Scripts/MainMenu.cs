@@ -2,9 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    const string LoadStateKey = "LoadState";
+    const int FirstStorySceneIndex = 2;
+    const int CreditsSceneIndex = 4;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void RegisterProgressTracking()
+    {
+        SceneManager.sceneLoaded -= SaveCurrentStoryScene;
+        SceneManager.sceneLoaded += SaveCurrentStoryScene;
+    }
+
+    static void SaveCurrentStoryScene(Scene scene, LoadSceneMode mode)
+    {
+        int sceneIndex = scene.buildIndex;
+        if (sceneIndex >= FirstStorySceneIndex
+            && sceneIndex < SceneManager.sceneCountInBuildSettings
+            && sceneIndex != CreditsSceneIndex)
+        {
+            PlayerPrefs.SetInt(LoadStateKey, sceneIndex);
+            PlayerPrefs.Save();
+        }
+    }
+
+    [SerializeField] Button loadGameButton;
     [SerializeField] GameObject menuPic1;
     [SerializeField] GameObject menuPic2;
     [SerializeField] int picNum = 1;
@@ -17,11 +42,22 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
+        loadGameButton.interactable = HasValidSave();
         StartCoroutine(StopFade());
+    }
+
+    static bool HasValidSave()
+    {
+        int savedSceneIndex = PlayerPrefs.GetInt(LoadStateKey, -1);
+        return savedSceneIndex >= FirstStorySceneIndex
+            && savedSceneIndex < SceneManager.sceneCountInBuildSettings
+            && savedSceneIndex != CreditsSceneIndex;
     }
 
     public void StartGame()
     {
+        PlayerPrefs.DeleteKey(LoadStateKey);
+        PlayerPrefs.Save();
         buttonClick.Play();
         fadeOut.SetActive(true);
         StartCoroutine(TransferToClassScene());
@@ -29,10 +65,10 @@ public class MainMenu : MonoBehaviour
 
     public void LoadGame()
     {
-        saveTransferValue = PlayerPrefs.GetInt("LoadState");
-        if (saveTransferValue > 0)
+        saveTransferValue = PlayerPrefs.GetInt(LoadStateKey, -1);
+        if (HasValidSave())
         {
-            sceneToLoad = saveTransferValue + 1;
+            sceneToLoad = saveTransferValue;
             buttonClick.Play();
             fadeOut.SetActive(true);
             StartCoroutine(LoadScene());

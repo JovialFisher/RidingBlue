@@ -62,11 +62,11 @@ public class Scene10Event : MonoBehaviour
 
     private const string DefaultSceneDialogue = @"You
 
-[You and Koda arrived at Kasato Downtown by travelling via train. Koda looks rather excited]
+[You and Koda arrived at Kumanoki Downtown by travelling via train. Koda looks rather excited]
 
 Koda
 
-Okay bro, welcome to the real Kasato!
+Okay bro, welcome to the real Kumanoki!
 
 Isn't it amazing? It's better than the dull school hallways, there's a lot of us students who hang around these areas.
 

@@ -96,7 +96,7 @@ Which means... I'm older than you! [He said, almost offended]
 
 Look, there's something bizarre I discovered!
 
-It has to do with this weird blue fog, and I'm currently detecting its presence outside in town. The entire town of Kasato.
+It has to do with this weird blue fog, and I'm currently detecting its presence outside in town. The entire town of Kumanoki.
 
 You two, don't go outside when the clock strikes twelve. [He said frantically.]
 
@@ -112,7 +112,7 @@ Koda
 
 [with a disappointed look] Hmm... Well he did end up answering my question about the fog.
 
-[he started recalling what it said] Don't go outside when twelve strikes... Don't go out at midnight. That weird blue fog envelops the entire town of Kasato...
+[he started recalling what it said] Don't go outside when twelve strikes... Don't go out at midnight. That weird blue fog envelops the entire town of Kumanoki...
 
 Well, I suppose we can wait for tomorrow and see what he says.
 

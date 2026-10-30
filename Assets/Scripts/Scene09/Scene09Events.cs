@@ -139,7 +139,7 @@ public class Scene09Event : MonoBehaviour
                 break;
             case 2:
                 ShowExpression("smirk");
-            textToSpeak = "There's a great restaurant downtown that I think you'd like, it's called Nabana Diner. They got the best steaks, you gotta try Kasato's specialty!";
+            textToSpeak = "There's a great restaurant downtown that I think you'd like, it's called Nabana Diner. They got the best steaks, you gotta try Kumanoki's specialty!";
                 break;
             case 3:
                 ShowExpression("smirk");
@@ -232,9 +232,9 @@ public class Scene09Event : MonoBehaviour
                 ShowExpression("smirk");
                 choiceLines = new string[]
                 {
-                    "Yeah, right? I knew you'd be thrilled about hanging out! I'll take you on the ultimate Kasato tour!",
+                    "Yeah, right? I knew you'd be thrilled about hanging out! I'll take you on the ultimate Kumanoki tour!",
                     "You won't get this experience anywhere else.",
-                    "[He has a confident smirk in his face, as if he knew every detail and secret about Kasato.]",
+                    "[He has a confident smirk in his face, as if he knew every detail and secret about Kumanoki.]",
                 };
                 break;
             case 2:

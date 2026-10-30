@@ -374,6 +374,7 @@ MonoBehaviour:
   clocks: {fileID: 1799086465}
   audioSource: {fileID: 700352554}
   tickingSFX: {fileID: 8300000, guid: 3c11a0e42abc8ba46a7b77bce2ce030e, type: 3}
+  nextSceneIndex: 14
 --- !u!1 &1783170497
 GameObject:
   m_ObjectHideFlags: 0

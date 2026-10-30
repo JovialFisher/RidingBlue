@@ -61,7 +61,7 @@ public class Scene13Events : MonoBehaviour
     private int dialogueIndex = 0;
     private bool isFadingOut = false;
 
-    private const string DefaultSceneDialogue = @"[You and Hiromi were inside the apartment. The blue fog enveloped the entire town of Kasato]
+    private const string DefaultSceneDialogue = @"[You and Hiromi were inside the apartment. The blue fog enveloped the entire town of Kumanoki]
 
 [Your mind went back to Koda, and what happened to him. Did he get lost? Or did something worse happen…]
 
@@ -114,12 +114,12 @@ Midnight
 
 [looked at Hiromi with what’s left of his glitchy expression. His unglitched expression seemed to return for a few seconds.]
 
-The Blue Arika will start manifesting, the beginning of the end has started…! P-p-p-plee…ase, r---run!
+The Blue Eclipse will start manifesting, the beginning of the end has started…! P-p-p-plee…ase, r---run!
 
 [Midnight’s voice got cut, your phone’s screen went black before exiting into the homescreen ]
 Hiromi
 
-The Blue Arika? Start manifesting? [She looked outside frantically]
+The Blue Eclipse? Start manifesting? [She looked outside frantically]
 
 Does he mean the weird blue fog is connected to the Blue Fog, or something like that?
 
@@ -589,7 +589,7 @@ In the flesh…";
             StartCoroutine(FadeOutMidnightExpressions(1.5f));
         }
 
-        if (speakerName == "Midnight" && textToSpeak.Contains("The Blue Arika will start manifesting, the beginning of the end has started"))
+        if (speakerName == "Midnight" && textToSpeak.Contains("The Blue Eclipse will start manifesting, the beginning of the end has started"))
         {
             StartCoroutine(FadeOutAudioSource(bgmSource, 1.5f));
         }
@@ -629,6 +629,8 @@ In the flesh…";
         fadeOut.SetActive(true);
 
         yield return new WaitForSeconds(4f);
+        PlayerPrefs.DeleteKey("LoadState");
+        PlayerPrefs.Save();
         SceneManager.LoadScene(0);
     }
 

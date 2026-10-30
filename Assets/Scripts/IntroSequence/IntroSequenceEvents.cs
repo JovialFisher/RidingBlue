@@ -60,7 +60,7 @@ public class IntroSequenceEvents : MonoBehaviour
                 textToSpeak = "My name is Asa Webb. Starting today, I’ll be attending Blue Sisters High School.";
                 break;
             case 2:
-                textToSpeak = "It’s in Kasato, a quiet northern town in Japan.";
+                textToSpeak = "It’s in Kumanoki, a quiet northern town in Japan.";
                 break;
             case 3:
                 textToSpeak = "The air feels clean, the people seem joyful.";
