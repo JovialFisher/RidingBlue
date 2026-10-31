@@ -227,31 +227,65 @@ In the flesh…";
         blockLines.Clear();
     }
 
+    GameObject[] MidnightExpressions()
+    {
+        return new GameObject[]
+        {
+            charMidnightHappy,
+            charMidnightEmbarrassed,
+            charMidnightDelighted,
+            charMidnightConfused,
+            charMidnightAngry,
+            charMidnightEyesWhite
+        };
+    }
+
+    GameObject[] HiromiExpressions()
+    {
+        return new GameObject[]
+        {
+            charHiromiSmile,
+            charHiromiDelighted,
+            charHiromiShocked,
+            charHiromiNeutral,
+            charHiromiAngry,
+            charHiromiSmug
+        };
+    }
+
+    GameObject[] AllCharacterExpressions()
+    {
+        return new GameObject[]
+        {
+            charMidnightHappy,
+            charMidnightEmbarrassed,
+            charMidnightDelighted,
+            charMidnightConfused,
+            charMidnightAngry,
+            charMidnightEyesWhite,
+            charHiromiSmile,
+            charHiromiDelighted,
+            charHiromiShocked,
+            charHiromiNeutral,
+            charHiromiAngry,
+            charHiromiSmug
+        };
+    }
+
     void HideAllExpressions()
     {
-        charMidnightHappy.SetActive(false);
-        charMidnightEmbarrassed.SetActive(false);
-        charMidnightDelighted.SetActive(false);
-        charMidnightConfused.SetActive(false);
-        charMidnightAngry.SetActive(false);
-        charMidnightEyesWhite.SetActive(false);
+        ExpressionFader.HideAll(MidnightExpressions());
     }
 
     void HideAllHiromiExpressions()
     {
-        charHiromiSmile.SetActive(false);
-        charHiromiDelighted.SetActive(false);
-        charHiromiShocked.SetActive(false);
-        charHiromiNeutral.SetActive(false);
-        charHiromiAngry.SetActive(false);
-        charHiromiSmug.SetActive(false);
+        ExpressionFader.HideAll(HiromiExpressions());
     }
 
     void HideAllCharacterExpressions()
     {
-        HideAllExpressions();
-        HideAllHiromiExpressions();
         SetHiromiBaseActive(false);
+        ExpressionFader.HideAll(AllCharacterExpressions());
     }
 
     void SetHiromiBaseActive(bool isActive)
@@ -264,59 +298,37 @@ In the flesh…";
 
     void ShowExpression(string expression)
     {
-        HideAllCharacterExpressions();
+        GameObject target = null;
 
         switch (expression)
         {
-            case "happy":
-                charMidnightHappy.SetActive(true);
-                break;
-            case "embarrassed":
-                charMidnightEmbarrassed.SetActive(true);
-                break;
-            case "delighted":
-                charMidnightDelighted.SetActive(true);
-                break;
-            case "confused":
-                charMidnightConfused.SetActive(true);
-                break;
-            case "angry":
-                charMidnightAngry.SetActive(true);
-                break;
+            case "happy":       target = charMidnightHappy; break;
+            case "embarrassed": target = charMidnightEmbarrassed; break;
+            case "delighted":   target = charMidnightDelighted; break;
+            case "confused":    target = charMidnightConfused; break;
+            case "angry":       target = charMidnightAngry; break;
         }
+
+        ExpressionFader.Show(target, AllCharacterExpressions());
     }
 
     void ShowHiromiExpression(string expression)
     {
-        HideAllCharacterExpressions();
+        GameObject target = null;
+        bool showBase = true;
 
         switch (expression)
         {
-            case "smile":
-                charHiromiSmile.SetActive(true);
-                SetHiromiBaseActive(true);
-                break;
-            case "delighted":
-                charHiromiDelighted.SetActive(true);
-                SetHiromiBaseActive(true);
-                break;
-            case "shocked":
-                charHiromiShocked.SetActive(true);
-                SetHiromiBaseActive(true);
-                break;
-            case "neutral":
-                charHiromiNeutral.SetActive(true);
-                SetHiromiBaseActive(false);
-                break;
-            case "angry":
-                charHiromiAngry.SetActive(true);
-                SetHiromiBaseActive(true);
-                break;
-            case "smug":
-                charHiromiSmug.SetActive(true);
-                SetHiromiBaseActive(true);
-                break;
-            }
+            case "smile":     target = charHiromiSmile; break;
+            case "delighted": target = charHiromiDelighted; break;
+            case "shocked":   target = charHiromiShocked; break;
+            case "neutral":   target = charHiromiNeutral; showBase = false; break;
+            case "angry":     target = charHiromiAngry; break;
+            case "smug":      target = charHiromiSmug; break;
+        }
+
+        ExpressionFader.Show(target, AllCharacterExpressions());
+        SetHiromiBaseActive(target != null && showBase);
     }
 
     void ShowMidnightExpression(string expression)
@@ -625,6 +637,8 @@ In the flesh…";
     IEnumerator EventFour()
     {
         nextButton.SetActive(false);
+        SceneAudio.FadeOut(bgmSource);
+        SceneAudio.FadeOut(atmosphereSource);
         textBox.SetActive(true);
         yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);

@@ -2214,7 +2214,6 @@ GameObject:
   - component: {fileID: 1361455616}
   - component: {fileID: 1361455619}
   - component: {fileID: 1361455618}
-  - component: {fileID: 1361455617}
   m_Layer: 5
   m_Name: KodaEmbarrassed
   m_TagString: Untagged
@@ -2241,28 +2240,6 @@ RectTransform:
   m_AnchoredPosition: {x: -400, y: 430.48474}
   m_SizeDelta: {x: 800, y: 860.9695}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!95 &1361455617
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1361455615}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 679a25e0058d3874481da8211d0e6c37, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1361455618
 MonoBehaviour:
   m_ObjectHideFlags: 0

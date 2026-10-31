@@ -40,36 +40,37 @@ public class Scene01Events : MonoBehaviour
         StartCoroutine(EventStarter());
     }
 
-    void HideAllExpressions()
+    GameObject[] AllExpressions()
     {
-        charKodaNeutral.SetActive(false);
-        charKodaSurprised.SetActive(false);
-        charKodaSmirk.SetActive(false);
-        charKodaSmile.SetActive(false);
-        charKodaEmbarrassed.SetActive(false);
+        return new GameObject[]
+        {
+            charKodaNeutral,
+            charKodaSurprised,
+            charKodaSmirk,
+            charKodaSmile,
+            charKodaEmbarrassed
+        };
     }
 
-    void ShowExpression(string expression)
+    void HideAllExpressions()
     {
-        HideAllExpressions();
+        ExpressionFader.HideAll(AllExpressions());
+    }
+
+    void ShowExpression(string expression, float duration = ExpressionFader.DefaultDuration)
+    {
+        GameObject target = null;
+
         switch (expression)
         {
-            case "neutral":
-                charKodaNeutral.SetActive(true);
-                break;
-            case "surprised":
-                charKodaSurprised.SetActive(true);
-                break;
-            case "smirk":
-                charKodaSmirk.SetActive(true);
-                break;
-            case "smile":
-                charKodaSmile.SetActive(true);
-                break;
-            case "embarrassed":
-                charKodaEmbarrassed.SetActive(true);
-                break;
+            case "neutral":     target = charKodaNeutral; break;
+            case "surprised":   target = charKodaSurprised; break;
+            case "smirk":       target = charKodaSmirk; break;
+            case "smile":       target = charKodaSmile; break;
+            case "embarrassed": target = charKodaEmbarrassed; break;
         }
+
+        ExpressionFader.Show(target, AllExpressions(), duration);
     }
 
     IEnumerator EventStarter()

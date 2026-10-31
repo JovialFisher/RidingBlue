@@ -12,6 +12,9 @@ public static class SceneLoader
             yield break;
         }
 
+        // Ease the outgoing scene's music and ambience down before the next one activates.
+        float audioFadeDuration = SceneAudio.FadeOutForSceneChange(activationDelay);
+
         AsyncOperation operation = SceneManager.LoadSceneAsync(buildIndex);
         if (operation == null)
         {
@@ -21,9 +24,10 @@ public static class SceneLoader
 
         operation.allowSceneActivation = false;
 
-        if (activationDelay > 0f)
+        float wait = Mathf.Max(activationDelay, audioFadeDuration);
+        if (wait > 0f)
         {
-            yield return new WaitForSeconds(activationDelay);
+            yield return new WaitForSeconds(wait);
         }
 
         while (operation.progress < 0.9f)

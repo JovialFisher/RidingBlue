@@ -39,37 +39,37 @@ public class Scene04Events : MonoBehaviour
         StartCoroutine(EventStarter());
     }
 
-    void HideAllExpressions()
+    GameObject[] AllExpressions()
     {
-        charMidnightHappy.SetActive(false);
-        charMidnightEmbarrassed.SetActive(false);
-        charMidnightDelighted.SetActive(false);
-        charMidnightConfused.SetActive(false);
-        charMidnightAngry.SetActive(false);
+        return new GameObject[]
+        {
+            charMidnightHappy,
+            charMidnightEmbarrassed,
+            charMidnightDelighted,
+            charMidnightConfused,
+            charMidnightAngry
+        };
     }
 
-    void ShowExpression(string expression)
+    void HideAllExpressions()
     {
-        HideAllExpressions();
+        ExpressionFader.HideAll(AllExpressions());
+    }
+
+    void ShowExpression(string expression, float duration = ExpressionFader.DefaultDuration)
+    {
+        GameObject target = null;
 
         switch (expression)
         {
-            case "happy":
-                charMidnightHappy.SetActive(true);
-                break;
-            case "embarrassed":
-                charMidnightEmbarrassed.SetActive(true);
-                break;
-            case "delighted":
-                charMidnightDelighted.SetActive(true);
-                break;
-            case "confused":
-                charMidnightConfused.SetActive(true);
-                break;
-            case "angry":
-                charMidnightAngry.SetActive(true);
-                break;
+            case "happy":       target = charMidnightHappy; break;
+            case "embarrassed": target = charMidnightEmbarrassed; break;
+            case "delighted":   target = charMidnightDelighted; break;
+            case "confused":    target = charMidnightConfused; break;
+            case "angry":       target = charMidnightAngry; break;
         }
+
+        ExpressionFader.Show(target, AllExpressions(), duration);
     }
 
     void SetExpressionAlpha(GameObject expressionObject, float alpha)
@@ -100,52 +100,6 @@ public class Scene04Events : MonoBehaviour
             color.a = alpha;
             spriteRenderer.color = color;
         }
-    }
-
-    IEnumerator FadeInExpression(string expression)
-    {
-        GameObject target = null;
-
-        switch (expression)
-        {
-            case "happy":
-                target = charMidnightHappy;
-                break;
-            case "embarrassed":
-                target = charMidnightEmbarrassed;
-                break;
-            case "delighted":
-                target = charMidnightDelighted;
-                break;
-            case "confused":
-                target = charMidnightConfused;
-                break;
-            case "angry":
-                target = charMidnightAngry;
-                break;
-        }
-
-        if (target == null)
-        {
-            yield break;
-        }
-
-        HideAllExpressions();
-        target.SetActive(true);
-        SetExpressionAlpha(target, 0f);
-
-        float duration = 1f;
-        float elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float alpha = Mathf.Clamp01(elapsed / duration);
-            SetExpressionAlpha(target, alpha);
-            yield return null;
-        }
-
-        SetExpressionAlpha(target, 1f);
     }
 
     IEnumerator FadeOutAllExpressions(float duration = 1f)
@@ -242,7 +196,7 @@ public class Scene04Events : MonoBehaviour
                 break;
             case 8:
                 speakerName = "Unknown";
-                StartCoroutine(FadeInExpression("happy"));
+                ShowExpression("happy", 1f);
                 textToSpeak = "H-hello?";
                 break;
             case 9:

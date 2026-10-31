@@ -35,6 +35,7 @@ public class KodaLateMidnight : MonoBehaviour
         if (bgm != null)
         {
             bgm.volume = startingVolume;
+            if (!bgm.isPlaying) bgm.Play();
         }
 
         StartCoroutine(EventStarter());

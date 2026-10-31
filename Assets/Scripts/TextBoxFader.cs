@@ -2,26 +2,35 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Fades the dialogue box in whenever it is shown and fades it back out
-/// when the scene's last line is finished.
+/// Fades the dialogue box in whenever it is shown — rising it into place from just below
+/// its authored spot — and fades it back out when the scene's last line is finished.
 /// </summary>
 [DisallowMultipleComponent]
 public class TextBoxFader : MonoBehaviour
 {
     [SerializeField, Min(0.01f)] float fadeInDuration = 0.35f;
     [SerializeField, Min(0.01f)] float fadeOutDuration = 0.3f;
+    [SerializeField, Min(0f)] float riseDistance = 30f;
 
     CanvasGroup canvasGroup;
+    RectTransform rectTransform;
+    Vector2 restingPosition;
+    bool hasRestingPosition;
     Coroutine fadeRoutine;
 
     void Awake()
     {
+        // Give the bare slab its rounded panel and frame before it is ever shown.
+        DialoguePanel.Apply(gameObject);
+
         EnsureCanvasGroup();
+        EnsureRestingPosition();
     }
 
     void OnEnable()
     {
         EnsureCanvasGroup();
+        EnsureRestingPosition();
 
         if (fadeRoutine != null)
         {
@@ -29,6 +38,12 @@ public class TextBoxFader : MonoBehaviour
         }
 
         canvasGroup.alpha = 0f;
+
+        if (rectTransform != null)
+        {
+            rectTransform.anchoredPosition = restingPosition - Vector2.up * riseDistance;
+        }
+
         fadeRoutine = StartCoroutine(FadeTo(1f, fadeInDuration));
     }
 
@@ -54,6 +69,13 @@ public class TextBoxFader : MonoBehaviour
         yield return FadeTo(0f, fadeOutDuration);
 
         canvasGroup.alpha = 0f;
+
+        if (rectTransform != null)
+        {
+            // Leave it exactly where it belongs so the next entrance starts from the right spot.
+            rectTransform.anchoredPosition = restingPosition;
+        }
+
         gameObject.SetActive(false);
     }
 
@@ -85,16 +107,41 @@ public class TextBoxFader : MonoBehaviour
     {
         float startAlpha = canvasGroup.alpha;
         float elapsed = 0f;
+        Vector2 startPosition = rectTransform != null ? rectTransform.anchoredPosition : Vector2.zero;
 
         while (elapsed < duration)
         {
             elapsed += Time.unscaledDeltaTime;
-            canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, Mathf.Clamp01(elapsed / duration));
+            float progress = Mathf.Clamp01(elapsed / duration);
+
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, progress);
+
+            if (rectTransform != null)
+            {
+                // Settle with a small overshoot so the box lands instead of just appearing.
+                rectTransform.anchoredPosition = Vector2.LerpUnclamped(startPosition, restingPosition, EaseOutBack(progress));
+            }
+
             yield return null;
         }
 
         canvasGroup.alpha = targetAlpha;
+
+        if (rectTransform != null)
+        {
+            rectTransform.anchoredPosition = restingPosition;
+        }
+
         fadeRoutine = null;
+    }
+
+    static float EaseOutBack(float progress)
+    {
+        const float c1 = 1.70158f;
+        const float c3 = c1 + 1f;
+
+        float shifted = progress - 1f;
+        return 1f + c3 * shifted * shifted * shifted + c1 * shifted * shifted;
     }
 
     void EnsureCanvasGroup()
@@ -109,5 +156,22 @@ public class TextBoxFader : MonoBehaviour
         {
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
         }
+    }
+
+    void EnsureRestingPosition()
+    {
+        if (hasRestingPosition)
+        {
+            return;
+        }
+
+        rectTransform = GetComponent<RectTransform>();
+        if (rectTransform == null)
+        {
+            return;
+        }
+
+        restingPosition = rectTransform.anchoredPosition;
+        hasRestingPosition = true;
     }
 }

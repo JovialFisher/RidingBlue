@@ -204,29 +204,61 @@ You
         blockLines.Clear();
     }
 
+    GameObject[] MidnightExpressions()
+    {
+        return new GameObject[]
+        {
+            charMidnightHappy,
+            charMidnightEmbarrassed,
+            charMidnightDelighted,
+            charMidnightConfused,
+            charMidnightAngry
+        };
+    }
+
+    GameObject[] KodaExpressions()
+    {
+        return new GameObject[]
+        {
+            charKodaEmbarrassed,
+            charKodaNeutral,
+            charKodaSurprised,
+            charKodaSmile,
+            charKodaSmirk
+        };
+    }
+
+    GameObject[] AllCharacterExpressions()
+    {
+        return new GameObject[]
+        {
+            charMidnightHappy,
+            charMidnightEmbarrassed,
+            charMidnightDelighted,
+            charMidnightConfused,
+            charMidnightAngry,
+            charKodaEmbarrassed,
+            charKodaNeutral,
+            charKodaSurprised,
+            charKodaSmile,
+            charKodaSmirk
+        };
+    }
+
     void HideAllExpressions()
     {
-        charMidnightHappy.SetActive(false);
-        charMidnightEmbarrassed.SetActive(false);
-        charMidnightDelighted.SetActive(false);
-        charMidnightConfused.SetActive(false);
-        charMidnightAngry.SetActive(false);
+        ExpressionFader.HideAll(MidnightExpressions());
     }
 
     void HideAllKodaExpressions()
     {
-        charKodaEmbarrassed.SetActive(false);
-        charKodaNeutral.SetActive(false);
-        charKodaSurprised.SetActive(false);
-        charKodaSmile.SetActive(false);
-        charKodaSmirk.SetActive(false);
+        ExpressionFader.HideAll(KodaExpressions());
     }
 
     void HideAllCharacterExpressions()
     {
-        HideAllExpressions();
-        HideAllKodaExpressions();
         SetKodaBaseActive(false);
+        ExpressionFader.HideAll(AllCharacterExpressions());
     }
 
     void SetKodaBaseActive(bool isActive)
@@ -239,55 +271,36 @@ You
 
     void ShowExpression(string expression)
     {
-        HideAllCharacterExpressions();
+        GameObject target = null;
 
         switch (expression)
         {
-            case "happy":
-                charMidnightHappy.SetActive(true);
-                break;
-            case "embarrassed":
-                charMidnightEmbarrassed.SetActive(true);
-                break;
-            case "delighted":
-                charMidnightDelighted.SetActive(true);
-                break;
-            case "confused":
-                charMidnightConfused.SetActive(true);
-                break;
-            case "angry":
-                charMidnightAngry.SetActive(true);
-                break;
+            case "happy":       target = charMidnightHappy; break;
+            case "embarrassed": target = charMidnightEmbarrassed; break;
+            case "delighted":   target = charMidnightDelighted; break;
+            case "confused":    target = charMidnightConfused; break;
+            case "angry":       target = charMidnightAngry; break;
         }
+
+        ExpressionFader.Show(target, AllCharacterExpressions());
     }
 
     void ShowKodaExpression(string expression)
     {
-        HideAllCharacterExpressions();
+        GameObject target = null;
+        bool showBase = true;
 
         switch (expression)
         {
-            case "embarrassed":
-                charKodaEmbarrassed.SetActive(true);
-                SetKodaBaseActive(true);
-                break;
-            case "neutral":
-                charKodaNeutral.SetActive(true);
-                SetKodaBaseActive(false);
-                break;
-            case "surprised":
-                charKodaSurprised.SetActive(true);
-                SetKodaBaseActive(true);
-                break;
-            case "smile":
-                charKodaSmile.SetActive(true);
-                SetKodaBaseActive(true);
-                break;
-            case "smirk":
-                charKodaSmirk.SetActive(true);
-                SetKodaBaseActive(true);
-                break;
-            }
+            case "embarrassed": target = charKodaEmbarrassed; break;
+            case "neutral":     target = charKodaNeutral; showBase = false; break;
+            case "surprised":   target = charKodaSurprised; break;
+            case "smile":       target = charKodaSmile; break;
+            case "smirk":       target = charKodaSmirk; break;
+        }
+
+        ExpressionFader.Show(target, AllCharacterExpressions());
+        SetKodaBaseActive(target != null && showBase);
     }
 
     void ShowMidnightExpression(string expression)
