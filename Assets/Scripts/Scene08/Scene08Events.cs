@@ -282,6 +282,10 @@ You
             case "angry":       target = charMidnightAngry; break;
         }
 
+        // Midnight appears on the phone, which occupies the same right-hand portrait
+        // slot as Koda. Hiding his expressions alone leaves his base body up, so the
+        // screen would be drawn straight over him; clear it whenever Midnight shows.
+        SetKodaBaseActive(false);
         ExpressionFader.Show(target, AllCharacterExpressions());
     }
 

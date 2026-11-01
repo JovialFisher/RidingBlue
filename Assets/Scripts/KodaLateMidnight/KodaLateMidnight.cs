@@ -116,7 +116,7 @@ public class KodaLateMidnight : MonoBehaviour
 
             case 10:
                 nameText.text = "";
-                textToSpeak = "[The clock has striked twelve...]";
+                textToSpeak = "[The clock has struck twelve...]";
 
                 // Instantly cut the music
                 if (bgm != null)

@@ -35,7 +35,6 @@ public class MainMenu : MonoBehaviour
     [SerializeField] int picNum = 1;
     [SerializeField] bool isAnimating = false;
     [SerializeField] GameObject fadeOut;
-    [SerializeField] AudioSource buttonClick;
     [SerializeField] int sceneToLoad;
     [SerializeField] int saveTransferValue;
     [SerializeField] GameObject fadeIn;
@@ -69,7 +68,6 @@ public class MainMenu : MonoBehaviour
         isTransitioning = true;
         PlayerPrefs.DeleteKey(LoadStateKey);
         PlayerPrefs.Save();
-        PlayButtonClick();
         ShowFadeOut();
         StartCoroutine(TransferToClassScene());
     }
@@ -84,7 +82,6 @@ public class MainMenu : MonoBehaviour
         isTransitioning = true;
         saveTransferValue = PlayerPrefs.GetInt(LoadStateKey, -1);
         sceneToLoad = saveTransferValue;
-        PlayButtonClick();
         ShowFadeOut();
         StartCoroutine(LoadScene());
     }
@@ -97,17 +94,8 @@ public class MainMenu : MonoBehaviour
         }
 
         isTransitioning = true;
-        PlayButtonClick();
         ShowFadeOut();
         StartCoroutine(TransferToCredits());
-    }
-
-    void PlayButtonClick()
-    {
-        if (buttonClick != null)
-        {
-            buttonClick.Play();
-        }
     }
 
     void ShowFadeOut()

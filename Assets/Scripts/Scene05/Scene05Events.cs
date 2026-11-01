@@ -237,14 +237,14 @@ public class Scene05Events : MonoBehaviour
                     "A talking cat inside of your phone? Dude, is the phone possessed or something?",
                     "I mean, it's not like I haven't heard of that kind of stuff before, but still...",
                     "Maybe you were just seeing things, I mean everyone sees stuff once in a while, right? It's probably just your imagination running wild.",
-                    "That must be it [laughs nerviously]"
+                    "That must be it [laughs nervously]"
                 };
                 break;
             case 1:
                 ShowExpression("embarrassed");
                 choiceLines = new string[]
                 {
-                    "[Koda gave you a weird look as you told him what haoppened last night.]",
+                    "[Koda gave you a weird look as you told him what happened last night.]",
                     "A talking cat, inside of your phone? That sounds like a dream, sure you weren't dreaming bro?",
                     "Sounds like you were just seeing things, I mean everyone sees stuff once in a while, right? It's probably just your imagination running wild.",
                 };

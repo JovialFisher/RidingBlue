@@ -48,7 +48,7 @@ public class Scene06Events : MonoBehaviour
         "Last night, everything was blue. It was like a blue fog, the streets were empty.",
         "I was scared to open the window, the fog could get in and...",
         "[he shudders at the thought] I just went back to sleep, I thought I was having a dream. I hope it stays a dream...",
-        "[While Koda was going on about his paranormal experience, your phone started ringing and went back to that white feline yesterday. You decided to answer.",
+        "[While Koda was going on about his paranormal experience, your phone started ringing and went back to that white feline yesterday. You decided to answer.]",
     };
     private int transitionLineIndex = 0;
 
@@ -63,7 +63,7 @@ public class Scene06Events : MonoBehaviour
 
     private string[] phoneDisconnectLines =
     {
-        "[The call was suddenly disconnected. You looked at your phone for a long time. It was defintely Midnigt, but this time he seemed to be in trouble.]"
+        "[The call was suddenly disconnected. You looked at your phone for a long time. It was definitely Midnight, but this time he seemed to be in trouble.]"
     };
 
     private string[] kodaConcernLines =
@@ -78,7 +78,7 @@ public class Scene06Events : MonoBehaviour
 
     private string[] finalNarrationLines =
     {
-        "[Koda was fully invested in seeing Midnight at night, so he agreed to come to your apartment at night to see the ocurrence.]"
+        "[Koda was fully invested in seeing Midnight at night, so he agreed to come to your apartment at night to see the occurrence.]"
     };
 
     int introIndex = 0;
@@ -252,10 +252,10 @@ public class Scene06Events : MonoBehaviour
                 choiceLines = new string[]
                 {
                     "Yeah, that's what I'm saying. You're like a human hard drive or something dude!",
-                    "[with an exagerated tone] Oh lord Asa, please spread your wisdom to all of us lowlifes",
+                    "[with an exaggerated tone] Oh lord Asa, please spread your wisdom to all of us lowlifes",
                     "[He looked around to see if anyone was listening, then smirked at you]",
                     "See, even they know you're a genius...",
-                    "They totally aren't looking at me because I'm the one who's talking loudly, right? [laughs nerviously]",
+                    "They totally aren't looking at me because I'm the one who's talking loudly, right? [laughs nervously]",
                 };
                 break;
             case 1:
@@ -264,7 +264,7 @@ public class Scene06Events : MonoBehaviour
                 {
                     "Come on dude, you're lying to yourself. You'll probably be the one with the highest grade on the test next week.",
                     "Compared to me, you'll at least be at the top of the class.",
-                    "[laughs somewhat nerviously] I really have to step up my game, huh? I can't let you outshine me like that...",
+                    "[laughs somewhat nervously] I really have to step up my game, huh? I can't let you outshine me like that...",
                 };
                 break;
             case 2:

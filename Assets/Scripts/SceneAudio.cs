@@ -106,6 +106,12 @@ public class SceneAudio : MonoBehaviour
                 continue;
             }
 
+            // Menu feedback belongs to the player's input, not to the scene's soundtrack.
+            if (UISound.IsUISource(source))
+            {
+                continue;
+            }
+
             fadedAnything = true;
             instance.StartCoroutine(instance.FadeOutSource(source, duration));
         }
@@ -138,6 +144,11 @@ public class SceneAudio : MonoBehaviour
             {
                 AudioSource source = sources[i];
                 if (source == null || !source.isPlaying || fadingIn.Contains(source))
+                {
+                    continue;
+                }
+
+                if (UISound.IsUISource(source))
                 {
                     continue;
                 }

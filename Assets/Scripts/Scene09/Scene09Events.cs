@@ -45,8 +45,8 @@ public class Scene09Events : MonoBehaviour
         "We can go to that restaurant I told you about after I show you around a bit!",
         "We can even try to get some chicks phone numbers if you're like me [he lightly teased]",
         "Although, I suppose they'll all settle for Koda, the local legend around here [he smirked]",
-        "Anyways , let's stop yapping and get going, we got a lot to do before the day ends!",
-        "[As Koda finished his sentence, he processed to stretch and then turn to walk]",
+        "Anyways, let's stop yapping and get going, we got a lot to do before the day ends!",
+        "[As Koda finished his sentence, he proceeded to stretch and then turn to walk]",
         "[You felt like this was a great opportunity to hang out with Koda and get to know him better...]"
     };
     private int transitionLineIndex = 0;
@@ -251,7 +251,7 @@ public class Scene09Events : MonoBehaviour
                 ShowExpression("smirk");
                 choiceLines = new string[]
                 {
-                    "Know me? Of course they do, I'm like a local celebritiy around her!",
+                    "Know me? Of course they do, I'm like a local celebrity around here!",
                     "Except people don't really approach me, nor ask for pictures or autographs, but they know who I am, and that's what matters!",
                     "You can even become pretty famous around here... well, I got my own reasons because of the arcade...",
                 };

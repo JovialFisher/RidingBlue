@@ -162,7 +162,7 @@ public class Scene07Events : MonoBehaviour
                 break;
             case 5:
                 ShowExpression("neutral");
-                textToSpeak = "[You thought about this for awhile, Koda turned to you, waiting for your input.]";
+                textToSpeak = "[You thought about this for a while, Koda turned to you, waiting for your input.]";
                 break;
         }
 
@@ -243,7 +243,7 @@ public class Scene07Events : MonoBehaviour
                 ShowExpression("smirk");
                 choiceLines = new string[]
                 {
-                    "[he supresses a chuckle] I see what you did there, quite a joker Asa!",
+                    "[he suppresses a chuckle] I see what you did there, quite a joker Asa!",
                     "What? You said he's a cat? Inside of your phone? Not a physical talking cat?",
                     "Well... that sounds, interesting. It makes me want to meet it even more.",
                 };

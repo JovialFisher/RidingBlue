@@ -307,8 +307,13 @@ In the flesh…";
             case "delighted":   target = charMidnightDelighted; break;
             case "confused":    target = charMidnightConfused; break;
             case "angry":       target = charMidnightAngry; break;
+            case "eyeswhite":   target = charMidnightEyesWhite; break;
         }
 
+        // Midnight appears on the phone, which occupies the same right-hand portrait
+        // slot as Hiromi. Hiding her expressions alone leaves her base body up, so the
+        // screen would be drawn straight over her; clear it whenever Midnight shows.
+        SetHiromiBaseActive(false);
         ExpressionFader.Show(target, AllCharacterExpressions());
     }
 
@@ -568,7 +573,9 @@ In the flesh…";
                 ShowMidnightExpression("confused");
                 break;
             case 20:
-                charMidnightEyesWhite.SetActive(true);
+                // Going through the fader clears the expression underneath; switching the
+                // object on directly left the previous portrait drawn behind it.
+                ShowMidnightExpression("eyeswhite");
                 break;
             case 21:
                 ShowMidnightExpression("confused");

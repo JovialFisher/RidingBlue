@@ -100,7 +100,7 @@ She's Hiromi Abara, she's my best friend. She's the one I was teasing you about 
 
 Hiromi
 
-[He looked over at Koda]
+[She looked over at Koda]
 
 You what?! You know I don't wanna date anyone, Koda!
 
@@ -110,7 +110,7 @@ Sorry, this doofus always has something to say. You're not the only one, but def
 
 I'm in your same class, I'm the girl sitting next to Koda. He can be quite a handful, I know...
 
-[He looked at Koda]
+[She looked at Koda]
 
 Where are you two going anyways, wait let me guess...
 
@@ -126,7 +126,7 @@ WHAT?! Don't you have a sense of chivalry, why not pay for your best friend? I l
 
 Koda
 
-[embarassed] Uhh, well... Let's just go to Nabana Diner!
+[embarrassed] Uhh, well... Let's just go to Nabana Diner!
 
 Hiromi
 

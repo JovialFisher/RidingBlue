@@ -3852,6 +3852,7 @@ GameObject:
   - component: {fileID: 2064700604}
   - component: {fileID: 2064700608}
   - component: {fileID: 2064700607}
+  - component: {fileID: 1894437200}
   m_Layer: 5
   m_Name: NextButton
   m_TagString: Untagged
@@ -4094,3 +4095,25 @@ MonoBehaviour:
   m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &1894437200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064700602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c0d4f2a91b34a5e8a6c2d0f5b7e3194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonHoverEffect
+  label: {fileID: 0}
+  wholeButton: 1
+  hoverOffset: 0
+  pressedOffset: 0
+  hoverScale: 1.03
+  pressedScale: 0.96
+  hoverColor: {r: 0.66, g: 0.8, b: 1, a: 1}
+  pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledAlpha: 0.4
+  responseTime: 0.1
