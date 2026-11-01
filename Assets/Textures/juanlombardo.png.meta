@@ -1,0 +1,455 @@
+fileFormatVersion: 2
+guid: def7d23d95d59304bab8d25aaeffe8a4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 579872067447234944
+    second: juanlombardo_0
+  - first:
+      213: 1256930886633924153
+    second: juanlombardo_1
+  - first:
+      213: 2200346163697049973
+    second: juanlombardo_2
+  - first:
+      213: -8300857912470119024
+    second: juanlombardo_3
+  - first:
+      213: -8214460025587906949
+    second: juanlombardo_4
+  - first:
+      213: -4377947646782318755
+    second: juanlombardo_5
+  - first:
+      213: -5228778490794856400
+    second: juanlombardo_6
+  - first:
+      213: -3829242968931197139
+    second: juanlombardo_7
+  - first:
+      213: -6974321200090535792
+    second: juanlombardo_8
+  - first:
+      213: -8352778850958522243
+    second: juanlombardo_9
+  - first:
+      213: -261403545295759854
+    second: juanlombardo_10
+  - first:
+      213: -3264388409552252480
+    second: juanlombardo_11
+  - first:
+      213: 1671483446674550301
+    second: juanlombardo_12
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: juanlombardo_0
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 659
+        width: 96
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0812d53b29e1c0800800000000000000
+      internalID: 579872067447234944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: juanlombardo_1
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 662
+        width: 125
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 936280d5bf3817110800000000000000
+      internalID: 1256930886633924153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: juanlombardo_2
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 661
+        width: 127
+        height: 137
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5716e0e8d23398e10800000000000000
+      internalID: 2200346163697049973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: juanlombardo_3
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 661
+        width: 119
+        height: 138
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09d5a3c55bd6dcc80800000000000000
+      internalID: -8300857912470119024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: juanlombardo_4
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 656
+        width: 68
+        height: 145
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b76cf29f020600e80800000000000000
+      internalID: -8214460025587906949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: juanlombardo_5
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 627
+        width: 165
+        height: 226
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5758448fc76e33c0800000000000000
+      internalID: -4377947646782318755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: juanlombardo_6
+      rect:
+        serializedVersion: 2
+        x: 779
+        y: 619
+        width: 248
+        height: 237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03038f67aa5af67b0800000000000000
+      internalID: -5228778490794856400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: juanlombardo_7
+      rect:
+        serializedVersion: 2
+        x: 1031
+        y: 619
+        width: 296
+        height: 239
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2f9136decbcbdac0800000000000000
+      internalID: -3829242968931197139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: juanlombardo_8
+      rect:
+        serializedVersion: 2
+        x: 1350
+        y: 619
+        width: 199
+        height: 236
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 098a02fe1db363f90800000000000000
+      internalID: -6974321200090535792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: juanlombardo_9
+      rect:
+        serializedVersion: 2
+        x: 1572
+        y: 621
+        width: 215
+        height: 232
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d78c835d3e7f41c80800000000000000
+      internalID: -8352778850958522243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: juanlombardo_10
+      rect:
+        serializedVersion: 2
+        x: 1810
+        y: 616
+        width: 211
+        height: 238
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2165e9b4cde4f5cf0800000000000000
+      internalID: -261403545295759854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: juanlombardo_11
+      rect:
+        serializedVersion: 2
+        x: 2043
+        y: 623
+        width: 235
+        height: 235
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c15cb7790092b2d0800000000000000
+      internalID: -3264388409552252480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: juanlombardo_12
+      rect:
+        serializedVersion: 2
+        x: 2301
+        y: 619
+        width: 248
+        height: 237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1e6bfeb65d423710800000000000000
+      internalID: 1671483446674550301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      juanlombardo_0: 579872067447234944
+      juanlombardo_1: 1256930886633924153
+      juanlombardo_10: -261403545295759854
+      juanlombardo_11: -3264388409552252480
+      juanlombardo_12: 1671483446674550301
+      juanlombardo_2: 2200346163697049973
+      juanlombardo_3: -8300857912470119024
+      juanlombardo_4: -8214460025587906949
+      juanlombardo_5: -4377947646782318755
+      juanlombardo_6: -5228778490794856400
+      juanlombardo_7: -3829242968931197139
+      juanlombardo_8: -6974321200090535792
+      juanlombardo_9: -8352778850958522243
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

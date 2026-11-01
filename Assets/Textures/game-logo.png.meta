@@ -1,48 +1,48 @@
 fileFormatVersion: 2
-guid: f1d2db91a5e856d49a5e00c79cb06c22
+guid: b5fe660f8492068458887a5c668f86a0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6194027747257274411
-    second: BA_Logo 1_0
+      213: -1941055047710487978
+    second: game-logo_0
   - first:
-      213: 4665962684806097672
-    second: BA_Logo 1_1
+      213: 8140257348360022502
+    second: game-logo_1
   - first:
-      213: 6161618328646632589
-    second: BA_Logo 1_2
+      213: -1107775780966384184
+    second: game-logo_2
   - first:
-      213: 9181964738821942384
-    second: BA_Logo 1_3
+      213: -4325527818965283487
+    second: game-logo_3
   - first:
-      213: 7827232050360708177
-    second: BA_Logo 1_4
+      213: 4980428738311638904
+    second: game-logo_4
   - first:
-      213: 3633701114455437743
-    second: BA_Logo 1_5
+      213: 7887124237313526557
+    second: game-logo_5
   - first:
-      213: 5788112688898819214
-    second: BA_Logo 1_6
+      213: 3395926722932993507
+    second: game-logo_6
   - first:
-      213: 346716563231758410
-    second: BA_Logo 1_7
+      213: -8052853216841834879
+    second: game-logo_7
   - first:
-      213: 1805931852443212238
-    second: BA_Logo 1_8
+      213: 724891967512471577
+    second: game-logo_8
   - first:
-      213: -5310714212818824511
-    second: BA_Logo 1_9
+      213: -7817557702769917324
+    second: game-logo_9
   - first:
-      213: 2243074875086278662
-    second: BA_Logo 1_10
+      213: -5801149499355806487
+    second: game-logo_10
   - first:
-      213: -5940358044542087072
-    second: BA_Logo 1_11
+      213: -6542511353366838005
+    second: game-logo_11
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -129,30 +129,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BA_Logo 1_0
+      name: game-logo_0
       rect:
         serializedVersion: 2
-        x: 214
-        y: 1008
-        width: 469
-        height: 761
+        x: 49
+        y: 554
+        width: 189
+        height: 325
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,20 +148,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5df21dbc4946a0aa0800000000000000
-      internalID: -6194027747257274411
+      spriteID: 65accbfd7bcff05e0800000000000000
+      internalID: -1941055047710487978
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BA_Logo 1_1
+      name: game-logo_1
       rect:
         serializedVersion: 2
-        x: 703
-        y: 1007
-        width: 156
-        height: 665
+        x: 282
+        y: 817
+        width: 76
+        height: 76
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,20 +170,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 80b681b2754d0c040800000000000000
-      internalID: 4665962684806097672
+      spriteID: 6e9234dede008f070800000000000000
+      internalID: 8140257348360022502
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BA_Logo 1_2
+      name: game-logo_2
       rect:
         serializedVersion: 2
-        x: 872
-        y: 1005
-        width: 488
-        height: 475
+        x: 399
+        y: 549
+        width: 183
+        height: 330
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -205,20 +192,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d84c4886937728550800000000000000
-      internalID: 6161618328646632589
+      spriteID: 8cdb7b4ebc360a0f0800000000000000
+      internalID: -1107775780966384184
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BA_Logo 1_3
+      name: game-logo_3
       rect:
         serializedVersion: 2
-        x: 1356
-        y: 1013
-        width: 430
-        height: 467
+        x: 629
+        y: 817
+        width: 76
+        height: 76
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -227,20 +214,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 07ce4a52844ec6f70800000000000000
-      internalID: 9181964738821942384
+      spriteID: 16d0184cd53a8f3c0800000000000000
+      internalID: -4325527818965283487
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BA_Logo 1_4
+      name: game-logo_4
       rect:
         serializedVersion: 2
-        x: 1783
-        y: 1263
-        width: 9
-        height: 56
+        x: 1200
+        y: 438
+        width: 327
+        height: 552
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -249,20 +236,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 15c6d40541aef9c60800000000000000
-      internalID: 7827232050360708177
+      spriteID: 87f4630dc890e1540800000000000000
+      internalID: 4980428738311638904
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BA_Logo 1_5
+      name: game-logo_5
       rect:
         serializedVersion: 2
-        x: 1781
-        y: 1232
-        width: 9
-        height: 30
+        x: 1601
+        y: 438
+        width: 117
+        height: 552
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -271,20 +258,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fa1be0359ef7d6230800000000000000
-      internalID: 3633701114455437743
+      spriteID: d1b4270c4b1b47d60800000000000000
+      internalID: 7887124237313526557
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BA_Logo 1_6
+      name: game-logo_6
       rect:
         serializedVersion: 2
-        x: 8
-        y: 89
-        width: 632
-        height: 902
+        x: 1791
+        y: 429
+        width: 310
+        height: 426
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -293,20 +280,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e84ceb5e2d1835050800000000000000
-      internalID: 5788112688898819214
+      spriteID: 3ed6da3bc51c02f20800000000000000
+      internalID: 3395926722932993507
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BA_Logo 1_7
+      name: game-logo_7
       rect:
         serializedVersion: 2
-        x: 987
-        y: 717
-        width: 143
-        height: 144
+        x: 2175
+        y: 429
+        width: 309
+        height: 434
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -315,20 +302,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a485c2590e8cfc400800000000000000
-      internalID: 346716563231758410
+      spriteID: 18ed7c54aa48e3090800000000000000
+      internalID: -8052853216841834879
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BA_Logo 1_8
+      name: game-logo_8
       rect:
         serializedVersion: 2
-        x: 1159
-        y: 231
-        width: 384
-        height: 666
+        x: 286
+        y: 554
+        width: 69
+        height: 246
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -337,20 +324,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ec9d0799375ff0910800000000000000
-      internalID: 1805931852443212238
+      spriteID: 9186d1067655f0a00800000000000000
+      internalID: 724891967512471577
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BA_Logo 1_9
+      name: game-logo_9
       rect:
         serializedVersion: 2
-        x: 628
-        y: 231
-        width: 332
-        height: 476
+        x: 633
+        y: 554
+        width: 69
+        height: 246
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -359,20 +346,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1c2d0519f8d8c46b0800000000000000
-      internalID: -5310714212818824511
+      spriteID: 472c74340b4728390800000000000000
+      internalID: -7817557702769917324
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BA_Logo 1_10
+      name: game-logo_10
       rect:
         serializedVersion: 2
-        x: 998
-        y: 242
-        width: 123
-        height: 371
+        x: 746
+        y: 554
+        width: 183
+        height: 251
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -381,20 +368,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6001f1ee6b0012f10800000000000000
-      internalID: 2243074875086278662
+      spriteID: 9e446f1244d2e7fa0800000000000000
+      internalID: -5801149499355806487
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: BA_Logo 1_11
+      name: game-logo_11
       rect:
         serializedVersion: 2
-        x: 1559
-        y: 215
-        width: 415
-        height: 499
+        x: 971
+        y: 470
+        width: 182
+        height: 335
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -403,8 +390,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0605f64f4db9f8da0800000000000000
-      internalID: -5940358044542087072
+      spriteID: b050c9b76945435a0800000000000000
+      internalID: -6542511353366838005
       vertices: []
       indices: 
       edges: []
@@ -423,18 +410,18 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BA_Logo 1_0: -6194027747257274411
-      BA_Logo 1_1: 4665962684806097672
-      BA_Logo 1_10: 2243074875086278662
-      BA_Logo 1_11: -5940358044542087072
-      BA_Logo 1_2: 6161618328646632589
-      BA_Logo 1_3: 9181964738821942384
-      BA_Logo 1_4: 7827232050360708177
-      BA_Logo 1_5: 3633701114455437743
-      BA_Logo 1_6: 5788112688898819214
-      BA_Logo 1_7: 346716563231758410
-      BA_Logo 1_8: 1805931852443212238
-      BA_Logo 1_9: -5310714212818824511
+      game-logo_0: -1941055047710487978
+      game-logo_1: 8140257348360022502
+      game-logo_10: -5801149499355806487
+      game-logo_11: -6542511353366838005
+      game-logo_2: -1107775780966384184
+      game-logo_3: -4325527818965283487
+      game-logo_4: 4980428738311638904
+      game-logo_5: 7887124237313526557
+      game-logo_6: 3395926722932993507
+      game-logo_7: -8052853216841834879
+      game-logo_8: 724891967512471577
+      game-logo_9: -7817557702769917324
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

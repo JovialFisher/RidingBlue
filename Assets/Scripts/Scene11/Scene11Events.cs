@@ -331,6 +331,9 @@ You
             case "smug":      target = charHiromiSmug; break;
         }
 
+        // KodaBase is not part of AllCharacterExpressions, so Hiromi taking the
+        // stage would leave his bust standing in the same spot behind her.
+        SetKodaBaseActive(false);
         ExpressionFader.Show(target, AllCharacterExpressions());
     }
 

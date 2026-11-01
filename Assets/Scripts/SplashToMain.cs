@@ -1,24 +1,34 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SplashToMain : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private GameObject fadeOut;
+    [SerializeField] private float fadeOutDuration = 2f;
+
     void Start()
     {
+        if (fadeOut == null)
+        {
+            Debug.LogError("FadeOut GameObject is not assigned.", this);
+        }
+        else
+        {
+            fadeOut.SetActive(false);
+        }
+
         StartCoroutine(SplashSequence());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     IEnumerator SplashSequence()
     {
-        yield return SceneLoader.LoadSceneAsync(1, 8f);
+        yield return new WaitForSeconds(3.5f);
+
+        if (fadeOut != null)
+        {
+            fadeOut.SetActive(true);
+        }
+
+        yield return SceneLoader.LoadSceneAsync(1, fadeOutDuration);
     }
 }
