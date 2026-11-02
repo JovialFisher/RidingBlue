@@ -249,7 +249,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Chapter 1: Anomalous Life'
+  m_text: 'Chapter 1: Anomaly'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2c7b4d260693ff9498e8e6cd7f744c65, type: 2}
   m_sharedMaterial: {fileID: -7034002205182556623, guid: 2c7b4d260693ff9498e8e6cd7f744c65, type: 2}
