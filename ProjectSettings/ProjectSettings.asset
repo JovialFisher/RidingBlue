@@ -694,10 +694,10 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
-  cloudProjectId: 4609080f-4e73-4e27-ad95-ef344bb6c64b
+  cloudProjectId: 29e8e03a-d8e1-4c20-9de6-1604cbbfba69
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Blue Arika
+  projectName: RidingBlue
   organizationId: unity_100061697
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
