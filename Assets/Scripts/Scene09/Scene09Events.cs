@@ -43,7 +43,7 @@ public class Scene09Events : MonoBehaviour
     {
         "Anyways dude, let's hit town before it gets too late!",
         "We can go to that restaurant I told you about after I show you around a bit!",
-        "We can even try to get some chicks phone numbers if you're like me [he lightly teased]",
+        "We can even try to get some chicks' phone numbers if you're like me [he lightly teased]",
         "Although, I suppose they'll all settle for Koda, the local legend around here [he smirked]",
         "Anyways, let's stop yapping and get going, we got a lot to do before the day ends!",
         "[As Koda finished his sentence, he proceeded to stretch and then turn to walk]",
@@ -150,7 +150,7 @@ public class Scene09Events : MonoBehaviour
                 break;
             case 2:
                 ShowExpression("smirk");
-            textToSpeak = "There's a great restaurant downtown that I think you'd like, it's called Nabana Diner. They got the best steaks, you gotta try Kumanoki's specialty!";
+                textToSpeak = "There's a great restaurant downtown that I think you'd like, it's called Nabana Diner. They got the best steaks, you gotta try Kumanoki's specialty!";
                 break;
             case 3:
                 ShowExpression("smirk");

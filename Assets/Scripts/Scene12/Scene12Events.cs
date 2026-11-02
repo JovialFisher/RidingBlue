@@ -75,7 +75,7 @@ O-okay, sorry about the time. I was busy doing other things.
 
 Hiromi
 
-Your friends tell me those ""other things"" are you playing games on Stream, that one app you buy games from.
+Your friends tell me those ""other things"" are you playing games on Steam, that one app you buy games from.
 
 Koda
 

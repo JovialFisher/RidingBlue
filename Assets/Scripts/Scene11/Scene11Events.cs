@@ -91,9 +91,9 @@ It's 8PM, it's quite late.
 
 Koda
 
-[looks frantically at Hiromi, trying to search for any signs of joking. He looks quite disappointed.]
+[He grins, clearly proud of himself.]
 
-Dude, a whole day spent in Nabana. That's surprisingly fun!
+Dude, a whole day out in Kumanoki. That's surprisingly fun!
 
 That's a new record, we gotta celebrate with more eating [he teased]
 

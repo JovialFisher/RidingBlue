@@ -61,7 +61,7 @@ public class Scene13Events : MonoBehaviour
     private int dialogueIndex = 0;
     private bool isFadingOut = false;
 
-    private const string DefaultSceneDialogue = @"[You and Hiromi were inside the apartment. The blue fog enveloped the entire town of Kumanoki]
+    private const string DefaultSceneDialogue = @"[You and Hiromi were inside Koda's house. The blue fog enveloped the entire town of Kumanoki]
 
 [Your mind went back to Koda, and what happened to him. Did he get lost? Or did something worse happen…]
 
@@ -121,7 +121,7 @@ Hiromi
 
 The Blue Eclipse? Start manifesting? [She looked outside frantically]
 
-Does he mean the weird blue fog is connected to the Blue Fog, or something like that?
+Does he mean the weird blue fog is connected to the Blue Eclipse, or something like that?
 
 Oh no, he’s right…
 

@@ -106,7 +106,7 @@ You what?! You know I don't wanna date anyone, Koda!
 
 [She looks back at you]
 
-Sorry, this doofus always has something to say. You're not the only one, but definitely his favorite. Ugh!
+Sorry, this doofus always has something to say. You're not the only one he teases, but you're definitely his favorite. Ugh!
 
 I'm in your same class, I'm the girl sitting next to Koda. He can be quite a handful, I know...
 

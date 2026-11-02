@@ -46,7 +46,7 @@ public class Scene02Events : MonoBehaviour
     {
         "Anyways, we’ve got a monster of a test coming up in a few weeks…",
         "[He softly groans]",
-        "If I could just ditch school and play video games instead, or go watch a good movie at 100 Cinema.",
+        "If I could just ditch school and play video games instead, or go watch a good movie at the cinema.",
         "If I studied enough, maybe the teacher would stop targeting me. She really gets on my nerves…",
         "[While you were complaining about the upcoming test, your phone suddenly beeped. You decided to answer]"
     };

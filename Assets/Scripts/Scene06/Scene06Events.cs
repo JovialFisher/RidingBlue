@@ -45,10 +45,10 @@ public class Scene06Events : MonoBehaviour
     private string[] transitionLines =
     {
         "Anyways dude, about what happened to me...",
-        "Last night, everything was blue. It was like a blue fog, the streets were empty.",
-        "I was scared to open the window, the fog could get in and...",
+        "I told you about it on the train, but last night it was even worse. Everything was blue, the streets were completely empty.",
+        "I wanted a better look, but I was too scared the fog would get in and...",
         "[he shudders at the thought] I just went back to sleep, I thought I was having a dream. I hope it stays a dream...",
-        "[While Koda was going on about his paranormal experience, your phone started ringing and went back to that white feline yesterday. You decided to answer.]",
+        "[While Koda was going on about his paranormal experience, your phone started ringing. It was that white feline from yesterday again. You decided to answer.]",
     };
     private int transitionLineIndex = 0;
 
@@ -68,7 +68,7 @@ public class Scene06Events : MonoBehaviour
 
     private string[] kodaConcernLines =
     {
-        "Wow, you got another call bro? Same time and everything, that's strange.",
+        "Wow, you got another call bro? Two days in a row, that's strange.",
         "By the looks on your face, it ain't a prank call.",
         "[He looks at you as you tell him what had happened]",
         "You believe that it was the same cat from yesterday, so you weren't lying...",
@@ -321,8 +321,8 @@ public class Scene06Events : MonoBehaviour
             currentTextLength = textToSpeak.Length;
             TextCreator.runTextPrint = true;
 
-            // Special action: phone beeped and fade BGM
-            if (textToSpeak == "[While you were complaining about the upcoming test, your phone suddenly beeped. You decided to answer]")
+            // Special action: phone rings on the last transition line, and fade BGM
+            if (lineIndex == transitionLines.Length - 1)
             {
                 StartCoroutine(FadeBGMVolume(bgm, 0.3f, 2f)); // fade bgm to 0.3 over 2s
                 StartCoroutine(PlayPhoneRingTwice());
