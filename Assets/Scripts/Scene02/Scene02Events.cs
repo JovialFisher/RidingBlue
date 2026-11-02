@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class Scene02Event : MonoBehaviour
+public class Scene02Events : MonoBehaviour
 {
     [Header("Audio")]
     [SerializeField] private AudioSource bgm;
@@ -65,7 +65,6 @@ public class Scene02Event : MonoBehaviour
     {
         "[The call was suddenly disconnected. You shoved your phone back in your pocket]"
     };
-    private int phoneDisconnectLineIndex = 0;
 
     private string[] kodaConcernLines =
     {
@@ -78,7 +77,6 @@ public class Scene02Event : MonoBehaviour
     {
         "[You felt Koda’s concern. Was it just a prank call, or something deeper? Whatever it is, you decided to hang out with Koda without telling him what happened. You walked home with him afterwards]"
     };
-    private int finalNarrationLineIndex = 0;
 
     int introIndex = 0;
     bool isTyping = false; // Prevents spamming Next
@@ -112,26 +110,37 @@ public class Scene02Event : MonoBehaviour
         nextButton.SetActive(false); // Ensure it's hidden at start
     }
 
-    void HideAllExpressions()
+    GameObject[] AllExpressions()
     {
-        charNeutral.SetActive(false);
-        charSurprised.SetActive(false);
-        charSmirk.SetActive(false);
-        charSmile.SetActive(false);
-        charEmbarrassed.SetActive(false);
+        return new GameObject[]
+        {
+            charNeutral,
+            charSurprised,
+            charSmirk,
+            charSmile,
+            charEmbarrassed
+        };
     }
 
-    void ShowExpression(string expression)
+    void HideAllExpressions()
     {
-        HideAllExpressions();
+        ExpressionFader.HideAll(AllExpressions());
+    }
+
+    void ShowExpression(string expression, float duration = ExpressionFader.DefaultDuration)
+    {
+        GameObject target = null;
+
         switch (expression)
         {
-            case "neutral":     charNeutral.SetActive(true); break;
-            case "surprised":   charSurprised.SetActive(true); break;
-            case "smirk":       charSmirk.SetActive(true); break;
-            case "smile":       charSmile.SetActive(true); break;
-            case "embarrassed": charEmbarrassed.SetActive(true); break;
+            case "neutral":     target = charNeutral; break;
+            case "surprised":   target = charSurprised; break;
+            case "smirk":       target = charSmirk; break;
+            case "smile":       target = charSmile; break;
+            case "embarrassed": target = charEmbarrassed; break;
         }
+
+        ExpressionFader.Show(target, AllExpressions(), duration);
     }
 
     IEnumerator EventStarter()
@@ -193,21 +202,20 @@ public class Scene02Event : MonoBehaviour
         isTyping = false;
     }
 
-    void ShowChoiceButtons()
+    IEnumerator ShowChoiceButtons()
     {
-        choiceButton1.gameObject.SetActive(true);
-        choiceButton2.gameObject.SetActive(true);
-        choiceButton3.gameObject.SetActive(true);
         nextButton.SetActive(false);
+
+        // Let the dialogue box go out first, then bring the options in.
+        yield return TextBoxFader.Hide(mainTextObject);
         textBox.SetActive(false);
-        mainTextObject.SetActive(false);
+
+        yield return UIFade.RiseIn(choiceButton1.gameObject, choiceButton2.gameObject, choiceButton3.gameObject);
     }
 
     void HideChoiceButtons()
     {
-        choiceButton1.gameObject.SetActive(false);
-        choiceButton2.gameObject.SetActive(false);
-        choiceButton3.gameObject.SetActive(false);
+        StartCoroutine(UIFade.FadeOutAndHide(choiceButton1.gameObject, choiceButton2.gameObject, choiceButton3.gameObject));
     }
 
     public void OnChoice1()
@@ -434,7 +442,7 @@ public class Scene02Event : MonoBehaviour
             else
             {
                 eventPos = 1;
-                ShowChoiceButtons();
+                StartCoroutine(ShowChoiceButtons());
             }
             return;
         }
@@ -533,9 +541,9 @@ public class Scene02Event : MonoBehaviour
         nextButton.SetActive(false);
         ShowExpression("smile");
         textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
-        yield return new WaitForSeconds(4f);
-        SceneManager.LoadScene(6);
+        yield return SceneLoader.LoadSceneAsync(6, 4f);
     }
 
     // ========== NEW HELPERS ==========
@@ -556,7 +564,7 @@ public class Scene02Event : MonoBehaviour
 
     IEnumerator PlayPhoneRingTwice()
     {
-        if (phonering == null) yield break;
+        if (phonering == null || phonering.clip == null) yield break;
         int times = 2;
         for (int i = 0; i < times; i++)
         {

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class Scene05Event : MonoBehaviour
+public class Scene05Events : MonoBehaviour
 {
     [Header("Audio")]
     [SerializeField] private AudioSource bgm;
@@ -86,26 +86,37 @@ public class Scene05Event : MonoBehaviour
         nextButton.SetActive(false); // Ensure it's hidden at start
     }
 
-    void HideAllExpressions()
+    GameObject[] AllExpressions()
     {
-        charNeutral.SetActive(false);
-        charSurprised.SetActive(false);
-        charSmirk.SetActive(false);
-        charSmile.SetActive(false);
-        charEmbarrassed.SetActive(false);
+        return new GameObject[]
+        {
+            charNeutral,
+            charSurprised,
+            charSmirk,
+            charSmile,
+            charEmbarrassed
+        };
     }
 
-    void ShowExpression(string expression)
+    void HideAllExpressions()
     {
-        HideAllExpressions();
+        ExpressionFader.HideAll(AllExpressions());
+    }
+
+    void ShowExpression(string expression, float duration = ExpressionFader.DefaultDuration)
+    {
+        GameObject target = null;
+
         switch (expression)
         {
-            case "neutral":     charNeutral.SetActive(true); break;
-            case "surprised":   charSurprised.SetActive(true); break;
-            case "smirk":       charSmirk.SetActive(true); break;
-            case "smile":       charSmile.SetActive(true); break;
-            case "embarrassed": charEmbarrassed.SetActive(true); break;
+            case "neutral":     target = charNeutral; break;
+            case "surprised":   target = charSurprised; break;
+            case "smirk":       target = charSmirk; break;
+            case "smile":       target = charSmile; break;
+            case "embarrassed": target = charEmbarrassed; break;
         }
+
+        ExpressionFader.Show(target, AllExpressions(), duration);
     }
 
     IEnumerator EventStarter()
@@ -176,21 +187,20 @@ public class Scene05Event : MonoBehaviour
         isTyping = false;
     }
 
-    void ShowChoiceButtons()
+    IEnumerator ShowChoiceButtons()
     {
-        choiceButton1.gameObject.SetActive(true);
-        choiceButton2.gameObject.SetActive(true);
-        choiceButton3.gameObject.SetActive(true);
         nextButton.SetActive(false);
+
+        // Let the dialogue box go out first, then bring the options in.
+        yield return TextBoxFader.Hide(mainTextObject);
         textBox.SetActive(false);
-        mainTextObject.SetActive(false);
+
+        yield return UIFade.RiseIn(choiceButton1.gameObject, choiceButton2.gameObject, choiceButton3.gameObject);
     }
 
     void HideChoiceButtons()
     {
-        choiceButton1.gameObject.SetActive(false);
-        choiceButton2.gameObject.SetActive(false);
-        choiceButton3.gameObject.SetActive(false);
+        StartCoroutine(UIFade.FadeOutAndHide(choiceButton1.gameObject, choiceButton2.gameObject, choiceButton3.gameObject));
     }
 
     public void OnChoice1()
@@ -227,14 +237,14 @@ public class Scene05Event : MonoBehaviour
                     "A talking cat inside of your phone? Dude, is the phone possessed or something?",
                     "I mean, it's not like I haven't heard of that kind of stuff before, but still...",
                     "Maybe you were just seeing things, I mean everyone sees stuff once in a while, right? It's probably just your imagination running wild.",
-                    "That must be it [laughs nerviously]"
+                    "That must be it [laughs nervously]"
                 };
                 break;
             case 1:
                 ShowExpression("embarrassed");
                 choiceLines = new string[]
                 {
-                    "[Koda gave you a weird look as you told him what haoppened last night.]",
+                    "[Koda gave you a weird look as you told him what happened last night.]",
                     "A talking cat, inside of your phone? That sounds like a dream, sure you weren't dreaming bro?",
                     "Sounds like you were just seeing things, I mean everyone sees stuff once in a while, right? It's probably just your imagination running wild.",
                 };
@@ -337,7 +347,7 @@ public class Scene05Event : MonoBehaviour
             else
             {
                 eventPos = 1;
-                ShowChoiceButtons();
+                StartCoroutine(ShowChoiceButtons());
             }
             return;
         }
@@ -376,8 +386,8 @@ public class Scene05Event : MonoBehaviour
         nextButton.SetActive(false);
         ShowExpression("smile");
         textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
-        yield return new WaitForSeconds(4f);
-        SceneManager.LoadScene(11);
+        yield return SceneLoader.LoadSceneAsync(11, 4f);
     }
 }

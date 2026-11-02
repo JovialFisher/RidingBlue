@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TrainSceneController : MonoBehaviour
+public class TrainTrans1 : MonoBehaviour
 {
     [SerializeField] private GameObject train;
     [SerializeField] private AudioSource trainTracks;
@@ -38,9 +38,7 @@ public class TrainSceneController : MonoBehaviour
             yield return StartCoroutine(FadeAudio(trainTracks, trainTracks.volume, 0f, fadeOutDuration));
         }
 
-        yield return new WaitForSeconds(1f);
-
-        SceneManager.LoadScene(18);
+        yield return SceneLoader.LoadSceneAsync(18, 1f);
     }
 
     private IEnumerator FadeAudio(AudioSource source, float from, float to, float duration)

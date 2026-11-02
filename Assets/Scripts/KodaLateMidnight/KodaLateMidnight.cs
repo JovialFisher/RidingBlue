@@ -35,6 +35,7 @@ public class KodaLateMidnight : MonoBehaviour
         if (bgm != null)
         {
             bgm.volume = startingVolume;
+            if (!bgm.isPlaying) bgm.Play();
         }
 
         StartCoroutine(EventStarter());
@@ -115,7 +116,7 @@ public class KodaLateMidnight : MonoBehaviour
 
             case 10:
                 nameText.text = "";
-                textToSpeak = "[The clock has striked twelve...]";
+                textToSpeak = "[The clock has struck twelve...]";
 
                 // Instantly cut the music
                 if (bgm != null)
@@ -169,15 +170,13 @@ public class KodaLateMidnight : MonoBehaviour
     IEnumerator FadeOutAndLoadNext()
     {
         nextButton.SetActive(false);
-        textBox.SetActive(false);
-        mainTextObject.SetActive(false);
+        yield return TextBoxFader.Hide(mainTextObject);
 
         if (fadeOut != null)
         {
             fadeOut.SetActive(true);
         }
 
-        yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene(24);
+        yield return SceneLoader.LoadSceneAsync(24, 3f);
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class DayTransition : MonoBehaviour
+public class Apr16to17 : MonoBehaviour
 {
     [Header("Assign UI GameObjects")]
     public GameObject previousDayImage;
@@ -52,9 +52,7 @@ public class DayTransition : MonoBehaviour
 
         yield return StartCoroutine(FadeOutNextDay());
 
-        yield return new WaitForSeconds(2f);
-
-        SceneManager.LoadScene(9);
+        yield return SceneLoader.LoadSceneAsync(9, 2f);
     }
 
     private IEnumerator FadeOutNextDay()

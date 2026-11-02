@@ -14,8 +14,7 @@ public class CredToMain : MonoBehaviour
 
     IEnumerator CreditsBack()
     {
-        yield return new WaitForSeconds(10);
-        SceneManager.LoadScene(1);
+        yield return SceneLoader.LoadSceneAsync(1, 10f);
     }
 
 }

@@ -1,0 +1,663 @@
+fileFormatVersion: 2
+guid: 26c4ef30d0809834c999fc458a4165c7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3564866444439212227
+    second: game-splashscreen_0
+  - first:
+      213: -1652756582062119821
+    second: game-splashscreen_1
+  - first:
+      213: -1545919505214112089
+    second: game-splashscreen_2
+  - first:
+      213: 6031550454946025831
+    second: game-splashscreen_3
+  - first:
+      213: -100249365067962410
+    second: game-splashscreen_4
+  - first:
+      213: 239182801205043607
+    second: game-splashscreen_5
+  - first:
+      213: -6064252719041925787
+    second: game-splashscreen_6
+  - first:
+      213: 3154942894152899983
+    second: game-splashscreen_7
+  - first:
+      213: -2283051527656591395
+    second: game-splashscreen_8
+  - first:
+      213: 6036086443346518979
+    second: game-splashscreen_9
+  - first:
+      213: -7591991622977649752
+    second: game-splashscreen_10
+  - first:
+      213: 3005765054700029612
+    second: game-splashscreen_11
+  - first:
+      213: -6058853697063424288
+    second: game-splashscreen_12
+  - first:
+      213: -3110220548365048755
+    second: game-splashscreen_13
+  - first:
+      213: 138567770672373879
+    second: game-splashscreen_14
+  - first:
+      213: -1731954757127372136
+    second: game-splashscreen_15
+  - first:
+      213: -2152100404510802320
+    second: game-splashscreen_16
+  - first:
+      213: -513829485961982947
+    second: game-splashscreen_17
+  - first:
+      213: 1822718882784323943
+    second: game-splashscreen_18
+  - first:
+      213: 5637198331856217459
+    second: game-splashscreen_19
+  - first:
+      213: 6990325938935762879
+    second: game-splashscreen_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: game-splashscreen_0
+      rect:
+        serializedVersion: 2
+        x: 433
+        y: 669
+        width: 86
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3fad733bdc078ec0800000000000000
+      internalID: -3564866444439212227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_1
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 645
+        width: 65
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 374aff135aa3019e0800000000000000
+      internalID: -1652756582062119821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_2
+      rect:
+        serializedVersion: 2
+        x: 620
+        y: 667
+        width: 66
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ae7d50966acb8ae0800000000000000
+      internalID: -1545919505214112089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_3
+      rect:
+        serializedVersion: 2
+        x: 691
+        y: 669
+        width: 97
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76157e7ae2f54b350800000000000000
+      internalID: 6031550454946025831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_4
+      rect:
+        serializedVersion: 2
+        x: 794
+        y: 667
+        width: 66
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d76a2ecbb7db9ef0800000000000000
+      internalID: -100249365067962410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_5
+      rect:
+        serializedVersion: 2
+        x: 895
+        y: 667
+        width: 66
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 791a53e8d7fb15300800000000000000
+      internalID: 239182801205043607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_6
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 646
+        width: 64
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56d2f45284277dba0800000000000000
+      internalID: -6064252719041925787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_7
+      rect:
+        serializedVersion: 2
+        x: 1051
+        y: 666
+        width: 69
+        height: 101
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8d50acb8db98cb20800000000000000
+      internalID: 3154942894152899983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_8
+      rect:
+        serializedVersion: 2
+        x: 1127
+        y: 666
+        width: 69
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddfad125bb8f050e0800000000000000
+      internalID: -2283051527656591395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_9
+      rect:
+        serializedVersion: 2
+        x: 1201
+        y: 666
+        width: 72
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c36831c3ac74c350800000000000000
+      internalID: 6036086443346518979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_10
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 669
+        width: 69
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a30daec7d3d3a690800000000000000
+      internalID: -7591991622977649752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_11
+      rect:
+        serializedVersion: 2
+        x: 1373
+        y: 666
+        width: 69
+        height: 101
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca68dab546f96b920800000000000000
+      internalID: 3005765054700029612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_12
+      rect:
+        serializedVersion: 2
+        x: 1447
+        y: 667
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0eee878e9a0aaeba0800000000000000
+      internalID: -6058853697063424288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_13
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 669
+        width: 70
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d44a491d3e646d4d0800000000000000
+      internalID: -3110220548365048755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_14
+      rect:
+        serializedVersion: 2
+        x: 1574
+        y: 666
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 770ae3c37aa4ce100800000000000000
+      internalID: 138567770672373879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_15
+      rect:
+        serializedVersion: 2
+        x: 1654
+        y: 669
+        width: 110
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 892006e135cd6f7e0800000000000000
+      internalID: -1731954757127372136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_16
+      rect:
+        serializedVersion: 2
+        x: 1771
+        y: 666
+        width: 74
+        height: 101
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07eb82c95143222e0800000000000000
+      internalID: -2152100404510802320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_17
+      rect:
+        serializedVersion: 2
+        x: 1846
+        y: 666
+        width: 72
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1c4d1e0ec28ed8f0800000000000000
+      internalID: -513829485961982947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_18
+      rect:
+        serializedVersion: 2
+        x: 1923
+        y: 669
+        width: 48
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 769a1cdaa299b4910800000000000000
+      internalID: 1822718882784323943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_19
+      rect:
+        serializedVersion: 2
+        x: 1970
+        y: 666
+        width: 75
+        height: 101
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 375e6b2040a5b3e40800000000000000
+      internalID: 5637198331856217459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: game-splashscreen_20
+      rect:
+        serializedVersion: 2
+        x: 2049
+        y: 666
+        width: 76
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbf0776b760a20160800000000000000
+      internalID: 6990325938935762879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      game-splashscreen_0: -3564866444439212227
+      game-splashscreen_1: -1652756582062119821
+      game-splashscreen_10: -7591991622977649752
+      game-splashscreen_11: 3005765054700029612
+      game-splashscreen_12: -6058853697063424288
+      game-splashscreen_13: -3110220548365048755
+      game-splashscreen_14: 138567770672373879
+      game-splashscreen_15: -1731954757127372136
+      game-splashscreen_16: -2152100404510802320
+      game-splashscreen_17: -513829485961982947
+      game-splashscreen_18: 1822718882784323943
+      game-splashscreen_19: 5637198331856217459
+      game-splashscreen_2: -1545919505214112089
+      game-splashscreen_20: 6990325938935762879
+      game-splashscreen_3: 6031550454946025831
+      game-splashscreen_4: -100249365067962410
+      game-splashscreen_5: 239182801205043607
+      game-splashscreen_6: -6064252719041925787
+      game-splashscreen_7: 3154942894152899983
+      game-splashscreen_8: -2283051527656591395
+      game-splashscreen_9: 6036086443346518979
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

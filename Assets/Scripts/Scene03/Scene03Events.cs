@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Scene03Event : MonoBehaviour
+public class Scene03Events : MonoBehaviour
 {
     public GameObject fadeScreenIn;
     public GameObject textBox;
@@ -92,10 +92,10 @@ public class Scene03Event : MonoBehaviour
     {
         nextButton.SetActive(false);
         textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
 
-        yield return new WaitForSeconds(4f);
-        SceneManager.LoadScene(10);
+        yield return SceneLoader.LoadSceneAsync(10, 4f);
     }
 
     public void NextButton()

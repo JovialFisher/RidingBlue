@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class Scene08Event : MonoBehaviour
+public class Scene08Events : MonoBehaviour
 {
     [System.Serializable]
     private class DialogueEntry
@@ -96,7 +96,7 @@ Which means... I'm older than you! [He said, almost offended]
 
 Look, there's something bizarre I discovered!
 
-It has to do with this weird blue fog, and I'm currently detecting its presence outside in town. The entire town of Kasato.
+It has to do with this weird blue fog, and I'm currently detecting its presence outside in town. The entire town of Kumanoki.
 
 You two, don't go outside when the clock strikes twelve. [He said frantically.]
 
@@ -112,7 +112,7 @@ Koda
 
 [with a disappointed look] Hmm... Well he did end up answering my question about the fog.
 
-[he started recalling what it said] Don't go outside when twelve strikes... Don't go out at midnight. That weird blue fog envelops the entire town of Kasato...
+[he started recalling what it said] Don't go outside when twelve strikes... Don't go out at midnight. That weird blue fog envelops the entire town of Kumanoki...
 
 Well, I suppose we can wait for tomorrow and see what he says.
 
@@ -204,29 +204,61 @@ You
         blockLines.Clear();
     }
 
+    GameObject[] MidnightExpressions()
+    {
+        return new GameObject[]
+        {
+            charMidnightHappy,
+            charMidnightEmbarrassed,
+            charMidnightDelighted,
+            charMidnightConfused,
+            charMidnightAngry
+        };
+    }
+
+    GameObject[] KodaExpressions()
+    {
+        return new GameObject[]
+        {
+            charKodaEmbarrassed,
+            charKodaNeutral,
+            charKodaSurprised,
+            charKodaSmile,
+            charKodaSmirk
+        };
+    }
+
+    GameObject[] AllCharacterExpressions()
+    {
+        return new GameObject[]
+        {
+            charMidnightHappy,
+            charMidnightEmbarrassed,
+            charMidnightDelighted,
+            charMidnightConfused,
+            charMidnightAngry,
+            charKodaEmbarrassed,
+            charKodaNeutral,
+            charKodaSurprised,
+            charKodaSmile,
+            charKodaSmirk
+        };
+    }
+
     void HideAllExpressions()
     {
-        charMidnightHappy.SetActive(false);
-        charMidnightEmbarrassed.SetActive(false);
-        charMidnightDelighted.SetActive(false);
-        charMidnightConfused.SetActive(false);
-        charMidnightAngry.SetActive(false);
+        ExpressionFader.HideAll(MidnightExpressions());
     }
 
     void HideAllKodaExpressions()
     {
-        charKodaEmbarrassed.SetActive(false);
-        charKodaNeutral.SetActive(false);
-        charKodaSurprised.SetActive(false);
-        charKodaSmile.SetActive(false);
-        charKodaSmirk.SetActive(false);
+        ExpressionFader.HideAll(KodaExpressions());
     }
 
     void HideAllCharacterExpressions()
     {
-        HideAllExpressions();
-        HideAllKodaExpressions();
         SetKodaBaseActive(false);
+        ExpressionFader.HideAll(AllCharacterExpressions());
     }
 
     void SetKodaBaseActive(bool isActive)
@@ -239,55 +271,40 @@ You
 
     void ShowExpression(string expression)
     {
-        HideAllCharacterExpressions();
+        GameObject target = null;
 
         switch (expression)
         {
-            case "happy":
-                charMidnightHappy.SetActive(true);
-                break;
-            case "embarrassed":
-                charMidnightEmbarrassed.SetActive(true);
-                break;
-            case "delighted":
-                charMidnightDelighted.SetActive(true);
-                break;
-            case "confused":
-                charMidnightConfused.SetActive(true);
-                break;
-            case "angry":
-                charMidnightAngry.SetActive(true);
-                break;
+            case "happy":       target = charMidnightHappy; break;
+            case "embarrassed": target = charMidnightEmbarrassed; break;
+            case "delighted":   target = charMidnightDelighted; break;
+            case "confused":    target = charMidnightConfused; break;
+            case "angry":       target = charMidnightAngry; break;
         }
+
+        // Midnight appears on the phone, which occupies the same right-hand portrait
+        // slot as Koda. Hiding his expressions alone leaves his base body up, so the
+        // screen would be drawn straight over him; clear it whenever Midnight shows.
+        SetKodaBaseActive(false);
+        ExpressionFader.Show(target, AllCharacterExpressions());
     }
 
     void ShowKodaExpression(string expression)
     {
-        HideAllCharacterExpressions();
+        GameObject target = null;
+        bool showBase = true;
 
         switch (expression)
         {
-            case "embarrassed":
-                charKodaEmbarrassed.SetActive(true);
-                SetKodaBaseActive(true);
-                break;
-            case "neutral":
-                charKodaNeutral.SetActive(true);
-                SetKodaBaseActive(false);
-                break;
-            case "surprised":
-                charKodaSurprised.SetActive(true);
-                SetKodaBaseActive(true);
-                break;
-            case "smile":
-                charKodaSmile.SetActive(true);
-                SetKodaBaseActive(true);
-                break;
-            case "smirk":
-                charKodaSmirk.SetActive(true);
-                SetKodaBaseActive(true);
-                break;
-            }
+            case "embarrassed": target = charKodaEmbarrassed; break;
+            case "neutral":     target = charKodaNeutral; showBase = false; break;
+            case "surprised":   target = charKodaSurprised; break;
+            case "smile":       target = charKodaSmile; break;
+            case "smirk":       target = charKodaSmirk; break;
+        }
+
+        ExpressionFader.Show(target, AllCharacterExpressions());
+        SetKodaBaseActive(target != null && showBase);
     }
 
     void ShowMidnightExpression(string expression)
@@ -541,10 +558,10 @@ You
     {
         nextButton.SetActive(false);
         textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
 
-        yield return new WaitForSeconds(4f);
-        SceneManager.LoadScene(15);
+        yield return SceneLoader.LoadSceneAsync(15, 4f);
     }
 
     public void NextButton()

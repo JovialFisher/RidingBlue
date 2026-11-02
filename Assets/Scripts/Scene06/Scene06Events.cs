@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class Scene06Event : MonoBehaviour
+public class Scene06Events : MonoBehaviour
 {
     [Header("Audio")]
     [SerializeField] private AudioSource bgm;
@@ -48,7 +48,7 @@ public class Scene06Event : MonoBehaviour
         "Last night, everything was blue. It was like a blue fog, the streets were empty.",
         "I was scared to open the window, the fog could get in and...",
         "[he shudders at the thought] I just went back to sleep, I thought I was having a dream. I hope it stays a dream...",
-        "[While Koda was going on about his paranormal experience, your phone started ringing and went back to that white feline yesterday. You decided to answer.",
+        "[While Koda was going on about his paranormal experience, your phone started ringing and went back to that white feline yesterday. You decided to answer.]",
     };
     private int transitionLineIndex = 0;
 
@@ -63,9 +63,8 @@ public class Scene06Event : MonoBehaviour
 
     private string[] phoneDisconnectLines =
     {
-        "[The call was suddenly disconnected. You looked at your phone for a long time. It was defintely Midnigt, but this time he seemed to be in trouble.]"
+        "[The call was suddenly disconnected. You looked at your phone for a long time. It was definitely Midnight, but this time he seemed to be in trouble.]"
     };
-    private int phoneDisconnectLineIndex = 0;
 
     private string[] kodaConcernLines =
     {
@@ -79,9 +78,8 @@ public class Scene06Event : MonoBehaviour
 
     private string[] finalNarrationLines =
     {
-        "[Koda was fully invested in seeing Midnight at night, so he agreed to come to your apartment at night to see the ocurrence.]"
+        "[Koda was fully invested in seeing Midnight at night, so he agreed to come to your apartment at night to see the occurrence.]"
     };
-    private int finalNarrationLineIndex = 0;
 
     int introIndex = 0;
     bool isTyping = false; // Prevents spamming Next
@@ -115,26 +113,37 @@ public class Scene06Event : MonoBehaviour
         nextButton.SetActive(false); // Ensure it's hidden at start
     }
 
-    void HideAllExpressions()
+    GameObject[] AllExpressions()
     {
-        charNeutral.SetActive(false);
-        charSurprised.SetActive(false);
-        charSmirk.SetActive(false);
-        charSmile.SetActive(false);
-        charEmbarrassed.SetActive(false);
+        return new GameObject[]
+        {
+            charNeutral,
+            charSurprised,
+            charSmirk,
+            charSmile,
+            charEmbarrassed
+        };
     }
 
-    void ShowExpression(string expression)
+    void HideAllExpressions()
     {
-        HideAllExpressions();
+        ExpressionFader.HideAll(AllExpressions());
+    }
+
+    void ShowExpression(string expression, float duration = ExpressionFader.DefaultDuration)
+    {
+        GameObject target = null;
+
         switch (expression)
         {
-            case "neutral":     charNeutral.SetActive(true); break;
-            case "surprised":   charSurprised.SetActive(true); break;
-            case "smirk":       charSmirk.SetActive(true); break;
-            case "smile":       charSmile.SetActive(true); break;
-            case "embarrassed": charEmbarrassed.SetActive(true); break;
+            case "neutral":     target = charNeutral; break;
+            case "surprised":   target = charSurprised; break;
+            case "smirk":       target = charSmirk; break;
+            case "smile":       target = charSmile; break;
+            case "embarrassed": target = charEmbarrassed; break;
         }
+
+        ExpressionFader.Show(target, AllExpressions(), duration);
     }
 
     IEnumerator EventStarter()
@@ -196,21 +205,20 @@ public class Scene06Event : MonoBehaviour
         isTyping = false;
     }
 
-    void ShowChoiceButtons()
+    IEnumerator ShowChoiceButtons()
     {
-        choiceButton1.gameObject.SetActive(true);
-        choiceButton2.gameObject.SetActive(true);
-        choiceButton3.gameObject.SetActive(true);
         nextButton.SetActive(false);
+
+        // Let the dialogue box go out first, then bring the options in.
+        yield return TextBoxFader.Hide(mainTextObject);
         textBox.SetActive(false);
-        mainTextObject.SetActive(false);
+
+        yield return UIFade.RiseIn(choiceButton1.gameObject, choiceButton2.gameObject, choiceButton3.gameObject);
     }
 
     void HideChoiceButtons()
     {
-        choiceButton1.gameObject.SetActive(false);
-        choiceButton2.gameObject.SetActive(false);
-        choiceButton3.gameObject.SetActive(false);
+        StartCoroutine(UIFade.FadeOutAndHide(choiceButton1.gameObject, choiceButton2.gameObject, choiceButton3.gameObject));
     }
 
     public void OnChoice1()
@@ -244,10 +252,10 @@ public class Scene06Event : MonoBehaviour
                 choiceLines = new string[]
                 {
                     "Yeah, that's what I'm saying. You're like a human hard drive or something dude!",
-                    "[with an exagerated tone] Oh lord Asa, please spread your wisdom to all of us lowlifes",
+                    "[with an exaggerated tone] Oh lord Asa, please spread your wisdom to all of us lowlifes",
                     "[He looked around to see if anyone was listening, then smirked at you]",
                     "See, even they know you're a genius...",
-                    "They totally aren't looking at me because I'm the one who's talking loudly, right? [laughs nerviously]",
+                    "They totally aren't looking at me because I'm the one who's talking loudly, right? [laughs nervously]",
                 };
                 break;
             case 1:
@@ -256,7 +264,7 @@ public class Scene06Event : MonoBehaviour
                 {
                     "Come on dude, you're lying to yourself. You'll probably be the one with the highest grade on the test next week.",
                     "Compared to me, you'll at least be at the top of the class.",
-                    "[laughs somewhat nerviously] I really have to step up my game, huh? I can't let you outshine me like that...",
+                    "[laughs somewhat nervously] I really have to step up my game, huh? I can't let you outshine me like that...",
                 };
                 break;
             case 2:
@@ -436,7 +444,7 @@ public class Scene06Event : MonoBehaviour
             else
             {
                 eventPos = 1;
-                ShowChoiceButtons();
+                StartCoroutine(ShowChoiceButtons());
             }
             return;
         }
@@ -535,9 +543,9 @@ public class Scene06Event : MonoBehaviour
         nextButton.SetActive(false);
         ShowExpression("smile");
         textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
-        yield return new WaitForSeconds(4f);
-        SceneManager.LoadScene(12);
+        yield return SceneLoader.LoadSceneAsync(12, 4f);
     }
 
     // ========== NEW HELPERS ==========
@@ -558,7 +566,7 @@ public class Scene06Event : MonoBehaviour
 
     IEnumerator PlayPhoneRingTwice()
     {
-        if (phonering == null) yield break;
+        if (phonering == null || phonering.clip == null) yield break;
         int times = 2;
         for (int i = 0; i < times; i++)
         {

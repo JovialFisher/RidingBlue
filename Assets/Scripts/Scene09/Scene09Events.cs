@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class Scene09Event : MonoBehaviour
+public class Scene09Events : MonoBehaviour
 {
     [Header("Audio")]
     [SerializeField] private AudioSource bgm;
@@ -45,8 +45,8 @@ public class Scene09Event : MonoBehaviour
         "We can go to that restaurant I told you about after I show you around a bit!",
         "We can even try to get some chicks phone numbers if you're like me [he lightly teased]",
         "Although, I suppose they'll all settle for Koda, the local legend around here [he smirked]",
-        "Anyways , let's stop yapping and get going, we got a lot to do before the day ends!",
-        "[As Koda finished his sentence, he processed to stretch and then turn to walk]",
+        "Anyways, let's stop yapping and get going, we got a lot to do before the day ends!",
+        "[As Koda finished his sentence, he proceeded to stretch and then turn to walk]",
         "[You felt like this was a great opportunity to hang out with Koda and get to know him better...]"
     };
     private int transitionLineIndex = 0;
@@ -86,26 +86,37 @@ public class Scene09Event : MonoBehaviour
         nextButton.SetActive(false); // Ensure it's hidden at start
     }
 
-    void HideAllExpressions()
+    GameObject[] AllExpressions()
     {
-        charNeutral.SetActive(false);
-        charSurprised.SetActive(false);
-        charSmirk.SetActive(false);
-        charSmile.SetActive(false);
-        charEmbarrassed.SetActive(false);
+        return new GameObject[]
+        {
+            charNeutral,
+            charSurprised,
+            charSmirk,
+            charSmile,
+            charEmbarrassed
+        };
     }
 
-    void ShowExpression(string expression)
+    void HideAllExpressions()
     {
-        HideAllExpressions();
+        ExpressionFader.HideAll(AllExpressions());
+    }
+
+    void ShowExpression(string expression, float duration = ExpressionFader.DefaultDuration)
+    {
+        GameObject target = null;
+
         switch (expression)
         {
-            case "neutral":     charNeutral.SetActive(true); break;
-            case "surprised":   charSurprised.SetActive(true); break;
-            case "smirk":       charSmirk.SetActive(true); break;
-            case "smile":       charSmile.SetActive(true); break;
-            case "embarrassed": charEmbarrassed.SetActive(true); break;
+            case "neutral":     target = charNeutral; break;
+            case "surprised":   target = charSurprised; break;
+            case "smirk":       target = charSmirk; break;
+            case "smile":       target = charSmile; break;
+            case "embarrassed": target = charEmbarrassed; break;
         }
+
+        ExpressionFader.Show(target, AllExpressions(), duration);
     }
 
     IEnumerator EventStarter()
@@ -139,7 +150,7 @@ public class Scene09Event : MonoBehaviour
                 break;
             case 2:
                 ShowExpression("smirk");
-            textToSpeak = "There's a great restaurant downtown that I think you'd like, it's called Nabana Diner. They got the best steaks, you gotta try Kasato's specialty!";
+            textToSpeak = "There's a great restaurant downtown that I think you'd like, it's called Nabana Diner. They got the best steaks, you gotta try Kumanoki's specialty!";
                 break;
             case 3:
                 ShowExpression("smirk");
@@ -176,21 +187,20 @@ public class Scene09Event : MonoBehaviour
         isTyping = false;
     }
 
-    void ShowChoiceButtons()
+    IEnumerator ShowChoiceButtons()
     {
-        choiceButton1.gameObject.SetActive(true);
-        choiceButton2.gameObject.SetActive(true);
-        choiceButton3.gameObject.SetActive(true);
         nextButton.SetActive(false);
+
+        // Let the dialogue box go out first, then bring the options in.
+        yield return TextBoxFader.Hide(mainTextObject);
         textBox.SetActive(false);
-        mainTextObject.SetActive(false);
+
+        yield return UIFade.RiseIn(choiceButton1.gameObject, choiceButton2.gameObject, choiceButton3.gameObject);
     }
 
     void HideChoiceButtons()
     {
-        choiceButton1.gameObject.SetActive(false);
-        choiceButton2.gameObject.SetActive(false);
-        choiceButton3.gameObject.SetActive(false);
+        StartCoroutine(UIFade.FadeOutAndHide(choiceButton1.gameObject, choiceButton2.gameObject, choiceButton3.gameObject));
     }
 
     public void OnChoice1()
@@ -232,16 +242,16 @@ public class Scene09Event : MonoBehaviour
                 ShowExpression("smirk");
                 choiceLines = new string[]
                 {
-                    "Yeah, right? I knew you'd be thrilled about hanging out! I'll take you on the ultimate Kasato tour!",
+                    "Yeah, right? I knew you'd be thrilled about hanging out! I'll take you on the ultimate Kumanoki tour!",
                     "You won't get this experience anywhere else.",
-                    "[He has a confident smirk in his face, as if he knew every detail and secret about Kasato.]",
+                    "[He has a confident smirk in his face, as if he knew every detail and secret about Kumanoki.]",
                 };
                 break;
             case 2:
                 ShowExpression("smirk");
                 choiceLines = new string[]
                 {
-                    "Know me? Of course they do, I'm like a local celebritiy around her!",
+                    "Know me? Of course they do, I'm like a local celebrity around here!",
                     "Except people don't really approach me, nor ask for pictures or autographs, but they know who I am, and that's what matters!",
                     "You can even become pretty famous around here... well, I got my own reasons because of the arcade...",
                 };
@@ -334,7 +344,7 @@ public class Scene09Event : MonoBehaviour
             else
             {
                 eventPos = 1;
-                ShowChoiceButtons();
+                StartCoroutine(ShowChoiceButtons());
             }
             return;
         }
@@ -373,8 +383,8 @@ public class Scene09Event : MonoBehaviour
         nextButton.SetActive(false);
         ShowExpression("smile");
         textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
-        yield return new WaitForSeconds(4f);
-        SceneManager.LoadScene(17);
+        yield return SceneLoader.LoadSceneAsync(17, 4f);
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using TMPro;
 
-public class Scene10Event : MonoBehaviour
+public class Scene10Events : MonoBehaviour
 {
     [System.Serializable]
     private class DialogueEntry
@@ -62,11 +62,11 @@ public class Scene10Event : MonoBehaviour
 
     private const string DefaultSceneDialogue = @"You
 
-[You and Koda arrived at Kasato Downtown by travelling via train. Koda looks rather excited]
+[You and Koda arrived at Kumanoki Downtown by travelling via train. Koda looks rather excited]
 
 Koda
 
-Okay bro, welcome to the real Kasato!
+Okay bro, welcome to the real Kumanoki!
 
 Isn't it amazing? It's better than the dull school hallways, there's a lot of us students who hang around these areas.
 
@@ -100,7 +100,7 @@ She's Hiromi Abara, she's my best friend. She's the one I was teasing you about 
 
 Hiromi
 
-[He looked over at Koda]
+[She looked over at Koda]
 
 You what?! You know I don't wanna date anyone, Koda!
 
@@ -110,7 +110,7 @@ Sorry, this doofus always has something to say. You're not the only one, but def
 
 I'm in your same class, I'm the girl sitting next to Koda. He can be quite a handful, I know...
 
-[He looked at Koda]
+[She looked at Koda]
 
 Where are you two going anyways, wait let me guess...
 
@@ -126,7 +126,7 @@ WHAT?! Don't you have a sense of chivalry, why not pay for your best friend? I l
 
 Koda
 
-[embarassed] Uhh, well... Let's just go to Nabana Diner!
+[embarrassed] Uhh, well... Let's just go to Nabana Diner!
 
 Hiromi
 
@@ -241,30 +241,63 @@ W-wait for me, I got small legs!
         blockLines.Clear();
     }
 
+    GameObject[] HiromiExpressions()
+    {
+        return new GameObject[]
+        {
+            charHiromiNeutral,
+            charHiromiAngry,
+            charHiromiDelighted,
+            charHiromiShocked,
+            charHiromiSmile,
+            charHiromiSmug
+        };
+    }
+
+    GameObject[] KodaExpressions()
+    {
+        return new GameObject[]
+        {
+            charKodaEmbarrassed,
+            charKodaNeutral,
+            charKodaSurprised,
+            charKodaSmile,
+            charKodaSmirk
+        };
+    }
+
+    GameObject[] AllCharacterExpressions()
+    {
+        return new GameObject[]
+        {
+            charHiromiNeutral,
+            charHiromiAngry,
+            charHiromiDelighted,
+            charHiromiShocked,
+            charHiromiSmile,
+            charHiromiSmug,
+            charKodaEmbarrassed,
+            charKodaNeutral,
+            charKodaSurprised,
+            charKodaSmile,
+            charKodaSmirk
+        };
+    }
+
     void HideAllExpressions()
     {
-        charHiromiNeutral.SetActive(false);
-        charHiromiAngry.SetActive(false);
-        charHiromiDelighted.SetActive(false);
-        charHiromiShocked.SetActive(false);
-        charHiromiSmile.SetActive(false);
-        charHiromiSmug.SetActive(false);
+        ExpressionFader.HideAll(HiromiExpressions());
     }
 
     void HideAllKodaExpressions()
     {
-        charKodaEmbarrassed.SetActive(false);
-        charKodaNeutral.SetActive(false);
-        charKodaSurprised.SetActive(false);
-        charKodaSmile.SetActive(false);
-        charKodaSmirk.SetActive(false);
+        ExpressionFader.HideAll(KodaExpressions());
     }
 
     void HideAllCharacterExpressions()
     {
-        HideAllExpressions();
-        HideAllKodaExpressions();
         SetKodaBaseActive(false);
+        ExpressionFader.HideAll(AllCharacterExpressions());
     }
 
     void SetKodaBaseActive(bool isActive)
@@ -277,58 +310,40 @@ W-wait for me, I got small legs!
 
     void ShowHiromiExpression(string expression)
     {
-        HideAllCharacterExpressions();
+        GameObject target = null;
 
         switch (expression)
         {
-            case "neutral":
-                charHiromiNeutral.SetActive(true);
-                break;
-            case "angry":
-                charHiromiAngry.SetActive(true);
-                break;
-            case "delighted":
-                charHiromiDelighted.SetActive(true);
-                break;
-            case "shocked":
-                charHiromiShocked.SetActive(true);
-                break;
-            case "smile":
-                charHiromiSmile.SetActive(true);
-                break;
-            case "smug":
-                charHiromiSmug.SetActive(true);
-                break;
+            case "neutral":   target = charHiromiNeutral; break;
+            case "angry":     target = charHiromiAngry; break;
+            case "delighted": target = charHiromiDelighted; break;
+            case "shocked":   target = charHiromiShocked; break;
+            case "smile":     target = charHiromiSmile; break;
+            case "smug":      target = charHiromiSmug; break;
         }
+
+        // KodaBase is not part of AllCharacterExpressions, so Hiromi taking the
+        // stage would leave his bust standing in the same spot behind her.
+        SetKodaBaseActive(false);
+        ExpressionFader.Show(target, AllCharacterExpressions());
     }
 
     void ShowKodaExpression(string expression)
     {
-        HideAllCharacterExpressions();
+        GameObject target = null;
+        bool showBase = true;
 
         switch (expression)
         {
-            case "embarrassed":
-                charKodaEmbarrassed.SetActive(true);
-                SetKodaBaseActive(true);
-                break;
-            case "neutral":
-                charKodaNeutral.SetActive(true);
-                SetKodaBaseActive(false);
-                break;
-            case "surprised":
-                charKodaSurprised.SetActive(true);
-                SetKodaBaseActive(true);
-                break;
-            case "smile":
-                charKodaSmile.SetActive(true);
-                SetKodaBaseActive(true);
-                break;
-            case "smirk":
-                charKodaSmirk.SetActive(true);
-                SetKodaBaseActive(true);
-                break;
-            }
+            case "embarrassed": target = charKodaEmbarrassed; break;
+            case "neutral":     target = charKodaNeutral; showBase = false; break;
+            case "surprised":   target = charKodaSurprised; break;
+            case "smile":       target = charKodaSmile; break;
+            case "smirk":       target = charKodaSmirk; break;
+        }
+
+        ExpressionFader.Show(target, AllCharacterExpressions());
+        SetKodaBaseActive(target != null && showBase);
     }
 
     void ShowKodaFocusedExpression(string expression)
@@ -571,10 +586,10 @@ W-wait for me, I got small legs!
     {
         nextButton.SetActive(false);
         textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
 
-        yield return new WaitForSeconds(4f);
-        SceneManager.LoadScene(19);
+        yield return SceneLoader.LoadSceneAsync(19, 4f);
     }
 
     public void NextButton()

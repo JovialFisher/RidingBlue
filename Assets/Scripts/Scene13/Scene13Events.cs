@@ -61,7 +61,7 @@ public class Scene13Events : MonoBehaviour
     private int dialogueIndex = 0;
     private bool isFadingOut = false;
 
-    private const string DefaultSceneDialogue = @"[You and Hiromi were inside the apartment. The blue fog enveloped the entire town of Kasato]
+    private const string DefaultSceneDialogue = @"[You and Hiromi were inside the apartment. The blue fog enveloped the entire town of Kumanoki]
 
 [Your mind went back to Koda, and what happened to him. Did he get lost? Or did something worse happen…]
 
@@ -114,12 +114,12 @@ Midnight
 
 [looked at Hiromi with what’s left of his glitchy expression. His unglitched expression seemed to return for a few seconds.]
 
-The Blue Arika will start manifesting, the beginning of the end has started…! P-p-p-plee…ase, r---run!
+The Blue Eclipse will start manifesting, the beginning of the end has started…! P-p-p-plee…ase, r---run!
 
 [Midnight’s voice got cut, your phone’s screen went black before exiting into the homescreen ]
 Hiromi
 
-The Blue Arika? Start manifesting? [She looked outside frantically]
+The Blue Eclipse? Start manifesting? [She looked outside frantically]
 
 Does he mean the weird blue fog is connected to the Blue Fog, or something like that?
 
@@ -227,31 +227,65 @@ In the flesh…";
         blockLines.Clear();
     }
 
+    GameObject[] MidnightExpressions()
+    {
+        return new GameObject[]
+        {
+            charMidnightHappy,
+            charMidnightEmbarrassed,
+            charMidnightDelighted,
+            charMidnightConfused,
+            charMidnightAngry,
+            charMidnightEyesWhite
+        };
+    }
+
+    GameObject[] HiromiExpressions()
+    {
+        return new GameObject[]
+        {
+            charHiromiSmile,
+            charHiromiDelighted,
+            charHiromiShocked,
+            charHiromiNeutral,
+            charHiromiAngry,
+            charHiromiSmug
+        };
+    }
+
+    GameObject[] AllCharacterExpressions()
+    {
+        return new GameObject[]
+        {
+            charMidnightHappy,
+            charMidnightEmbarrassed,
+            charMidnightDelighted,
+            charMidnightConfused,
+            charMidnightAngry,
+            charMidnightEyesWhite,
+            charHiromiSmile,
+            charHiromiDelighted,
+            charHiromiShocked,
+            charHiromiNeutral,
+            charHiromiAngry,
+            charHiromiSmug
+        };
+    }
+
     void HideAllExpressions()
     {
-        charMidnightHappy.SetActive(false);
-        charMidnightEmbarrassed.SetActive(false);
-        charMidnightDelighted.SetActive(false);
-        charMidnightConfused.SetActive(false);
-        charMidnightAngry.SetActive(false);
-        charMidnightEyesWhite.SetActive(false);
+        ExpressionFader.HideAll(MidnightExpressions());
     }
 
     void HideAllHiromiExpressions()
     {
-        charHiromiSmile.SetActive(false);
-        charHiromiDelighted.SetActive(false);
-        charHiromiShocked.SetActive(false);
-        charHiromiNeutral.SetActive(false);
-        charHiromiAngry.SetActive(false);
-        charHiromiSmug.SetActive(false);
+        ExpressionFader.HideAll(HiromiExpressions());
     }
 
     void HideAllCharacterExpressions()
     {
-        HideAllExpressions();
-        HideAllHiromiExpressions();
         SetHiromiBaseActive(false);
+        ExpressionFader.HideAll(AllCharacterExpressions());
     }
 
     void SetHiromiBaseActive(bool isActive)
@@ -264,59 +298,42 @@ In the flesh…";
 
     void ShowExpression(string expression)
     {
-        HideAllCharacterExpressions();
+        GameObject target = null;
 
         switch (expression)
         {
-            case "happy":
-                charMidnightHappy.SetActive(true);
-                break;
-            case "embarrassed":
-                charMidnightEmbarrassed.SetActive(true);
-                break;
-            case "delighted":
-                charMidnightDelighted.SetActive(true);
-                break;
-            case "confused":
-                charMidnightConfused.SetActive(true);
-                break;
-            case "angry":
-                charMidnightAngry.SetActive(true);
-                break;
+            case "happy":       target = charMidnightHappy; break;
+            case "embarrassed": target = charMidnightEmbarrassed; break;
+            case "delighted":   target = charMidnightDelighted; break;
+            case "confused":    target = charMidnightConfused; break;
+            case "angry":       target = charMidnightAngry; break;
+            case "eyeswhite":   target = charMidnightEyesWhite; break;
         }
+
+        // Midnight appears on the phone, which occupies the same right-hand portrait
+        // slot as Hiromi. Hiding her expressions alone leaves her base body up, so the
+        // screen would be drawn straight over her; clear it whenever Midnight shows.
+        SetHiromiBaseActive(false);
+        ExpressionFader.Show(target, AllCharacterExpressions());
     }
 
     void ShowHiromiExpression(string expression)
     {
-        HideAllCharacterExpressions();
+        GameObject target = null;
+        bool showBase = true;
 
         switch (expression)
         {
-            case "smile":
-                charHiromiSmile.SetActive(true);
-                SetHiromiBaseActive(true);
-                break;
-            case "delighted":
-                charHiromiDelighted.SetActive(true);
-                SetHiromiBaseActive(true);
-                break;
-            case "shocked":
-                charHiromiShocked.SetActive(true);
-                SetHiromiBaseActive(true);
-                break;
-            case "neutral":
-                charHiromiNeutral.SetActive(true);
-                SetHiromiBaseActive(false);
-                break;
-            case "angry":
-                charHiromiAngry.SetActive(true);
-                SetHiromiBaseActive(true);
-                break;
-            case "smug":
-                charHiromiSmug.SetActive(true);
-                SetHiromiBaseActive(true);
-                break;
-            }
+            case "smile":     target = charHiromiSmile; break;
+            case "delighted": target = charHiromiDelighted; break;
+            case "shocked":   target = charHiromiShocked; break;
+            case "neutral":   target = charHiromiNeutral; showBase = false; break;
+            case "angry":     target = charHiromiAngry; break;
+            case "smug":      target = charHiromiSmug; break;
+        }
+
+        ExpressionFader.Show(target, AllCharacterExpressions());
+        SetHiromiBaseActive(target != null && showBase);
     }
 
     void ShowMidnightExpression(string expression)
@@ -556,7 +573,9 @@ In the flesh…";
                 ShowMidnightExpression("confused");
                 break;
             case 20:
-                charMidnightEyesWhite.SetActive(true);
+                // Going through the fader clears the expression underneath; switching the
+                // object on directly left the previous portrait drawn behind it.
+                ShowMidnightExpression("eyeswhite");
                 break;
             case 21:
                 ShowMidnightExpression("confused");
@@ -589,7 +608,7 @@ In the flesh…";
             StartCoroutine(FadeOutMidnightExpressions(1.5f));
         }
 
-        if (speakerName == "Midnight" && textToSpeak.Contains("The Blue Arika will start manifesting, the beginning of the end has started"))
+        if (speakerName == "Midnight" && textToSpeak.Contains("The Blue Eclipse will start manifesting, the beginning of the end has started"))
         {
             StartCoroutine(FadeOutAudioSource(bgmSource, 1.5f));
         }
@@ -625,11 +644,16 @@ In the flesh…";
     IEnumerator EventFour()
     {
         nextButton.SetActive(false);
+        SceneAudio.FadeOut(bgmSource);
+        SceneAudio.FadeOut(atmosphereSource);
         textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
 
         yield return new WaitForSeconds(4f);
-        SceneManager.LoadScene(0);
+        PlayerPrefs.DeleteKey("LoadState");
+        PlayerPrefs.Save();
+        yield return SceneLoader.LoadSceneAsync(0);
     }
 
     public void NextButton()

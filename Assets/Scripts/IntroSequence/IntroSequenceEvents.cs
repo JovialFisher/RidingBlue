@@ -60,7 +60,7 @@ public class IntroSequenceEvents : MonoBehaviour
                 textToSpeak = "My name is Asa Webb. Starting today, I’ll be attending Blue Sisters High School.";
                 break;
             case 2:
-                textToSpeak = "It’s in Kasato, a quiet northern town in Japan.";
+                textToSpeak = "It’s in Kumanoki, a quiet northern town in Japan.";
                 break;
             case 3:
                 textToSpeak = "The air feels clean, the people seem joyful.";
@@ -120,15 +120,13 @@ public class IntroSequenceEvents : MonoBehaviour
     IEnumerator FadeOutAndLoadNext()
     {
         nextButton.SetActive(false);
-        textBox.SetActive(false);
-        mainTextObject.SetActive(false);
+        yield return TextBoxFader.Hide(mainTextObject);
 
         if (fadeOut != null)
         {
             fadeOut.SetActive(true);
         }
 
-        yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene(2);
+        yield return SceneLoader.LoadSceneAsync(2, 3f);
     }
 }
