@@ -14,8 +14,6 @@ public class Scene01Events : MonoBehaviour
     
     public GameObject fadeScreenIn;
     public GameObject textBox;
-    [SerializeField] AudioSource girlSigh;
-    [SerializeField] AudioSource girlGasp;
     [SerializeField] string textToSpeak;
     [SerializeField] int currentTextLength;
     [SerializeField] int textLength;
@@ -122,11 +120,6 @@ public class Scene01Events : MonoBehaviour
         textBox.GetComponent<TMPro.TMP_Text>().text = textToSpeak;
         currentTextLength = textToSpeak.Length;
         TextCreator.runTextPrint = true;
-
-        if (index == 0 && girlSigh != null)
-        {
-            girlSigh.Play();
-        }
 
         yield return new WaitForSeconds(0.05f);
         yield return new WaitForSeconds(1f);

@@ -72,74 +72,6 @@ public class Scene04Events : MonoBehaviour
         ExpressionFader.Show(target, AllExpressions(), duration);
     }
 
-    void SetExpressionAlpha(GameObject expressionObject, float alpha)
-    {
-        if (expressionObject == null)
-        {
-            return;
-        }
-
-        CanvasGroup[] canvasGroups = expressionObject.GetComponentsInChildren<CanvasGroup>(true);
-        foreach (CanvasGroup canvasGroup in canvasGroups)
-        {
-            canvasGroup.alpha = alpha;
-        }
-
-        Graphic[] graphics = expressionObject.GetComponentsInChildren<Graphic>(true);
-        foreach (Graphic graphic in graphics)
-        {
-            Color color = graphic.color;
-            color.a = alpha;
-            graphic.color = color;
-        }
-
-        SpriteRenderer[] spriteRenderers = expressionObject.GetComponentsInChildren<SpriteRenderer>(true);
-        foreach (SpriteRenderer spriteRenderer in spriteRenderers)
-        {
-            Color color = spriteRenderer.color;
-            color.a = alpha;
-            spriteRenderer.color = color;
-        }
-    }
-
-    IEnumerator FadeOutAllExpressions(float duration = 1f)
-    {
-        GameObject[] expressions = {
-            charMidnightHappy,
-            charMidnightEmbarrassed,
-            charMidnightDelighted,
-            charMidnightConfused,
-            charMidnightAngry
-        };
-
-        float elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float alpha = Mathf.Clamp01(1f - (elapsed / duration));
-
-            for (int i = 0; i < expressions.Length; i++)
-            {
-                if (expressions[i] != null && expressions[i].activeSelf)
-                {
-                    SetExpressionAlpha(expressions[i], alpha);
-                }
-            }
-
-            yield return null;
-        }
-
-        for (int i = 0; i < expressions.Length; i++)
-        {
-            if (expressions[i] != null)
-            {
-                SetExpressionAlpha(expressions[i], 0f);
-                expressions[i].SetActive(false);
-            }
-        }
-    }
-
     IEnumerator EventStarter()
     {
         yield return new WaitForSeconds(2f);
@@ -293,7 +225,7 @@ public class Scene04Events : MonoBehaviour
                 speakerName = "You";
                 ShowExpression("happy");
                 textToSpeak = "[With that, your phone's screen went black and the app closed, leaving you on the homescreen. You put your phone away and went back to sleep, the atmosphere felt lighter.]";
-                StartCoroutine(FadeOutAllExpressions(1.5f));
+                ExpressionFader.HideAll(AllExpressions(), 1.5f);
                 break;
         }
 

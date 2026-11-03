@@ -346,75 +346,6 @@ In the flesh…";
         ShowHiromiExpression(expression);
     }
 
-    void SetExpressionAlpha(GameObject expressionObject, float alpha)
-    {
-        if (expressionObject == null)
-        {
-            return;
-        }
-
-        CanvasGroup[] canvasGroups = expressionObject.GetComponentsInChildren<CanvasGroup>(true);
-        foreach (CanvasGroup canvasGroup in canvasGroups)
-        {
-            canvasGroup.alpha = alpha;
-        }
-
-        Graphic[] graphics = expressionObject.GetComponentsInChildren<Graphic>(true);
-        foreach (Graphic graphic in graphics)
-        {
-            Color color = graphic.color;
-            color.a = alpha;
-            graphic.color = color;
-        }
-
-        SpriteRenderer[] spriteRenderers = expressionObject.GetComponentsInChildren<SpriteRenderer>(true);
-        foreach (SpriteRenderer spriteRenderer in spriteRenderers)
-        {
-            Color color = spriteRenderer.color;
-            color.a = alpha;
-            spriteRenderer.color = color;
-        }
-    }
-
-    IEnumerator FadeOutMidnightExpressions(float duration = 1f)
-    {
-        GameObject[] expressions = {
-            charMidnightHappy,
-            charMidnightEmbarrassed,
-            charMidnightDelighted,
-            charMidnightConfused,
-            charMidnightAngry,
-            charMidnightEyesWhite
-        };
-
-        float elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float alpha = Mathf.Clamp01(1f - (elapsed / duration));
-
-            for (int i = 0; i < expressions.Length; i++)
-            {
-                if (expressions[i] != null && expressions[i].activeSelf)
-                {
-                    SetExpressionAlpha(expressions[i], alpha);
-                }
-            }
-
-            yield return null;
-        }
-
-        for (int i = 0; i < expressions.Length; i++)
-        {
-            if (expressions[i] != null)
-            {
-                SetExpressionAlpha(expressions[i], 0f);
-                expressions[i].SetActive(false);
-            }
-        }
-    }
-
     IEnumerator FadeOutAudioSource(AudioSource audioSource, float duration = 1f)
     {
         if (audioSource == null || !audioSource.isPlaying)
@@ -605,7 +536,7 @@ In the flesh…";
 
         if (speakerName == "Midnight" && textToSpeak.Contains("screen went black before exiting into the homescreen"))
         {
-            StartCoroutine(FadeOutMidnightExpressions(1.5f));
+            ExpressionFader.HideAll(MidnightExpressions(), 1.5f);
         }
 
         if (speakerName == "Midnight" && textToSpeak.Contains("The Blue Eclipse will start manifesting, the beginning of the end has started"))

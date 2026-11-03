@@ -351,75 +351,6 @@ W-wait for me, I got small legs!
         ShowKodaExpression(expression);
     }
 
-    void SetExpressionAlpha(GameObject expressionObject, float alpha)
-    {
-        if (expressionObject == null)
-        {
-            return;
-        }
-
-        CanvasGroup[] canvasGroups = expressionObject.GetComponentsInChildren<CanvasGroup>(true);
-        foreach (CanvasGroup canvasGroup in canvasGroups)
-        {
-            canvasGroup.alpha = alpha;
-        }
-
-        Graphic[] graphics = expressionObject.GetComponentsInChildren<Graphic>(true);
-        foreach (Graphic graphic in graphics)
-        {
-            Color color = graphic.color;
-            color.a = alpha;
-            graphic.color = color;
-        }
-
-        SpriteRenderer[] spriteRenderers = expressionObject.GetComponentsInChildren<SpriteRenderer>(true);
-        foreach (SpriteRenderer spriteRenderer in spriteRenderers)
-        {
-            Color color = spriteRenderer.color;
-            color.a = alpha;
-            spriteRenderer.color = color;
-        }
-    }
-
-    IEnumerator FadeOutHiromiExpressions(float duration = 1f)
-    {
-        GameObject[] expressions = {
-            charHiromiNeutral,
-            charHiromiAngry,
-            charHiromiDelighted,
-            charHiromiShocked,
-            charHiromiSmile,
-            charHiromiSmug
-        };
-
-        float elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float alpha = Mathf.Clamp01(1f - (elapsed / duration));
-
-            for (int i = 0; i < expressions.Length; i++)
-            {
-                if (expressions[i] != null && expressions[i].activeSelf)
-                {
-                    SetExpressionAlpha(expressions[i], alpha);
-                }
-            }
-
-            yield return null;
-        }
-
-        for (int i = 0; i < expressions.Length; i++)
-        {
-            if (expressions[i] != null)
-            {
-                SetExpressionAlpha(expressions[i], 0f);
-                expressions[i].SetActive(false);
-            }
-        }
-    }
-
     void HideAllCharacterExpressionsInstant()
     {
         GameObject[] expressions = {
@@ -565,7 +496,7 @@ W-wait for me, I got small legs!
 
         if (speakerName == "Hiromi" && textToSpeak.Contains("screen turned black before the app closed"))
         {
-            StartCoroutine(FadeOutHiromiExpressions(1.5f));
+            ExpressionFader.HideAll(HiromiExpressions(), 1.5f);
         }
 
         charName.GetComponent<TMPro.TMP_Text>().text = speakerName;

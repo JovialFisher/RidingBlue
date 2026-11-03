@@ -395,45 +395,6 @@ Don't be so late, I still have to get my eight hours of sleep!
         }
     }
 
-    IEnumerator FadeOutHiromiExpressions(float duration = 1f)
-    {
-        GameObject[] expressions = {
-            charHiromiNeutral,
-            charHiromiAngry,
-            charHiromiDelighted,
-            charHiromiShocked,
-            charHiromiSmile,
-            charHiromiSmug
-        };
-
-        float elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float alpha = Mathf.Clamp01(1f - (elapsed / duration));
-
-            for (int i = 0; i < expressions.Length; i++)
-            {
-                if (expressions[i] != null && expressions[i].activeSelf)
-                {
-                    SetExpressionAlpha(expressions[i], alpha);
-                }
-            }
-
-            yield return null;
-        }
-
-        for (int i = 0; i < expressions.Length; i++)
-        {
-            if (expressions[i] != null)
-            {
-                SetExpressionAlpha(expressions[i], 0f);
-                expressions[i].SetActive(false);
-            }
-        }
-    }
-
     IEnumerator FadeInGameObject(GameObject targetObject, float duration = 1f)
     {
         if (targetObject == null)
@@ -715,7 +676,7 @@ Don't be so late, I still have to get my eight hours of sleep!
 
         if (speakerName == "Hiromi" && textToSpeak.Contains("screen turned black before the app closed"))
         {
-            StartCoroutine(FadeOutHiromiExpressions(1.5f));
+            ExpressionFader.HideAll(HiromiExpressions(), 1.5f);
         }
 
         if (textToSpeak.Contains("With that, you and your friends left the restaurant. The sun had set and only a few souls walked the streets."))
