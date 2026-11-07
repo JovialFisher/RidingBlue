@@ -14,7 +14,7 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: Juan J. Lombardo
   productName: Riding Blue
-  defaultCursor: {fileID: 0}
+  defaultCursor: {fileID: 2800000, guid: bf3ecc9f690c86042984fad8526c6ed2, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0, g: 0.1764706, b: 1, a: 1}
   m_ShowUnitySplashScreen: 1

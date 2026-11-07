@@ -1,0 +1,554 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
+using TMPro;
+
+public class Scene10Events : MonoBehaviour
+{
+    [System.Serializable]
+    private class DialogueEntry
+    {
+        public string speaker;
+        public string text;
+
+        public DialogueEntry(string speaker, string text)
+        {
+            this.speaker = speaker;
+            this.text = text;
+        }
+    }
+
+    [Header("Dialogue Source")]
+    [SerializeField] private TextAsset sceneDialogueFile;
+
+    [Header("Character Expressions")]
+    [FormerlySerializedAs("charMidnightConfused")]
+    public GameObject charHiromiNeutral;
+    [FormerlySerializedAs("charMidnightAngry")]
+    public GameObject charHiromiAngry;
+    [FormerlySerializedAs("charMidnightDelighted")]
+    public GameObject charHiromiDelighted;
+    [FormerlySerializedAs("charMidnightEmbarrassed")]
+    public GameObject charHiromiShocked;
+    [FormerlySerializedAs("charMidnightHappy")]
+    public GameObject charHiromiSmile;
+    public GameObject charHiromiSmug;
+    public GameObject charKodaEmbarrassed;
+    public GameObject charKodaNeutral;
+    public GameObject charKodaSurprised;
+    public GameObject charKodaSmile;
+    public GameObject charKodaSmirk;
+    public GameObject KodaBase;
+
+    public GameObject fadeScreenIn;
+    public GameObject textBox;
+
+    [SerializeField] private string speakerName = "Hiromi";
+    [SerializeField] private string textToSpeak;
+    [SerializeField] private int currentTextLength;
+    [SerializeField] private int textLength;
+    [SerializeField] private GameObject mainTextObject;
+    [SerializeField] private GameObject nextButton;
+    [SerializeField] private int eventPos = 0;
+    [SerializeField] private GameObject charName;
+    [SerializeField] private GameObject fadeOut;
+
+    private readonly List<DialogueEntry> dialogueLines = new List<DialogueEntry>();
+    private int dialogueIndex = 0;
+    private bool isFadingOut = false;
+
+    private const string DefaultSceneDialogue = @"You
+
+[You and Koda arrived at Kumanoki Downtown by travelling via train. Koda looks rather excited]
+
+Koda
+
+Okay bro, welcome to the real Kumanoki!
+
+Isn't it amazing? It's better than the dull school hallways, there's a lot of us students who hang around these areas.
+
+Let's go, we can't possibly waste any more time, let's hit Nabana Diner!
+
+[Just when you two started walking, you felt like someone bumped into you. You went and looked back at who it was.]
+
+Huh, what's up br-
+
+Oh, look who it is! [he turned to the unknown girl]
+
+Hiromi
+
+KODA! YOU STOLE MY HOMEWORK YESTERDAY!!!
+
+YOU KNOW I HAD TO TURN THAT IN, GIVE IT BACK!
+
+[She looked at him angrily, then looked at you, calming down.]
+
+Oh, aren't you that new guy? What's your name again?
+
+Koda
+
+[interrupting]
+
+His name is Asa, and...
+
+[Koda looks over at you]
+
+She's Hiromi Abara, she's my best friend. She's the one I was teasing you about on your first day here!
+
+Hiromi
+
+[She looked over at Koda]
+
+You what?! You know I don't wanna date anyone, Koda!
+
+[She looks back at you]
+
+Sorry, this doofus always has something to say. You're not the only one he teases, but you're definitely his favorite. Ugh!
+
+I'm in your same class, I'm the girl sitting next to Koda. He can be quite a handful, I know...
+
+[She looked at Koda]
+
+Where are you two going anyways, wait let me guess...
+
+Nabana? [looks at Koda]
+
+Koda
+
+Of course we are, wanna come? You'll have to pay for your own food though, I'm already treating Asa here.
+
+Hiromi
+
+WHAT?! Don't you have a sense of chivalry, why not pay for your best friend? I literally bought you that shirt for your birthday last year!
+
+Koda
+
+[embarrassed] Uhh, well... Let's just go to Nabana Diner!
+
+Hiromi
+
+[with a smug grin] Knew it, same old Koda. Bring up something like that and he'll stop being a headache.
+
+Let's go, I'm Hiromi Abara by the way, I guess Koda already told you that.
+
+[She looked at Koda, already walking away in a rush]
+
+W-wait for me, I got small legs!
+
+[You started walking with the two, feeling like you just made a new friend. Hiromi Abara]
+
+[You completely pushed the thoughts about Midnight aside and enjoyed your time with them. What could possibly happen if you didn't?]";
+
+    void Awake()
+    {
+        LoadDialogueLines();
+    }
+
+    void Update()
+    {
+        textLength = TextCreator.charCount;
+    }
+
+    void Start()
+    {
+        StartCoroutine(EventStarter());
+    }
+
+    void LoadDialogueLines()
+    {
+        dialogueLines.Clear();
+
+        string rawDialogue = sceneDialogueFile != null && !string.IsNullOrWhiteSpace(sceneDialogueFile.text)
+            ? sceneDialogueFile.text
+            : DefaultSceneDialogue;
+
+        ParseDialogue(rawDialogue);
+    }
+
+    void ParseDialogue(string rawDialogue)
+    {
+        string currentSpeaker = "You";
+        List<string> blockLines = new List<string>();
+        string[] lines = rawDialogue.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n');
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string trimmed = lines[i].Trim();
+
+            if (IsSpeakerHeader(trimmed))
+            {
+                FlushDialogueBlock(currentSpeaker, blockLines);
+                currentSpeaker = trimmed;
+                continue;
+            }
+
+            if (string.IsNullOrWhiteSpace(trimmed))
+            {
+                FlushDialogueBlock(currentSpeaker, blockLines);
+                continue;
+            }
+
+            blockLines.Add(trimmed);
+        }
+
+        FlushDialogueBlock(currentSpeaker, blockLines);
+
+        if (dialogueLines.Count == 0)
+        {
+            Debug.LogWarning("Scene10Event could not parse any dialogue lines.");
+        }
+    }
+
+    bool IsSpeakerHeader(string line)
+    {
+        string normalizedLine = NormalizeSpeakerHeader(line);
+        return normalizedLine == "You" || normalizedLine == "Hiromi" || normalizedLine == "Koda";
+    }
+
+    string NormalizeSpeakerHeader(string line)
+    {
+        if (string.IsNullOrWhiteSpace(line))
+        {
+            return string.Empty;
+        }
+
+        string trimmed = line.Trim();
+        if (trimmed.StartsWith("(") && trimmed.EndsWith(")") && trimmed.Length > 2)
+        {
+            return trimmed.Substring(1, trimmed.Length - 2).Trim();
+        }
+
+        if (trimmed == "Brown-haired Girl")
+        {
+            return "Hiromi";
+        }
+
+        return trimmed;
+    }
+
+    void FlushDialogueBlock(string speaker, List<string> blockLines)
+    {
+        if (blockLines.Count == 0)
+        {
+            return;
+        }
+
+        string text = string.Join(" ", blockLines).Trim();
+        dialogueLines.Add(new DialogueEntry(speaker, text));
+        blockLines.Clear();
+    }
+
+    GameObject[] HiromiExpressions()
+    {
+        return new GameObject[]
+        {
+            charHiromiNeutral,
+            charHiromiAngry,
+            charHiromiDelighted,
+            charHiromiShocked,
+            charHiromiSmile,
+            charHiromiSmug
+        };
+    }
+
+    GameObject[] KodaExpressions()
+    {
+        return new GameObject[]
+        {
+            charKodaEmbarrassed,
+            charKodaNeutral,
+            charKodaSurprised,
+            charKodaSmile,
+            charKodaSmirk
+        };
+    }
+
+    GameObject[] AllCharacterExpressions()
+    {
+        return new GameObject[]
+        {
+            charHiromiNeutral,
+            charHiromiAngry,
+            charHiromiDelighted,
+            charHiromiShocked,
+            charHiromiSmile,
+            charHiromiSmug,
+            charKodaEmbarrassed,
+            charKodaNeutral,
+            charKodaSurprised,
+            charKodaSmile,
+            charKodaSmirk
+        };
+    }
+
+    void HideAllExpressions()
+    {
+        ExpressionFader.HideAll(HiromiExpressions());
+    }
+
+    void HideAllKodaExpressions()
+    {
+        ExpressionFader.HideAll(KodaExpressions());
+    }
+
+    void HideAllCharacterExpressions()
+    {
+        SetKodaBaseActive(false);
+        ExpressionFader.HideAll(AllCharacterExpressions());
+    }
+
+    void SetKodaBaseActive(bool isActive)
+    {
+        if (KodaBase != null)
+        {
+            KodaBase.SetActive(isActive);
+        }
+    }
+
+    void ShowHiromiExpression(string expression)
+    {
+        GameObject target = null;
+
+        switch (expression)
+        {
+            case "neutral":   target = charHiromiNeutral; break;
+            case "angry":     target = charHiromiAngry; break;
+            case "delighted": target = charHiromiDelighted; break;
+            case "shocked":   target = charHiromiShocked; break;
+            case "smile":     target = charHiromiSmile; break;
+            case "smug":      target = charHiromiSmug; break;
+        }
+
+        // KodaBase is not part of AllCharacterExpressions, so Hiromi taking the
+        // stage would leave his bust standing in the same spot behind her.
+        SetKodaBaseActive(false);
+        ExpressionFader.Show(target, AllCharacterExpressions());
+    }
+
+    void ShowKodaExpression(string expression)
+    {
+        GameObject target = null;
+        bool showBase = true;
+
+        switch (expression)
+        {
+            case "embarrassed": target = charKodaEmbarrassed; break;
+            case "neutral":     target = charKodaNeutral; showBase = false; break;
+            case "surprised":   target = charKodaSurprised; break;
+            case "smile":       target = charKodaSmile; break;
+            case "smirk":       target = charKodaSmirk; break;
+        }
+
+        ExpressionFader.Show(target, AllCharacterExpressions());
+        SetKodaBaseActive(target != null && showBase);
+    }
+
+    void ShowKodaFocusedExpression(string expression)
+    {
+        ShowKodaExpression(expression);
+    }
+
+    void HideAllCharacterExpressionsInstant()
+    {
+        GameObject[] expressions = {
+            charHiromiNeutral,
+            charHiromiAngry,
+            charHiromiDelighted,
+            charHiromiShocked,
+            charHiromiSmile,
+            charHiromiSmug,
+            charKodaEmbarrassed,
+            charKodaNeutral,
+            charKodaSurprised,
+            charKodaSmile,
+            charKodaSmirk
+        };
+
+        for (int i = 0; i < expressions.Length; i++)
+        {
+            if (expressions[i] != null)
+            {
+                expressions[i].SetActive(false);
+            }
+        }
+    }
+
+    IEnumerator EventStarter()
+    {
+        yield return new WaitForSeconds(2f);
+        fadeScreenIn.SetActive(false);
+        HideAllCharacterExpressions();
+        ShowKodaExpression("neutral");
+        yield return new WaitForSeconds(2f);
+
+        mainTextObject.SetActive(true);
+        textBox.SetActive(true);
+
+        dialogueIndex = 0;
+        yield return StartCoroutine(PlayLine(dialogueIndex));
+
+        eventPos = 0;
+    }
+
+    void ApplyDialogueExpression(int index, string speaker)
+    {
+        if (speaker == "You")
+        {
+            if (index == dialogueLines.Count - 1)
+            {
+                HideAllCharacterExpressionsInstant();
+            }
+
+            return;
+        }
+
+        switch (index)
+        {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+                ShowKodaFocusedExpression("smile");
+                break;
+            case 7:
+            case 8:
+            case 9:
+                ShowHiromiExpression("angry");
+                break;
+            case 10:
+                ShowHiromiExpression("shocked");
+                break;
+            case 11:
+                ShowKodaFocusedExpression("neutral");
+                break;
+            case 12:
+            case 13:
+            case 14:
+                ShowKodaFocusedExpression("smile");
+                break;
+            case 15:
+            case 16:
+                ShowHiromiExpression("angry");
+                break;
+            case 17:
+            case 19:
+            case 20:
+                ShowHiromiExpression("neutral");
+                break;
+            case 18:
+                ShowHiromiExpression("smile");
+                break;
+            case 21:
+            case 22:
+                ShowHiromiExpression("shocked");
+                break;
+            case 23:
+                ShowKodaFocusedExpression("smile");
+                break;
+            case 24:
+                ShowHiromiExpression("angry");
+                break;
+            case 25:
+                ShowKodaFocusedExpression("embarrassed");
+                break;
+            case 26:
+                ShowHiromiExpression("smug");
+                break;
+            case 27:
+                ShowHiromiExpression("smile");
+                break;
+            case 28:
+                ShowHiromiExpression("neutral");
+                break;
+            case 29:
+                ShowHiromiExpression("shocked");
+                break;
+            case 30:
+                ShowHiromiExpression("smile");
+                break;
+        }
+    }
+
+    IEnumerator PlayLine(int index)
+    {
+        if (dialogueLines.Count == 0)
+        {
+            LoadDialogueLines();
+        }
+
+        nextButton.SetActive(false);
+
+        if (index < 0 || index >= dialogueLines.Count)
+        {
+            yield break;
+        }
+
+        DialogueEntry entry = dialogueLines[index];
+        speakerName = entry.speaker;
+        textToSpeak = entry.text;
+
+        ApplyDialogueExpression(index, speakerName);
+
+        if (speakerName == "Hiromi" && textToSpeak.Contains("screen turned black before the app closed"))
+        {
+            ExpressionFader.HideAll(HiromiExpressions(), 1.5f);
+        }
+
+        charName.GetComponent<TMPro.TMP_Text>().text = speakerName;
+        textBox.GetComponent<TMPro.TMP_Text>().text = textToSpeak;
+
+        currentTextLength = textToSpeak.Length;
+        TextCreator.runTextPrint = true;
+
+        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitUntil(() => textLength >= currentTextLength);
+        yield return new WaitForSeconds(0.5f);
+
+        nextButton.SetActive(true);
+    }
+
+    IEnumerator EventFour()
+    {
+        nextButton.SetActive(false);
+        textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
+        fadeOut.SetActive(true);
+
+        yield return SceneLoader.LoadSceneAsync(20, 4f);
+    }
+
+    public void NextButton()
+    {
+        if (isFadingOut)
+        {
+            return;
+        }
+
+        if (eventPos == 0)
+        {
+            dialogueIndex++;
+            if (dialogueIndex < dialogueLines.Count)
+            {
+                StartCoroutine(PlayLine(dialogueIndex));
+            }
+            else
+            {
+                eventPos = 4;
+                isFadingOut = true;
+                StartCoroutine(EventFour());
+            }
+            return;
+        }
+
+        if (eventPos == 4)
+        {
+            StartCoroutine(EventFour());
+        }
+    }
+}

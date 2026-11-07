@@ -1,0 +1,618 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.Serialization;
+
+public class Scene13Events : MonoBehaviour
+{
+    [System.Serializable]
+    private class DialogueEntry
+    {
+        public string speaker;
+        public string text;
+
+        public DialogueEntry(string speaker, string text)
+        {
+            this.speaker = speaker;
+            this.text = text;
+        }
+    }
+
+    [Header("Dialogue Source")]
+    [SerializeField] private TextAsset sceneDialogueFile;
+
+    [Header("Audio")]
+    public AudioSource atmosphereSource;
+    public AudioSource bgmSource;
+    public AudioSource Knocking;
+
+    [Header("Character Expressions")]
+    public GameObject charMidnightHappy;
+    public GameObject charMidnightEmbarrassed;
+    public GameObject charMidnightDelighted;
+    public GameObject charMidnightConfused;
+    public GameObject charMidnightAngry;
+    public GameObject charMidnightEyesWhite;
+    [FormerlySerializedAs("charKodaSmile")] public GameObject charHiromiSmile;
+    [FormerlySerializedAs("charKodaDelighted")] public GameObject charHiromiDelighted;
+    [FormerlySerializedAs("charKodaSurprised")] public GameObject charHiromiShocked;
+    [FormerlySerializedAs("charKodaNeutral")] public GameObject charHiromiNeutral;
+    [FormerlySerializedAs("charKodaAngry")] public GameObject charHiromiAngry;
+    [FormerlySerializedAs("charKodaSmirk")] public GameObject charHiromiSmug;
+    [FormerlySerializedAs("KodaBase")] public GameObject HiromiBase;
+
+    public GameObject fadeScreenIn;
+    public GameObject textBox;
+
+    [SerializeField] private string speakerName = "Midnight";
+    [SerializeField] private string textToSpeak;
+    [SerializeField] private int currentTextLength;
+    [SerializeField] private int textLength;
+    [SerializeField] private GameObject mainTextObject;
+    [SerializeField] private GameObject nextButton;
+    [SerializeField] private int eventPos = 0;
+    [SerializeField] private GameObject charName;
+    [SerializeField] private GameObject fadeOut;
+
+    private readonly List<DialogueEntry> dialogueLines = new List<DialogueEntry>();
+    private int dialogueIndex = 0;
+    private bool isFadingOut = false;
+
+    private const string DefaultSceneDialogue = @"[You and Hiromi were inside Koda's house. The blue fog enveloped the entire town of Kumanoki]
+
+[Your mind went back to Koda, and what happened to him. Did he get lost? Or did something worse happen…]
+
+[Hiromi looked out the window, then at you, worried.]
+
+Hiromi
+
+Koda… Something bad definitely happened to him. He would’ve come back the first thirty minutes or so, not four or more hours later.
+
+Will this Midnight, this digital cat you told me about, appear tonight?
+
+[As if on cue, your phone’s screen went black and the recognizable feline face flashed on your screen.]
+
+Midnight
+
+Asa! This is bad. Is Koda wi-
+
+[Midnight looked around, scanning the room desperately.]
+
+Oh no… Then that presence I felt in the blue fog… It’s him.
+
+He’s trapped in the blue fog, everyone who roams the street at midnight is…
+
+This is bad, truly bad. I really did warn him about what would happen if he went outside at a time like this…
+
+
+Hiromi
+
+[Hiromi looked at Midnight, grabbing your phone and pulling it close to her.]
+
+Stop yapping and just tell us! What will happen to Koda, my best friend! [she yelled]
+
+Midnight
+
+Sorry, we can’t do anything right now. We can’t go outside or we’ll be swallowed by the fog…
+
+I… foresaw something like this could happen. But, why so soon…
+
+H--e, n--o… They to--ld me i-t would ta--ke ti-me, n-ot n-o--w…
+
+T-th--e… [Midnight’s voice started glitching, as if he was revealing too much information.]
+
+Hiromi
+
+[held your phone tightly on her hand]
+
+Midnight? What’s happening, come back!
+
+Midnight
+
+[looked at Hiromi with what’s left of his glitchy expression. His unglitched expression seemed to return for a few seconds.]
+
+The Blue Eclipse will start manifesting, the beginning of the end has started…! P-p-p-plee…ase, r---run!
+
+[Midnight’s voice got cut, your phone’s screen went black before exiting into the homescreen ]
+Hiromi
+
+The Blue Eclipse? Start manifesting? [She looked outside frantically]
+
+Does he mean the weird blue fog is connected to the Blue Eclipse, or something like that?
+
+Oh no, he’s right…
+
+We have to wait till morning and see what happens… School can wait, we have to look for our friend. Most of all, my best friend…
+
+Koda… [she looked at you, possibly fighting the urge to tackle the door down and go out there herself.]
+
+[While she was talking to you, three knocks on the entrance door startled the two of you]
+
+Hiromi
+
+W-what? Who, who is that… Or, what is that?
+
+[The sounds of the night ambience were broken by the sound of that something out there. A familiar voice.]
+
+???
+
+Ah, finally out…
+
+I knew that phone limited my presence, but here I am…
+
+In the flesh…";
+
+    void Awake()
+    {
+        LoadDialogueLines();
+    }
+
+    void Update()
+    {
+        textLength = TextCreator.charCount;
+    }
+
+    void Start()
+    {
+        StartCoroutine(EventStarter());
+    }
+
+    void LoadDialogueLines()
+    {
+        dialogueLines.Clear();
+
+        string rawDialogue = sceneDialogueFile != null && !string.IsNullOrWhiteSpace(sceneDialogueFile.text)
+            ? sceneDialogueFile.text
+            : DefaultSceneDialogue;
+
+        ParseDialogue(rawDialogue);
+    }
+
+    void ParseDialogue(string rawDialogue)
+    {
+        string currentSpeaker = "You";
+        List<string> blockLines = new List<string>();
+        string[] lines = rawDialogue.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n');
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string trimmed = lines[i].Trim();
+
+            if (IsSpeakerHeader(trimmed))
+            {
+                FlushDialogueBlock(currentSpeaker, blockLines);
+                currentSpeaker = NormalizeSpeakerName(trimmed);
+                continue;
+            }
+
+            if (string.IsNullOrWhiteSpace(trimmed))
+            {
+                FlushDialogueBlock(currentSpeaker, blockLines);
+                continue;
+            }
+
+            blockLines.Add(trimmed);
+        }
+
+        FlushDialogueBlock(currentSpeaker, blockLines);
+
+        if (dialogueLines.Count == 0)
+        {
+            Debug.LogWarning("Scene13Events could not parse any dialogue lines.");
+        }
+    }
+
+    bool IsSpeakerHeader(string line)
+    {
+        return line == "You" || line == "Midnight" || line == "Hiromi" || line == "Koda" || line == "???";
+    }
+
+    string NormalizeSpeakerName(string line)
+    {
+        return line == "Koda" ? "Hiromi" : line;
+    }
+
+    void FlushDialogueBlock(string speaker, List<string> blockLines)
+    {
+        if (blockLines.Count == 0)
+        {
+            return;
+        }
+
+        string text = string.Join(" ", blockLines).Trim();
+        dialogueLines.Add(new DialogueEntry(speaker, text));
+        blockLines.Clear();
+    }
+
+    GameObject[] MidnightExpressions()
+    {
+        return new GameObject[]
+        {
+            charMidnightHappy,
+            charMidnightEmbarrassed,
+            charMidnightDelighted,
+            charMidnightConfused,
+            charMidnightAngry,
+            charMidnightEyesWhite
+        };
+    }
+
+    GameObject[] HiromiExpressions()
+    {
+        return new GameObject[]
+        {
+            charHiromiSmile,
+            charHiromiDelighted,
+            charHiromiShocked,
+            charHiromiNeutral,
+            charHiromiAngry,
+            charHiromiSmug
+        };
+    }
+
+    GameObject[] AllCharacterExpressions()
+    {
+        return new GameObject[]
+        {
+            charMidnightHappy,
+            charMidnightEmbarrassed,
+            charMidnightDelighted,
+            charMidnightConfused,
+            charMidnightAngry,
+            charMidnightEyesWhite,
+            charHiromiSmile,
+            charHiromiDelighted,
+            charHiromiShocked,
+            charHiromiNeutral,
+            charHiromiAngry,
+            charHiromiSmug
+        };
+    }
+
+    void HideAllExpressions()
+    {
+        ExpressionFader.HideAll(MidnightExpressions());
+    }
+
+    void HideAllHiromiExpressions()
+    {
+        ExpressionFader.HideAll(HiromiExpressions());
+    }
+
+    void HideAllCharacterExpressions()
+    {
+        SetHiromiBaseActive(false);
+        ExpressionFader.HideAll(AllCharacterExpressions());
+    }
+
+    void SetHiromiBaseActive(bool isActive)
+    {
+        if (HiromiBase != null)
+        {
+            HiromiBase.SetActive(isActive);
+        }
+    }
+
+    void ShowExpression(string expression)
+    {
+        GameObject target = null;
+
+        switch (expression)
+        {
+            case "happy":       target = charMidnightHappy; break;
+            case "embarrassed": target = charMidnightEmbarrassed; break;
+            case "delighted":   target = charMidnightDelighted; break;
+            case "confused":    target = charMidnightConfused; break;
+            case "angry":       target = charMidnightAngry; break;
+            case "eyeswhite":   target = charMidnightEyesWhite; break;
+        }
+
+        // Midnight appears on the phone, which occupies the same right-hand portrait
+        // slot as Hiromi. Hiding her expressions alone leaves her base body up, so the
+        // screen would be drawn straight over her; clear it whenever Midnight shows.
+        SetHiromiBaseActive(false);
+        ExpressionFader.Show(target, AllCharacterExpressions());
+    }
+
+    void ShowHiromiExpression(string expression)
+    {
+        GameObject target = null;
+        bool showBase = true;
+
+        switch (expression)
+        {
+            case "smile":     target = charHiromiSmile; break;
+            case "delighted": target = charHiromiDelighted; break;
+            case "shocked":   target = charHiromiShocked; break;
+            case "neutral":   target = charHiromiNeutral; showBase = false; break;
+            case "angry":     target = charHiromiAngry; break;
+            case "smug":      target = charHiromiSmug; break;
+        }
+
+        ExpressionFader.Show(target, AllCharacterExpressions());
+        SetHiromiBaseActive(target != null && showBase);
+    }
+
+    void ShowMidnightExpression(string expression)
+    {
+        ShowExpression(expression);
+    }
+
+    void ShowHiromiFocusedExpression(string expression)
+    {
+        ShowHiromiExpression(expression);
+    }
+
+    IEnumerator FadeOutAudioSource(AudioSource audioSource, float duration = 1f)
+    {
+        if (audioSource == null || !audioSource.isPlaying)
+        {
+            yield break;
+        }
+
+        float startVolume = audioSource.volume;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            audioSource.volume = Mathf.Lerp(startVolume, 0f, t);
+            yield return null;
+        }
+
+        audioSource.volume = 0f;
+        audioSource.Stop();
+    }
+
+    void HideAllCharacterExpressionsInstant()
+    {
+        GameObject[] expressions = {
+            charMidnightHappy,
+            charMidnightEmbarrassed,
+            charMidnightDelighted,
+            charMidnightConfused,
+            charMidnightAngry,
+            charMidnightEyesWhite,
+            charHiromiSmile,
+            charHiromiDelighted,
+            charHiromiShocked,
+            charHiromiNeutral,
+            charHiromiAngry,
+            charHiromiSmug
+        };
+
+        for (int i = 0; i < expressions.Length; i++)
+        {
+            if (expressions[i] != null)
+            {
+                expressions[i].SetActive(false);
+            }
+        }
+    }
+
+    IEnumerator EventStarter()
+    {
+        yield return new WaitForSeconds(2f);
+        fadeScreenIn.SetActive(false);
+        HideAllCharacterExpressions();
+        ShowHiromiExpression("neutral");
+        yield return new WaitForSeconds(2f);
+
+        mainTextObject.SetActive(true);
+        textBox.SetActive(true);
+
+        dialogueIndex = 0;
+        yield return StartCoroutine(PlayLine(dialogueIndex));
+
+        eventPos = 0;
+    }
+
+    void ApplyDialogueExpression(int index, string speaker)
+    {
+        if (speaker == "You")
+        {
+            if (index == dialogueLines.Count - 1)
+            {
+                HideAllCharacterExpressionsInstant();
+            }
+
+            return;
+        }
+
+        if (speaker == "Hiromi")
+        {
+            switch (index)
+            {
+                case 3:
+                    ShowHiromiExpression("neutral");
+                    break;
+                case 4:
+                    ShowHiromiExpression("smile");
+                    break;
+                case 5:
+                    ShowHiromiExpression("shocked");
+                    break;
+                case 11:
+                    ShowHiromiExpression("neutral");
+                    break;
+                case 12:
+                    ShowHiromiExpression("angry");
+                    break;
+                case 17:
+                    ShowHiromiExpression("smug");
+                    break;
+                case 18:
+                    ShowHiromiExpression("shocked");
+                    break;
+                case 22:
+                    ShowHiromiExpression("shocked");
+                    break;
+                case 23:
+                    ShowHiromiExpression("neutral");
+                    break;
+                case 24:
+                    ShowHiromiExpression("angry");
+                    break;
+                case 25:
+                    ShowHiromiExpression("delighted");
+                    break;
+                case 26:
+                    ShowHiromiExpression("neutral");
+                    break;
+                case 27:
+                case 28:
+                case 29:
+                    ShowHiromiExpression("shocked");
+                    break;
+            }
+
+            return;
+        }
+
+        switch (index)
+        {
+            case 6:
+                ShowMidnightExpression("confused");
+                break;
+            case 7:
+                ShowMidnightExpression("confused");
+                break;
+            case 8:
+            case 9:
+                ShowMidnightExpression("angry");
+                break;
+            case 10:
+                ShowMidnightExpression("angry");
+                break;
+            case 13:
+                ShowMidnightExpression("angry");
+                break;
+            case 14:
+                ShowMidnightExpression("confused");
+                break;
+            case 15:
+                ShowMidnightExpression("confused");
+                break;
+            case 16:
+                ShowMidnightExpression("confused");
+                break;
+            case 19:
+                ShowMidnightExpression("confused");
+                break;
+            case 20:
+                // Going through the fader clears the expression underneath; switching the
+                // object on directly left the previous portrait drawn behind it.
+                ShowMidnightExpression("eyeswhite");
+                break;
+            case 21:
+                ShowMidnightExpression("confused");
+                break;
+        }
+    }
+
+    IEnumerator PlayLine(int index)
+    {
+        if (dialogueLines.Count == 0)
+        {
+            LoadDialogueLines();
+        }
+
+        nextButton.SetActive(false);
+
+        if (index < 0 || index >= dialogueLines.Count)
+        {
+            yield break;
+        }
+
+        DialogueEntry entry = dialogueLines[index];
+        speakerName = entry.speaker;
+        textToSpeak = entry.text;
+
+        ApplyDialogueExpression(index, speakerName);
+
+        if (speakerName == "Midnight" && textToSpeak.Contains("screen went black before exiting into the homescreen"))
+        {
+            ExpressionFader.HideAll(MidnightExpressions(), 1.5f);
+        }
+
+        if (speakerName == "Midnight" && textToSpeak.Contains("The Blue Eclipse will start manifesting, the beginning of the end has started"))
+        {
+            StartCoroutine(FadeOutAudioSource(bgmSource, 1.5f));
+        }
+
+        if (speakerName == "???")
+        {
+            StartCoroutine(FadeOutAudioSource(atmosphereSource, 1.5f));
+        }
+
+        if (textToSpeak.Contains("While she was talking to you, three knocks on the entrance door startled the two of you"))
+        {
+            if (Knocking != null)
+            {
+                Knocking.Stop();
+                Knocking.Play();
+            }
+        }
+
+        charName.GetComponent<TMPro.TMP_Text>().text = speakerName;
+        textBox.GetComponent<TMPro.TMP_Text>().text = textToSpeak;
+
+        currentTextLength = textToSpeak.Length;
+        TextCreator.runTextPrint = true;
+
+        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(1f);
+        yield return new WaitUntil(() => textLength >= currentTextLength);
+        yield return new WaitForSeconds(0.5f);
+
+        nextButton.SetActive(true);
+    }
+
+    IEnumerator EventFour()
+    {
+        nextButton.SetActive(false);
+        SceneAudio.FadeOut(bgmSource);
+        SceneAudio.FadeOut(atmosphereSource);
+        textBox.SetActive(true);
+        yield return TextBoxFader.Hide(mainTextObject);
+        fadeOut.SetActive(true);
+
+        yield return new WaitForSeconds(4f);
+        PlayerPrefs.DeleteKey("LoadState");
+        PlayerPrefs.Save();
+        yield return SceneLoader.LoadSceneAsync(0);
+    }
+
+    public void NextButton()
+    {
+        if (isFadingOut)
+        {
+            return;
+        }
+
+        if (eventPos == 0)
+        {
+            dialogueIndex++;
+            if (dialogueIndex < dialogueLines.Count)
+            {
+                StartCoroutine(PlayLine(dialogueIndex));
+            }
+            else
+            {
+                eventPos = 4;
+                isFadingOut = true;
+                StartCoroutine(EventFour());
+            }
+            return;
+        }
+
+        if (eventPos == 4)
+        {
+            StartCoroutine(EventFour());
+        }
+    }
+}
