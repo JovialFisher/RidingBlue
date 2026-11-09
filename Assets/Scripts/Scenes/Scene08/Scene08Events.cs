@@ -493,7 +493,7 @@ You
         yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
 
-        yield return SceneLoader.LoadSceneAsync(16, 4f);
+        yield return SceneLoader.LoadSceneAsync(17, 4f);
     }
 
     public void NextButton()

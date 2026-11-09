@@ -45,6 +45,9 @@ EditorBuildSettings:
     path: Assets/Scenes/AfterSchool02.unity
     guid: ef11c426b6a6ba3429d833072ae60562
   - enabled: 1
+    path: Assets/Scenes/MapSelection/MapSelect02.unity
+    guid: 8334cc9178655bf8327d85e3fca9329c
+  - enabled: 1
     path: Assets/Scenes/Apartment02.unity
     guid: 50cb71cc40657b2419780ede75fed671
   - enabled: 1

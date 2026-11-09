@@ -385,6 +385,6 @@ public class Scene09Events : MonoBehaviour
         textBox.SetActive(true);
         yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
-        yield return SceneLoader.LoadSceneAsync(18, 4f);
+        yield return SceneLoader.LoadSceneAsync(19, 4f);
     }
 }

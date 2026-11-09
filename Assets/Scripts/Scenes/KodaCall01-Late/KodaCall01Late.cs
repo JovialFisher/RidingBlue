@@ -129,6 +129,6 @@ public class KodaCall01Late : MonoBehaviour
             fadeOut.SetActive(true);
         }
 
-        yield return SceneLoader.LoadSceneAsync(22, 3f);
+        yield return SceneLoader.LoadSceneAsync(23, 3f);
     }
 }

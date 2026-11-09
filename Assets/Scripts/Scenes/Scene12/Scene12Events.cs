@@ -706,7 +706,7 @@ Don't be so late, I still have to get my eight hours of sleep!
         yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
 
-        yield return SceneLoader.LoadSceneAsync(24, 4f);
+        yield return SceneLoader.LoadSceneAsync(25, 4f);
     }
 
     public void NextButton()

@@ -177,6 +177,6 @@ public class KodaLateMidnight : MonoBehaviour
             fadeOut.SetActive(true);
         }
 
-        yield return SceneLoader.LoadSceneAsync(25, 3f);
+        yield return SceneLoader.LoadSceneAsync(26, 3f);
     }
 }

@@ -52,7 +52,7 @@ public class Apr18to19 : MonoBehaviour
 
         yield return StartCoroutine(FadeOutNextDay());
 
-        yield return SceneLoader.LoadSceneAsync(23, 2f);
+        yield return SceneLoader.LoadSceneAsync(24, 2f);
     }
 
     private IEnumerator FadeOutNextDay()

@@ -520,7 +520,7 @@ W-wait for me, I got small legs!
         yield return TextBoxFader.Hide(mainTextObject);
         fadeOut.SetActive(true);
 
-        yield return SceneLoader.LoadSceneAsync(20, 4f);
+        yield return SceneLoader.LoadSceneAsync(21, 4f);
     }
 
     public void NextButton()

@@ -38,7 +38,7 @@ public class TrainTrans1 : MonoBehaviour
             yield return StartCoroutine(FadeAudio(trainTracks, trainTracks.volume, 0f, fadeOutDuration));
         }
 
-        yield return SceneLoader.LoadSceneAsync(19, 1f);
+        yield return SceneLoader.LoadSceneAsync(20, 1f);
     }
 
     private IEnumerator FadeAudio(AudioSource source, float from, float to, float duration)
