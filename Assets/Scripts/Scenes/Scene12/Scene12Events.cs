@@ -464,6 +464,19 @@ Don't be so late, I still have to get my eight hours of sleep!
 
     IEnumerator EventStarter()
     {
+        if (DialogueCheckpoint.HasPendingForCurrentScene)
+        {
+            fadeScreenIn.SetActive(false);
+            mainTextObject.SetActive(true);
+            textBox.SetActive(true);
+            HideAllCharacterExpressions();
+
+            if (TryRestoreCheckpoint())
+            {
+                yield break;
+            }
+        }
+
         yield return new WaitForSeconds(2f);
         fadeScreenIn.SetActive(false);
         HideAllCharacterExpressions();
@@ -472,6 +485,11 @@ Don't be so late, I still have to get my eight hours of sleep!
 
         mainTextObject.SetActive(true);
         textBox.SetActive(true);
+
+        if (TryRestoreCheckpoint())
+        {
+            yield break;
+        }
 
         dialogueIndex = 0;
         yield return StartCoroutine(PlayLine(dialogueIndex));
@@ -687,6 +705,7 @@ Don't be so late, I still have to get my eight hours of sleep!
 
         charName.GetComponent<TMPro.TMP_Text>().text = speakerName;
         textBox.GetComponent<TMPro.TMP_Text>().text = textToSpeak;
+        DialogueCheckpoint.Report("line:" + index, speakerName, textToSpeak);
 
         currentTextLength = textToSpeak.Length;
         TextCreator.runTextPrint = true;
@@ -697,6 +716,28 @@ Don't be so late, I still have to get my eight hours of sleep!
         yield return new WaitForSeconds(0.5f);
 
         nextButton.SetActive(true);
+    }
+
+    bool TryRestoreCheckpoint()
+    {
+        if (!DialogueCheckpoint.TryTakePending(out string state, out _, out _))
+        {
+            return false;
+        }
+
+        string[] parts = state.Split(':');
+        int index;
+
+        if (parts.Length == 2 && parts[0] == "line" && int.TryParse(parts[1], out index)
+            && index >= 0 && index < dialogueLines.Count)
+        {
+            eventPos = 0;
+            dialogueIndex = index;
+            StartCoroutine(PlayLine(index));
+            return true;
+        }
+
+        return false;
     }
 
     IEnumerator EventFour()

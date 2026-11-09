@@ -6,10 +6,6 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    const string LoadStateKey = "LoadState";
-    const int FirstStorySceneIndex = 2;
-    const int CreditsSceneIndex = 4;
-
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void RegisterProgressTracking()
     {
@@ -19,14 +15,7 @@ public class MainMenu : MonoBehaviour
 
     static void SaveCurrentStoryScene(Scene scene, LoadSceneMode mode)
     {
-        int sceneIndex = scene.buildIndex;
-        if (sceneIndex >= FirstStorySceneIndex
-            && sceneIndex < SceneManager.sceneCountInBuildSettings
-            && sceneIndex != CreditsSceneIndex)
-        {
-            PlayerPrefs.SetInt(LoadStateKey, sceneIndex);
-            PlayerPrefs.Save();
-        }
+        SaveSystem.SetProgressScene(scene.buildIndex);
     }
 
     [SerializeField] Button loadGameButton;
@@ -52,10 +41,7 @@ public class MainMenu : MonoBehaviour
 
     static bool HasValidSave()
     {
-        int savedSceneIndex = PlayerPrefs.GetInt(LoadStateKey, -1);
-        return savedSceneIndex >= FirstStorySceneIndex
-            && savedSceneIndex < SceneManager.sceneCountInBuildSettings
-            && savedSceneIndex != CreditsSceneIndex;
+        return SaveSystem.HasProgress || SaveSystem.HasAnySave;
     }
 
     public void StartGame()
@@ -66,8 +52,7 @@ public class MainMenu : MonoBehaviour
         }
 
         isTransitioning = true;
-        PlayerPrefs.DeleteKey(LoadStateKey);
-        PlayerPrefs.Save();
+        SaveSystem.ClearProgress();
         ShowFadeOut();
         StartCoroutine(TransferToClassScene());
     }
@@ -79,8 +64,23 @@ public class MainMenu : MonoBehaviour
             return;
         }
 
+        // The shared load list shows every manual save instead of silently continuing from
+        // the newest one, and keeps "continue" available for the rolling progress.
+        if (PauseMenu.ShowLoadSlots())
+        {
+            return;
+        }
+
+        SaveSystem.SlotInfo progress = SaveSystem.ReadProgress();
+        if (!progress.HasData)
+        {
+            return;
+        }
+
+        SaveSystem.PrepareRestore(progress);
+
         isTransitioning = true;
-        saveTransferValue = PlayerPrefs.GetInt(LoadStateKey, -1);
+        saveTransferValue = progress.SceneIndex;
         sceneToLoad = saveTransferValue;
         ShowFadeOut();
         StartCoroutine(LoadScene());

@@ -74,6 +74,19 @@ public class Scene04Events : MonoBehaviour
 
     IEnumerator EventStarter()
     {
+        if (DialogueCheckpoint.HasPendingForCurrentScene)
+        {
+            fadeScreenIn.SetActive(false);
+            mainTextObject.SetActive(true);
+            textBox.SetActive(true);
+            HideAllExpressions();
+
+            if (TryRestoreCheckpoint())
+            {
+                yield break;
+            }
+        }
+
         yield return new WaitForSeconds(2f);
         fadeScreenIn.SetActive(false);
         HideAllExpressions();
@@ -81,6 +94,11 @@ public class Scene04Events : MonoBehaviour
 
         mainTextObject.SetActive(true);
         textBox.SetActive(true);
+
+        if (TryRestoreCheckpoint())
+        {
+            yield break;
+        }
 
         introIndex = 0;
         yield return StartCoroutine(PlayLine(introIndex));
@@ -231,6 +249,7 @@ public class Scene04Events : MonoBehaviour
 
         charName.GetComponent<TMPro.TMP_Text>().text = speakerName;
         textBox.GetComponent<TMPro.TMP_Text>().text = textToSpeak;
+        DialogueCheckpoint.Report("line:" + index, speakerName, textToSpeak);
 
         currentTextLength = textToSpeak.Length;
         TextCreator.runTextPrint = true;
@@ -241,6 +260,27 @@ public class Scene04Events : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         nextButton.SetActive(true);
+    }
+
+    bool TryRestoreCheckpoint()
+    {
+        if (!DialogueCheckpoint.TryTakePending(out string state, out _, out _))
+        {
+            return false;
+        }
+
+        string[] parts = state.Split(':');
+        int index;
+
+        if (parts.Length == 2 && parts[0] == "line" && int.TryParse(parts[1], out index) && index >= 0 && index <= 27)
+        {
+            eventPos = 0;
+            introIndex = index;
+            StartCoroutine(PlayLine(index));
+            return true;
+        }
+
+        return false;
     }
 
     IEnumerator EventFour()

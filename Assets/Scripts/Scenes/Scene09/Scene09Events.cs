@@ -37,6 +37,7 @@ public class Scene09Events : MonoBehaviour
     [Header("Choice Lines")]
     private string[] choiceLines;
     private int currentLine = 0;
+    private int currentChoice = 0;
 
     // --- Dialogue segment arrays and indices ---
     private string[] transitionLines =
@@ -121,6 +122,18 @@ public class Scene09Events : MonoBehaviour
 
     IEnumerator EventStarter()
     {
+        if (DialogueCheckpoint.HasPendingForCurrentScene)
+        {
+            fadeScreenIn.SetActive(false);
+            mainTextObject.SetActive(true);
+            textBox.SetActive(true);
+
+            if (TryRestoreCheckpoint())
+            {
+                yield break;
+            }
+        }
+
         yield return new WaitForSeconds(2f);
         fadeScreenIn.SetActive(false);
         ShowExpression("neutral");
@@ -128,6 +141,11 @@ public class Scene09Events : MonoBehaviour
         mainTextObject.SetActive(true);
         textBox.SetActive(true);
         charName.GetComponent<TMP_Text>().text = "Koda";
+
+        if (TryRestoreCheckpoint())
+        {
+            yield break;
+        }
 
         introIndex = 0;
         yield return StartCoroutine(PlayIntroLine(introIndex));
@@ -176,6 +194,7 @@ public class Scene09Events : MonoBehaviour
             charName.GetComponent<TMP_Text>().text = "Koda";
         }
         textBox.GetComponent<TMP_Text>().text = textToSpeak;
+        DialogueCheckpoint.Report("intro:" + index, charName.GetComponent<TMP_Text>().text, textToSpeak);
         currentTextLength = textToSpeak.Length;
         TextCreator.runTextPrint = true;
 
@@ -221,7 +240,45 @@ public class Scene09Events : MonoBehaviour
         StartChoiceDialogue(2);
     }
 
-    void StartChoiceDialogue(int choice)
+    bool TryRestoreCheckpoint()
+    {
+        if (!DialogueCheckpoint.TryTakePending(out string state, out _, out _))
+        {
+            return false;
+        }
+
+        string[] parts = state.Split(':');
+        int index;
+
+        if (parts.Length == 2 && parts[0] == "intro" && int.TryParse(parts[1], out index) && index >= 0 && index <= 5)
+        {
+            eventPos = 0;
+            introIndex = index;
+            StartCoroutine(PlayIntroLine(index));
+            return true;
+        }
+
+        if (parts.Length == 3 && parts[0] == "choice"
+            && int.TryParse(parts[1], out int choice) && choice >= 0 && choice <= 2
+            && int.TryParse(parts[2], out index) && index >= 0)
+        {
+            StartChoiceDialogue(choice, index);
+            return true;
+        }
+
+        if (parts.Length == 2 && parts[0] == "transition" && int.TryParse(parts[1], out index)
+            && index >= 0 && index < transitionLines.Length)
+        {
+            eventPos = 2;
+            transitionLineIndex = index;
+            StartCoroutine(DisplayTransitionLine(index));
+            return true;
+        }
+
+        return false;
+    }
+
+    void StartChoiceDialogue(int choice, int startLine = 0)
     {
         textBox.SetActive(true);
         mainTextObject.SetActive(true);
@@ -257,8 +314,14 @@ public class Scene09Events : MonoBehaviour
                 };
                 break;
         }
+        if (choiceLines == null || choiceLines.Length == 0)
+        {
+            return;
+        }
+
+        currentChoice = choice;
         eventPos = 1; // Set event state to choice dialogue
-        currentLine = 0;
+        currentLine = Mathf.Clamp(startLine, 0, choiceLines.Length - 1);
         StartCoroutine(DisplayChoiceLine(currentLine));
     }
 
@@ -271,6 +334,7 @@ public class Scene09Events : MonoBehaviour
             textToSpeak = choiceLines[lineIndex];
             charName.GetComponent<TMP_Text>().text = "Koda";
             textBox.GetComponent<TMP_Text>().text = textToSpeak;
+        DialogueCheckpoint.Report("choice:" + currentChoice + ":" + lineIndex, charName.GetComponent<TMP_Text>().text, textToSpeak);
             currentTextLength = textToSpeak.Length;
             TextCreator.runTextPrint = true;
 
@@ -297,6 +361,7 @@ public class Scene09Events : MonoBehaviour
             textBox.SetActive(true);
             mainTextObject.SetActive(true);
             textBox.GetComponent<TMP_Text>().text = textToSpeak;
+        DialogueCheckpoint.Report("transition:" + lineIndex, charName.GetComponent<TMP_Text>().text, textToSpeak);
             currentTextLength = textToSpeak.Length;
             TextCreator.runTextPrint = true;
 

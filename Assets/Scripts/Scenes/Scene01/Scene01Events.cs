@@ -73,6 +73,19 @@ public class Scene01Events : MonoBehaviour
 
     IEnumerator EventStarter()
     {
+        if (DialogueCheckpoint.HasPendingForCurrentScene)
+        {
+            fadeScreenIn.SetActive(false);
+            mainTextObject.SetActive(true);
+            textBox.SetActive(true);
+            charName.GetComponent<TMPro.TMP_Text>().text = "Koda";
+
+            if (TryRestoreCheckpoint())
+            {
+                yield break;
+            }
+        }
+
         // initial fade & character appear (Koda neutral initially)
         yield return new WaitForSeconds(2f);
         fadeScreenIn.SetActive(false);
@@ -82,6 +95,11 @@ public class Scene01Events : MonoBehaviour
         mainTextObject.SetActive(true);
         textBox.SetActive(true);
         charName.GetComponent<TMPro.TMP_Text>().text = "Koda";
+
+        if (TryRestoreCheckpoint())
+        {
+            yield break;
+        }
 
         // start first intro line
         introIndex = 0;
@@ -118,6 +136,7 @@ public class Scene01Events : MonoBehaviour
         charName.GetComponent<TMPro.TMP_Text>().text = "Koda";
 
         textBox.GetComponent<TMPro.TMP_Text>().text = textToSpeak;
+        DialogueCheckpoint.Report("intro:" + index, "Koda", textToSpeak);
         currentTextLength = textToSpeak.Length;
         TextCreator.runTextPrint = true;
 
@@ -173,6 +192,7 @@ public class Scene01Events : MonoBehaviour
         }
 
         textBox.GetComponent<TMPro.TMP_Text>().text = textToSpeak;
+        DialogueCheckpoint.Report("koda:" + index, charName.GetComponent<TMPro.TMP_Text>().text, textToSpeak);
         currentTextLength = textToSpeak.Length;
         TextCreator.runTextPrint = true;
 
@@ -181,6 +201,35 @@ public class Scene01Events : MonoBehaviour
         yield return new WaitUntil(() => textLength >= currentTextLength);
         yield return new WaitForSeconds(0.5f);
         nextButton.SetActive(true);
+    }
+
+    bool TryRestoreCheckpoint()
+    {
+        if (!DialogueCheckpoint.TryTakePending(out string state, out _, out _))
+        {
+            return false;
+        }
+
+        string[] parts = state.Split(':');
+        int index;
+
+        if (parts.Length == 2 && parts[0] == "intro" && int.TryParse(parts[1], out index) && index >= 0 && index <= 3)
+        {
+            eventPos = 0;
+            introIndex = index;
+            StartCoroutine(PlayIntroLine(index));
+            return true;
+        }
+
+        if (parts.Length == 2 && parts[0] == "koda" && int.TryParse(parts[1], out index) && index >= 0 && index <= 7)
+        {
+            eventPos = 1;
+            kodaIndex = index;
+            StartCoroutine(PlayKodaLine(index));
+            return true;
+        }
+
+        return false;
     }
 
     IEnumerator EventFour()
