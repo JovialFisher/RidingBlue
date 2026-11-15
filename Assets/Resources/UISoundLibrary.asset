@@ -14,5 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UISoundLibrary
   clickClip: {fileID: 8300000, guid: 082d378f8a76cce4a9eba0fe9411c8d4, type: 3}
   hoverClip: {fileID: 8300000, guid: e7640c7034bfdd54bb05825ef854a179, type: 3}
+  popInClip: {fileID: 8300000, guid: f6b1c8e3047a42d1b95c7e2a80d34f51, type: 3}
+  confirmClip: {fileID: 8300000, guid: a4d9f2c17b6e43d8a2c05e9b7f13d648, type: 3}
   clickVolume: 0.8
   hoverVolume: 0.5
+  popInVolume: 0.85
+  confirmVolume: 0.9

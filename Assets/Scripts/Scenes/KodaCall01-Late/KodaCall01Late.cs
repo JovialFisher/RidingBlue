@@ -36,10 +36,26 @@ public class KodaCall01Late : MonoBehaviour
 
     IEnumerator EventStarter()
     {
+        if (DialogueCheckpoint.HasPendingForCurrentScene)
+        {
+            mainTextObject.SetActive(true);
+            textBox.SetActive(true);
+
+            if (TryRestoreCheckpoint())
+            {
+                yield break;
+            }
+        }
+
         yield return new WaitForSeconds(2f);
 
         mainTextObject.SetActive(true);
         textBox.SetActive(true);
+
+        if (TryRestoreCheckpoint())
+        {
+            yield break;
+        }
 
         introIndex = 0;
         yield return StartCoroutine(PlayIntroLine(introIndex));
@@ -80,6 +96,7 @@ public class KodaCall01Late : MonoBehaviour
         }
 
         tmp.text = "";
+        DialogueCheckpoint.Report("line:" + index, nameText.text, textToSpeak);
 
         for (int i = 0; i <= textToSpeak.Length; i++)
         {
@@ -117,6 +134,26 @@ public class KodaCall01Late : MonoBehaviour
         {
             StartCoroutine(FadeOutAndLoadNext());
         }
+    }
+
+    bool TryRestoreCheckpoint()
+    {
+        if (!DialogueCheckpoint.TryTakePending(out string state, out _, out _))
+        {
+            return false;
+        }
+
+        string[] parts = state.Split(':');
+        int index;
+
+        if (parts.Length == 2 && parts[0] == "line" && int.TryParse(parts[1], out index) && index >= 0 && index <= 5)
+        {
+            introIndex = index;
+            StartCoroutine(PlayIntroLine(index));
+            return true;
+        }
+
+        return false;
     }
 
     IEnumerator FadeOutAndLoadNext()

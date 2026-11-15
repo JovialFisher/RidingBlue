@@ -24,6 +24,7 @@ public static class UISound
     static UISoundLibrary library;
     static AudioSource clickSource;
     static AudioSource hoverSource;
+    static AudioSource cueSource;
     static float lastHoverTime = float.NegativeInfinity;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -47,6 +48,7 @@ public static class UISound
 
         clickSource = CreateSource(host, "Click");
         hoverSource = CreateSource(host, "Hover");
+        cueSource = CreateSource(host, "Cue");
 
         SceneManager.sceneLoaded -= AttachToScene;
         SceneManager.sceneLoaded += AttachToScene;
@@ -80,6 +82,39 @@ public static class UISound
         lastHoverTime = Time.unscaledTime;
         hoverSource.volume = library.HoverVolume;
         hoverSource.PlayOneShot(library.HoverClip);
+    }
+
+    /// <summary>Plays the pause menu's arrival chime; silent when no clip is set up.</summary>
+    public static void PlayPopIn()
+    {
+        if (library == null)
+        {
+            return;
+        }
+
+        PlayCue(library.PopInClip, library.PopInVolume);
+    }
+
+    /// <summary>Plays the confirmation cue under a prompt that asks the player to decide.</summary>
+    public static void PlayConfirm()
+    {
+        if (library == null)
+        {
+            return;
+        }
+
+        PlayCue(library.ConfirmClip, library.ConfirmVolume);
+    }
+
+    static void PlayCue(AudioClip clip, float volume)
+    {
+        if (cueSource == null || clip == null)
+        {
+            return;
+        }
+
+        cueSource.volume = volume;
+        cueSource.PlayOneShot(clip);
     }
 
     /// <summary>

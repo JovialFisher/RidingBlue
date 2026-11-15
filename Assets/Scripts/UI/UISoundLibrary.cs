@@ -14,8 +14,16 @@ public class UISoundLibrary : ScriptableObject
     [Tooltip("Played when the pointer moves onto a button.")]
     [SerializeField] AudioClip hoverClip;
 
+    [Tooltip("Played when the pause menu appears.")]
+    [SerializeField] AudioClip popInClip;
+
+    [Tooltip("Played when a prompt asks the player to confirm something.")]
+    [SerializeField] AudioClip confirmClip;
+
     [SerializeField, Range(0f, 1f)] float clickVolume = 0.8f;
     [SerializeField, Range(0f, 1f)] float hoverVolume = 0.5f;
+    [SerializeField, Range(0f, 1f)] float popInVolume = 0.85f;
+    [SerializeField, Range(0f, 1f)] float confirmVolume = 0.9f;
 
     public AudioClip ClickClip
     {
@@ -27,6 +35,16 @@ public class UISoundLibrary : ScriptableObject
         get { return hoverClip; }
     }
 
+    public AudioClip PopInClip
+    {
+        get { return popInClip; }
+    }
+
+    public AudioClip ConfirmClip
+    {
+        get { return confirmClip; }
+    }
+
     public float ClickVolume
     {
         get { return clickVolume; }
@@ -35,5 +53,15 @@ public class UISoundLibrary : ScriptableObject
     public float HoverVolume
     {
         get { return hoverVolume; }
+    }
+
+    public float PopInVolume
+    {
+        get { return popInVolume; }
+    }
+
+    public float ConfirmVolume
+    {
+        get { return confirmVolume; }
     }
 }

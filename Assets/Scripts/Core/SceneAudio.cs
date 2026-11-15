@@ -19,6 +19,9 @@ public class SceneAudio : MonoBehaviour
     /// <summary>How long audio takes to come down before a scene change.</summary>
     public const float DefaultFadeOutDuration = 3f;
 
+    /// <summary>How long the scene's audio takes to fall silent when the game pauses.</summary>
+    public const float DefaultPauseFadeDuration = 0.3f;
+
     // Audio that starts this soon after a scene loads fades in with the scene.
     const float OpeningWindow = 0.35f;
 
@@ -31,7 +34,12 @@ public class SceneAudio : MonoBehaviour
     readonly List<float> fadeInTargets = new List<float>();
     readonly List<float> fadeInElapsed = new List<float>();
 
+    // What the pause menu silenced, and the volume each source should come back to.
+    readonly List<AudioSource> pausedSources = new List<AudioSource>();
+    readonly List<float> pausedVolumes = new List<float>();
+
     Coroutine fadeInRoutine;
+    Coroutine pauseFadeRoutine;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void Bootstrap()
@@ -69,7 +77,9 @@ public class SceneAudio : MonoBehaviour
     {
         // Anything left over belongs to the scene that was just unloaded.
         StopAllCoroutines();
+        pauseFadeRoutine = null;
         ResetFadeInState();
+        ResetPauseState();
 
         fadeInRoutine = StartCoroutine(FadeSceneIn());
     }
@@ -128,6 +138,178 @@ public class SceneAudio : MonoBehaviour
         }
 
         instance.StartCoroutine(instance.FadeOutSource(source, duration));
+    }
+
+    /// <summary>
+    /// Eases the scene's music and sound effects down to silence and pauses them, so the pause
+    /// menu opens over a quiet scene instead of over a soundtrack that keeps playing. The
+    /// sources keep their place, so resuming picks the music up where it left off; menu
+    /// feedback is left alone because it belongs to the player's input, not to the scene.
+    /// </summary>
+    public static void FadeOutForPause(float duration = DefaultPauseFadeDuration)
+    {
+        if (instance == null)
+        {
+            return;
+        }
+
+        instance.StopFadeIn();
+        instance.StopPauseFade();
+        instance.ResetPauseState();
+
+        AudioSource[] sources = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+
+        for (int i = 0; i < sources.Length; i++)
+        {
+            AudioSource source = sources[i];
+            if (source == null || !source.isPlaying || source.volume <= 0.0001f)
+            {
+                continue;
+            }
+
+            if (UISound.IsUISource(source))
+            {
+                continue;
+            }
+
+            instance.pausedSources.Add(source);
+            instance.pausedVolumes.Add(source.volume);
+        }
+
+        if (instance.pausedSources.Count == 0)
+        {
+            return;
+        }
+
+        instance.pauseFadeRoutine = instance.StartCoroutine(instance.FadeOutAndPause(duration));
+    }
+
+    /// <summary>Brings back whatever the pause menu silenced, at the volume it had before.</summary>
+    public static void FadeInFromPause(float duration = DefaultPauseFadeDuration)
+    {
+        if (instance == null)
+        {
+            return;
+        }
+
+        bool wasFading = instance.pauseFadeRoutine != null;
+        instance.StopPauseFade();
+
+        if (!wasFading && instance.pausedSources.Count == 0)
+        {
+            return;
+        }
+
+        if (instance.pausedSources.Count == 0)
+        {
+            return;
+        }
+
+        instance.pauseFadeRoutine = instance.StartCoroutine(instance.FadeInPaused(duration));
+    }
+
+    IEnumerator FadeOutAndPause(float duration)
+    {
+        // Copy first: a second call, or a resume, must not change the pairs mid-fade.
+        AudioSource[] sources = pausedSources.ToArray();
+        float[] volumes = pausedVolumes.ToArray();
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float progress = Mathf.Clamp01(elapsed / duration);
+
+            for (int i = 0; i < sources.Length; i++)
+            {
+                if (sources[i] != null)
+                {
+                    sources[i].volume = Mathf.Lerp(volumes[i], 0f, progress);
+                }
+            }
+
+            yield return null;
+        }
+
+        for (int i = 0; i < sources.Length; i++)
+        {
+            AudioSource source = sources[i];
+            if (source == null)
+            {
+                continue;
+            }
+
+            source.volume = 0f;
+
+            // Paused rather than stopped, so the music resumes from the same note.
+            if (source.isPlaying)
+            {
+                source.Pause();
+            }
+        }
+
+        pauseFadeRoutine = null;
+    }
+
+    IEnumerator FadeInPaused(float duration)
+    {
+        AudioSource[] sources = pausedSources.ToArray();
+        float[] volumes = pausedVolumes.ToArray();
+
+        ResetPauseState();
+
+        for (int i = 0; i < sources.Length; i++)
+        {
+            if (sources[i] == null)
+            {
+                continue;
+            }
+
+            sources[i].volume = 0f;
+            sources[i].UnPause();
+        }
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float progress = Mathf.Clamp01(elapsed / duration);
+
+            for (int i = 0; i < sources.Length; i++)
+            {
+                if (sources[i] != null)
+                {
+                    sources[i].volume = Mathf.Lerp(0f, volumes[i], progress);
+                }
+            }
+
+            yield return null;
+        }
+
+        for (int i = 0; i < sources.Length; i++)
+        {
+            if (sources[i] != null)
+            {
+                sources[i].volume = volumes[i];
+            }
+        }
+
+        pauseFadeRoutine = null;
+    }
+
+    void StopPauseFade()
+    {
+        if (pauseFadeRoutine != null)
+        {
+            StopCoroutine(pauseFadeRoutine);
+            pauseFadeRoutine = null;
+        }
+    }
+
+    void ResetPauseState()
+    {
+        pausedSources.Clear();
+        pausedVolumes.Clear();
     }
 
     IEnumerator FadeSceneIn()
