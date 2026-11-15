@@ -11,6 +11,7 @@ public class NextButtonFadeIn : MonoBehaviour
     CanvasGroup canvasGroup;
     Outline outline;
     float outlineAlpha = 1f;
+    bool raycastsWhenShown = true;
     Coroutine fadeRoutine;
 
     void Awake()
@@ -20,6 +21,10 @@ public class NextButtonFadeIn : MonoBehaviour
         {
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
         }
+
+        // The authored value is remembered once. A fade that is cut short leaves raycasts off,
+        // so the state at the time of a later fade is not a reliable thing to restore.
+        raycastsWhenShown = canvasGroup.blocksRaycasts;
 
         // The rim is a mesh effect on the same graphic as the fill, so it is faded on its own
         // afterwards; that is what keeps the button from reading as a white shape first.
@@ -58,6 +63,14 @@ public class NextButtonFadeIn : MonoBehaviour
             fadeRoutine = null;
         }
 
+        // A scene that advances a line mid-fade stops this coroutine before it gets to hand the
+        // button its raycasts back, which would leave the plate visible but deaf to the pointer
+        // for the rest of the scene. Restoring it here keeps the button clickable either way.
+        if (canvasGroup != null)
+        {
+            canvasGroup.blocksRaycasts = raycastsWhenShown;
+        }
+
         SetOutlineAlpha(outline, outlineAlpha);
     }
 
@@ -67,8 +80,6 @@ public class NextButtonFadeIn : MonoBehaviour
         // Selectable report itself as disabled for the length of the fade, tinting the
         // button with the pale Disabled colour before it snaps back to its own colour.
         // Swallowing raycasts keeps it unclickable while it appears without changing the tint.
-        bool wasBlocksRaycasts = canvasGroup.blocksRaycasts;
-
         SetOutlineAlpha(outline, 0f);
 
         canvasGroup.alpha = 0f;
@@ -86,7 +97,7 @@ public class NextButtonFadeIn : MonoBehaviour
 
         // The button is readable as soon as the fill is in, so it becomes clickable then and
         // only the rim is still catching up.
-        canvasGroup.blocksRaycasts = wasBlocksRaycasts;
+        canvasGroup.blocksRaycasts = raycastsWhenShown;
 
         if (outline != null && outlineFadeDuration > 0f)
         {

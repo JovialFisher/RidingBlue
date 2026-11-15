@@ -77,6 +77,10 @@ public static class DialogueCheckpoint
         currentState = state ?? string.Empty;
         currentSpeaker = speaker ?? string.Empty;
         currentLine = line ?? string.Empty;
+
+        // The same report feeds the dialogue box's log, so the lines a player can scroll back
+        // through are exactly the ones a save would bring back.
+        DialogueHistory.Record(currentState, currentSpeaker, currentLine);
     }
 
     /// <summary>Queues a saved line for the next scene to pick up.</summary>

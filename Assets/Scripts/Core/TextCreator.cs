@@ -8,6 +8,12 @@ public class TextCreator : MonoBehaviour
 
     public static bool runTextPrint;
     public static int charCount;
+
+    /// <summary>
+    /// Typesetting speed scaler. The dialogue box's fast forward winds this up so lines whip
+    /// across the box instead of appearing instantly, which keeps the reading rhythm intact.
+    /// </summary>
+    public static float revealSpeed = 1f;
     [SerializeField, Min(1f)] float charactersPerSecond = 34f;
     [SerializeField] string transferText;
     [SerializeField] int internalCount;
@@ -69,7 +75,7 @@ public class TextCreator : MonoBehaviour
 
         while (revealedCharacters < visibleCharacterCount)
         {
-            characterProgress += Time.deltaTime * charactersPerSecond;
+            characterProgress += Time.deltaTime * charactersPerSecond * Mathf.Max(0.05f, revealSpeed);
             int charactersToReveal = Mathf.Min(Mathf.FloorToInt(characterProgress), visibleCharacterCount);
             if (charactersToReveal > revealedCharacters)
             {

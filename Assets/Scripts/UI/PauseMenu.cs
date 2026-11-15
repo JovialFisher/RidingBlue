@@ -189,6 +189,13 @@ public class PauseMenu : MonoBehaviour
             return;
         }
 
+        // The dialogue log answers Escape itself while it is open, so the menu does not stack on
+        // top of the lines the player is reading.
+        if (DialogueControls.LogOpen)
+        {
+            return;
+        }
+
         bool escapePressed = Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame;
         bool startPressed = Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame;
 

@@ -104,7 +104,10 @@ public class IntroSequenceEvents : MonoBehaviour
             }
 
             tmp.text = textToSpeak.Substring(0, i);
-            yield return new WaitForSeconds(charDelay);
+
+            // This scene types its own lines, so it reads the same speed scaler the fast forward
+            // uses in the scenes that go through TextCreator.
+            yield return new WaitForSeconds(charDelay / Mathf.Max(0.05f, TextCreator.revealSpeed));
         }
 
         // Small pause after full line is visible
